@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 
 import {
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  sendEmailVerification
 } from "firebase/auth";
 
 import { auth } from "../firebase";
@@ -32,6 +33,7 @@ const Register = () => {
     setLoading(true);
 
     try {
+
       // CREATE FIREBASE USER
       const firebaseUser =
         await createUserWithEmailAndPassword(
@@ -39,6 +41,11 @@ const Register = () => {
           form.email,
           form.password
         );
+
+      // SEND EMAIL VERIFICATION
+      await sendEmailVerification(
+        firebaseUser.user
+      );
 
       // GET FIREBASE TOKEN
       const firebaseToken =
@@ -55,12 +62,13 @@ const Register = () => {
       );
 
       alert(
-        "Registration successful. Please login."
+        "Account created successfully. Please verify your email before login."
       );
 
       window.location.href = "/login";
 
     } catch (error) {
+
       console.log(
         "REGISTER ERROR:",
         error.response?.data || error

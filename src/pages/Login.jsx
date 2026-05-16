@@ -29,6 +29,7 @@ const Login = () => {
     setLoading(true);
 
     try {
+
       // FIREBASE LOGIN
       const firebaseUser =
         await signInWithEmailAndPassword(
@@ -36,6 +37,16 @@ const Login = () => {
           form.email,
           form.password
         );
+
+      // CHECK EMAIL VERIFIED
+      if (!firebaseUser.user.emailVerified) {
+
+        alert(
+          "Please verify your email before login."
+        );
+
+        return;
+      }
 
       // GET FIREBASE TOKEN
       const firebaseToken =
@@ -68,6 +79,7 @@ const Login = () => {
       }
 
     } catch (error) {
+
       console.log(
         "LOGIN ERROR:",
         error.response?.data || error
