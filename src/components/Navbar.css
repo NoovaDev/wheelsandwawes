@@ -1,0 +1,454 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f5f8fc;
+  color: #0f172a;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.lpnav {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  font-family: "Poppins", sans-serif;
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid rgba(191, 219, 254, 0.75);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.06);
+}
+
+.lpnav-shell {
+  width: min(92%, 1320px);
+  margin: 0 auto;
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+}
+
+.lpnav-left {
+  display: flex;
+  align-items: center;
+}
+
+.lpnav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lpnav-logo-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
+  border-radius: 16px;
+}
+
+.lpnav-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.lpnav-brand-text strong {
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.lpnav-brand-text span {
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   DESKTOP LINKS
+========================= */
+
+.lpnav-links {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #dbeafe;
+  padding: 10px 12px;
+  border-radius: 999px;
+  box-shadow: 0 12px 26px rgba(30, 64, 175, 0.06);
+}
+
+.lpnav-link-item {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  transition: all 0.28s ease;
+  white-space: nowrap;
+}
+
+.lpnav-link-item:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.lpnav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================
+   PREMIUM LOGIN BUTTON
+========================= */
+
+.lpnav-login-btn {
+  position: relative;
+  overflow: hidden;
+  min-height: 52px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #1d4ed8 45%,
+    #1e40af 100%
+  );
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 14px 28px rgba(37, 99, 235, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: all 0.32s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.lpnav-login-btn span {
+  position: relative;
+  z-index: 2;
+}
+
+.lpnav-login-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.22);
+  transform: skewX(-25deg);
+  transition: 0.7s;
+}
+
+.lpnav-login-btn:hover::before {
+  left: 140%;
+}
+
+.lpnav-login-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 20px 36px rgba(37, 99, 235, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.lpnav-login-btn:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   MOBILE MENU BUTTON
+========================= */
+
+.lpnav-mobile-toggle {
+  display: none;
+  border: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.2);
+}
+
+/* =========================
+   MOBILE OVERLAY
+========================= */
+
+.lpnav-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 900;
+}
+
+.lpnav-mobile-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================
+   MOBILE PANEL
+========================= */
+
+.lpnav-mobile-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(86vw, 360px);
+  height: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+  box-shadow: -18px 0 40px rgba(15, 23, 42, 0.16);
+  padding: 22px 18px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.lpnav-mobile-panel.show {
+  transform: translateX(0);
+}
+
+.lpnav-mobile-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.lpnav-mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lpnav-mobile-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.lpnav-mobile-brand strong {
+  display: block;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.lpnav-mobile-brand span {
+  display: block;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   MOBILE CLOSE
+========================= */
+
+.lpnav-mobile-close {
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* =========================
+   MOBILE LINKS
+========================= */
+
+.lpnav-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lpnav-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid #dbeafe;
+  transition: all 0.25s ease;
+}
+
+.lpnav-mobile-link:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.18);
+}
+
+/* =========================
+   MOBILE LOGIN BUTTON
+========================= */
+
+.lpnav-mobile-login-btn {
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+  min-height: 54px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1e40af, #2563eb);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 26px rgba(37, 99, 235, 0.24),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+
+.lpnav-mobile-login-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+  .lpnav-shell {
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+  }
+
+  .lpnav-links {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .lpnav-link-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  .lpnav-shell {
+    min-height: 78px;
+  }
+
+  .lpnav-links,
+  .lpnav-login-btn {
+    display: none;
+  }
+
+  .lpnav-mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lpnav-right {
+    justify-content: flex-end;
+  }
+
+  .lpnav-brand-text strong {
+    font-size: 15px;
+  }
+
+  .lpnav-brand-text span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .lpnav-shell {
+    width: 94%;
+    min-height: 72px;
+  }
+
+  .lpnav-logo-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lpnav-brand-text strong {
+    font-size: 14px;
+  }
+
+  .lpnav-brand-text span {
+    font-size: 10px;
+  }
+
+  .lpnav-mobile-panel {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .lpnav-brand {
+    gap: 10px;
+  }
+
+  .lpnav-logo-img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .lpnav-mobile-toggle {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,171 @@
+const express = require("express");
+const db = require("../db");
+const verifyToken = require("../middleware/authMiddleware");
+const sendEmail = require("../utils/sendEmail");
+
+const router = express.Router();
+
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const {
+      full_name,
+      email,
+      phone,
+      nationality,
+      nic_number,
+      passport_number,
+      pickup_location,
+      drop_location,
+      pickup_date,
+      pickup_time,
+      return_date,
+      return_time,
+      vehicle_type,
+      passengers,
+      need_driver,
+      trip_type,
+      message,
+    } = req.body;
+
+    await db.query(
+      `INSERT INTO bookings (
+        user_id, full_name, email, phone, nationality, nic_number, passport_number,
+        pickup_location, drop_location, pickup_date, pickup_time,
+        return_date, return_time, vehicle_type, passengers,
+        need_driver, trip_type, message
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        req.user.id,
+        full_name,
+        email,
+        phone,
+        nationality,
+        nic_number || null,
+        passport_number || null,
+        pickup_location,
+        drop_location,
+        pickup_date,
+        pickup_time,
+        return_date || null,
+        return_time || null,
+        vehicle_type,
+        passengers,
+        need_driver,
+        trip_type,
+        message,
+      ]
+    );
+
+    await sendEmail({
+      subject: "New Booking Request - W&W Travels",
+      html: `
+        <h2>New Booking Request</h2>
+
+        <p><b>Name:</b> ${full_name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Nationality:</b> ${nationality}</p>
+        <p><b>ID / Passport:</b> ${nic_number || passport_number || "-"}</p>
+
+        <hr />
+
+        <p><b>Trip Type:</b> ${trip_type}</p>
+        <p><b>Pickup:</b> ${pickup_location}</p>
+        <p><b>Drop:</b> ${drop_location}</p>
+        <p><b>Pickup Date:</b> ${pickup_date}</p>
+        <p><b>Pickup Time:</b> ${pickup_time}</p>
+        <p><b>Return Date:</b> ${return_date || "-"}</p>
+        <p><b>Return Time:</b> ${return_time || "-"}</p>
+
+        <hr />
+
+        <p><b>Vehicle:</b> ${vehicle_type}</p>
+        <p><b>Passengers:</b> ${passengers}</p>
+        <p><b>Need Driver:</b> ${need_driver}</p>
+
+        <hr />
+
+        <p><b>Message / Extra Details:</b></p>
+        <pre style="white-space: pre-wrap; font-family: Arial, sans-serif;">
+${message || "No message"}
+        </pre>
+      `,
+    });
+
+    res.json({ message: "Booking request sent successfully" });
+  } catch (error) {
+    console.log("BOOKING ERROR:", error);
+    res.status(500).json({ message: "Booking failed" });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const [bookings] = await db.query(
+      "SELECT * FROM bookings ORDER BY pickup_date ASC"
+    );
+
+    res.json(bookings);
+  } catch (error) {
+    console.log("GET BOOKINGS ERROR:", error);
+    res.status(500).json({ message: "Failed to get bookings" });
+  }
+});
+
+router.patch("/:id/status", async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { id } = req.params;
+
+    await db.query("UPDATE bookings SET status = ? WHERE id = ?", [
+      status,
+      id,
+    ]);
+
+    res.json({ message: "Booking status updated" });
+  } catch (error) {
+    console.log("UPDATE STATUS ERROR:", error);
+    res.status(500).json({ message: "Failed to update booking" });
+  }
+});
+
+router.patch("/:id/cancel", verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const [bookings] = await db.query(
+      "SELECT * FROM bookings WHERE id = ? AND user_id = ?",
+      [id, userId]
+    );
+
+    if (bookings.length === 0) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    const booking = bookings[0];
+
+    if (booking.status === "cancelled") {
+      return res.status(400).json({ message: "Booking already cancelled" });
+    }
+
+    if (booking.status === "completed") {
+      return res.status(400).json({ message: "Completed trip cannot cancel" });
+    }
+
+    await db.query("UPDATE bookings SET status = ? WHERE id = ?", [
+      "cancelled",
+      id,
+    ]);
+
+    res.json({
+      message:
+        "Booking cancelled successfully. If cancelled within 10 hours, advance payment is not refundable.",
+    });
+  } catch (error) {
+    console.log("CANCEL BOOKING ERROR:", error);
+    res.status(500).json({ message: "Failed to cancel booking" });
+  }
+});
+
+module.exports = router;

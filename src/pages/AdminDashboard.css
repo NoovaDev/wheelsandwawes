@@ -1,0 +1,139 @@
+.admin-page {
+  min-height: 100vh;
+  background: #f1f5f9;
+  padding: 40px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.admin-header h2 {
+  font-size: 34px;
+  color: #0f172a;
+}
+
+.admin-header p {
+  color: #64748b;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.admin-stat-card,
+.admin-table-card {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+.admin-stat-card span {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.admin-stat-card h3 {
+  font-size: 36px;
+  margin-top: 10px;
+}
+
+.admin-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.admin-filters input,
+.admin-filters select,
+.booking-table select {
+  padding: 12px 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+}
+
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booking-table th {
+  background: #f8fafc;
+  padding: 15px;
+  text-align: left;
+}
+
+.booking-table td {
+  padding: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.booking-table span {
+  display: block;
+  color: #64748b;
+}
+
+.status {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.confirmed,
+.status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.cancelled,
+.status.blocked {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status.completed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.block-btn,
+.unblock-btn {
+  border: none;
+  padding: 9px 16px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.block-btn {
+  background: #dc2626;
+}
+
+.unblock-btn {
+  background: #16a34a;
+}
+
+@media (max-width: 900px) {
+  .admin-stats-grid,
+  .admin-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-page {
+    padding: 20px;
+  }
+}
