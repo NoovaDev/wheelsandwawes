@@ -218,6 +218,39 @@ const LandingPage = () => {
           </div>
         </section>
 
+        
+        <section id="destinations" className="ww-section ww-destinations-section">
+  <div className="ww-shell">
+    <div className="ww-title-block">
+      <span>Sri Lankan Destinations</span>
+      <h2>Places You Can Explore</h2>
+      <p>
+        Discover beautiful destinations across Sri Lanka with comfortable
+        transport and custom travel planning.
+      </p>
+    </div>
+
+    <div className="ww-destinations-grid">
+      {destinations.map((place) => (
+        <article className="ww-destination-card" key={place.title}>
+          <div className="ww-destination-img">
+            <img src={place.image} alt={place.title} />
+          </div>
+
+          <div className="ww-destination-content">
+            <h3>{place.title}</h3>
+            <p>{place.description}</p>
+
+            <a href="/destinations" className="ww-see-more-btn">
+              See More <FaArrowRight />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
         <section id="about" className="ww-section ww-about-section">
           <div className="ww-shell">
             <div className="ww-about-layout">
@@ -306,37 +339,6 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="destinations" className="ww-section ww-destinations-section">
-  <div className="ww-shell">
-    <div className="ww-title-block">
-      <span>Sri Lankan Destinations</span>
-      <h2>Places You Can Explore</h2>
-      <p>
-        Discover beautiful destinations across Sri Lanka with comfortable
-        transport and custom travel planning.
-      </p>
-    </div>
-
-    <div className="ww-destinations-grid">
-      {destinations.map((place) => (
-        <article className="ww-destination-card" key={place.title}>
-          <div className="ww-destination-img">
-            <img src={place.image} alt={place.title} />
-          </div>
-
-          <div className="ww-destination-content">
-            <h3>{place.title}</h3>
-            <p>{place.description}</p>
-
-            <a href="/destinations" className="ww-see-more-btn">
-              See More <FaArrowRight />
-            </a>
-          </div>
-        </article>
-      ))}
-    </div>
-  </div>
-</section>
 
         <section className="ww-cta-section">
           <div className="ww-shell">
