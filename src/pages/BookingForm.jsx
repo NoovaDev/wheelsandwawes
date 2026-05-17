@@ -48,18 +48,17 @@ const BookingForm = () => {
   });
 
   const [serviceDetails, setServiceDetails] = useState({
-    transfer_type: "",
     airport_name: "",
     flight_number: "",
     hotel_name: "",
-    tour_location: "",
+    tour_places: "",
     round_days: "",
     round_route: "",
-    event_location: "",
-    event_time: "",
-    company_name: "",
-    business_location: "",
-    other_details: "",
+    safari_park: "",
+    activity_location: "",
+    beach_location: "",
+    accommodation_needed: "",
+    special_requirements: "",
   });
 
   const updateForm = (name, value) => {
@@ -76,23 +75,35 @@ const BookingForm = () => {
       [name]: value,
     }));
 
-    if (name === "transfer_type") {
-      setForm((prev) => ({
-        ...prev,
-        pickup_location: "",
-        drop_location: "",
-      }));
-    }
-
     if (name === "airport_name") {
-      if (serviceDetails.transfer_type === "Airport Pickup") {
-        updateForm("pickup_location", value);
-      }
-
-      if (serviceDetails.transfer_type === "Airport Drop-off") {
-        updateForm("drop_location", value);
-      }
+      if (form.trip_type === "Airport Pickups") updateForm("pickup_location", value);
+      if (form.trip_type === "Airport Drop-offs") updateForm("drop_location", value);
     }
+  };
+
+  const handleTripTypeChange = (e) => {
+    const value = e.target.value;
+
+    setForm((prev) => ({
+      ...prev,
+      trip_type: value,
+      pickup_location: "",
+      drop_location: "",
+    }));
+
+    setServiceDetails({
+      airport_name: "",
+      flight_number: "",
+      hotel_name: "",
+      tour_places: "",
+      round_days: "",
+      round_route: "",
+      safari_park: "",
+      activity_location: "",
+      beach_location: "",
+      accommodation_needed: "",
+      special_requirements: "",
+    });
   };
 
   const submitBooking = async (e) => {
@@ -112,24 +123,25 @@ const BookingForm = () => {
 Customer Message:
 ${form.message || "No extra message"}
 
+Selected Service:
+${form.trip_type}
+
 Service Details:
-Trip Type: ${form.trip_type}
-Airport Service: ${serviceDetails.transfer_type}
-Airport Name: ${serviceDetails.airport_name}
-Flight Number: ${serviceDetails.flight_number}
-Hotel Name: ${serviceDetails.hotel_name}
-Day Tour Location: ${serviceDetails.tour_location}
-Round Tour Days: ${serviceDetails.round_days}
-Round Tour Route: ${serviceDetails.round_route}
-Wedding/Event Location: ${serviceDetails.event_location}
-Wedding/Event Time: ${serviceDetails.event_time}
-Company Name: ${serviceDetails.company_name}
-Business Location: ${serviceDetails.business_location}
-Other Details: ${serviceDetails.other_details}
+Airport Name: ${serviceDetails.airport_name || "-"}
+Flight Number: ${serviceDetails.flight_number || "-"}
+Hotel / Destination: ${serviceDetails.hotel_name || "-"}
+Tour Places: ${serviceDetails.tour_places || "-"}
+Round Trip Days: ${serviceDetails.round_days || "-"}
+Round Trip Route: ${serviceDetails.round_route || "-"}
+Safari Park: ${serviceDetails.safari_park || "-"}
+Activity Location: ${serviceDetails.activity_location || "-"}
+Beach Location: ${serviceDetails.beach_location || "-"}
+Accommodation Needed: ${serviceDetails.accommodation_needed || "-"}
+Special Requirements: ${serviceDetails.special_requirements || "-"}
 
 Vehicle Details:
-Vehicle Category: ${vehicleCategory}
-Selected Vehicle: ${form.vehicle_type}
+Vehicle Category: ${vehicleCategory || "-"}
+Selected Vehicle: ${form.vehicle_type || "-"}
 `,
     };
 
@@ -154,9 +166,9 @@ Selected Vehicle: ${form.vehicle_type}
       <div className="booking-page">
         <div className="booking-card">
           <div className="booking-header">
-            <span>W&W Travels</span>
-            <h2>Vehicle Booking Request</h2>
-            <p>Select your service first. Location search is powered by OpenStreetMap.</p>
+            <span>Wheels & Waves Travels</span>
+            <h2>Book Your Travel Service</h2>
+            <p>Select your service and share your travel details. Our team will contact you soon.</p>
           </div>
 
           <form className="smart-booking-form" onSubmit={submitBooking}>
@@ -185,28 +197,24 @@ Selected Vehicle: ${form.vehicle_type}
             </div>
 
             <div className="form-section">
-              <h3>Service Type</h3>
+              <h3>Service Details</h3>
 
               <div className="form-grid">
-                <select name="trip_type" value={form.trip_type} onChange={handleChange} required>
-                  <option value="">Select Service Type</option>
-                  <option>Airport Transfer</option>
-                  <option>Day Tour</option>
-                  <option>Round Tour</option>
-                  <option>Hotel Transfer</option>
-                  <option>Wedding</option>
-                  <option>Business Trip</option>
-                  <option>Other</option>
+                <select name="trip_type" value={form.trip_type} onChange={handleTripTypeChange} required>
+                  <option value="">Select Service</option>
+                  <option>Airport Pickups</option>
+                  <option>Airport Drop-offs</option>
+                  <option>City & Day Tours</option>
+                  <option>Island Round Trips</option>
+                  <option>Wildlife Safaris</option>
+                  <option>Whale Watching</option>
+                  <option>Crocodile Watching</option>
+                  <option>Turtle Breeding Points</option>
+                  <option>Beach Getaways</option>
                 </select>
 
-                {form.trip_type === "Airport Transfer" && (
+                {(form.trip_type === "Airport Pickups" || form.trip_type === "Airport Drop-offs") && (
                   <>
-                    <select name="transfer_type" value={serviceDetails.transfer_type} onChange={handleServiceChange} required>
-                      <option value="">Select Airport Service</option>
-                      <option>Airport Pickup</option>
-                      <option>Airport Drop-off</option>
-                    </select>
-
                     <select name="airport_name" value={serviceDetails.airport_name} onChange={handleServiceChange} required>
                       <option value="">Select Airport</option>
                       {airports.map((airport) => (
@@ -215,75 +223,61 @@ Selected Vehicle: ${form.vehicle_type}
                     </select>
 
                     <input name="flight_number" placeholder="Flight Number" value={serviceDetails.flight_number} onChange={handleServiceChange} />
+                    <input name="hotel_name" placeholder="Hotel / Destination Name" value={serviceDetails.hotel_name} onChange={handleServiceChange} required />
                   </>
                 )}
 
-                {form.trip_type === "Day Tour" && (
-                  <input name="tour_location" placeholder="Tour Location / Places" value={serviceDetails.tour_location} onChange={handleServiceChange} required />
+                {form.trip_type === "City & Day Tours" && (
+                  <textarea name="tour_places" placeholder="Places you want to visit. Example: Colombo city tour, Galle Fort, Kandy Temple..." value={serviceDetails.tour_places} onChange={handleServiceChange} required />
                 )}
 
-                {form.trip_type === "Round Tour" && (
+                {form.trip_type === "Island Round Trips" && (
                   <>
                     <input name="round_days" type="number" placeholder="How many days?" value={serviceDetails.round_days} onChange={handleServiceChange} required />
-                    <textarea name="round_route" placeholder="Route example: Colombo → Kandy → Ella → Galle" value={serviceDetails.round_route} onChange={handleServiceChange} required />
+                    <textarea name="round_route" placeholder="Route example: Airport → Kandy → Ella → Yala → Mirissa → Galle" value={serviceDetails.round_route} onChange={handleServiceChange} required />
                   </>
                 )}
 
-                {form.trip_type === "Hotel Transfer" && (
-                  <input name="hotel_name" placeholder="Hotel Name" value={serviceDetails.hotel_name} onChange={handleServiceChange} required />
+                {form.trip_type === "Wildlife Safaris" && (
+                  <input name="safari_park" placeholder="Safari park. Example: Yala, Udawalawe, Wilpattu" value={serviceDetails.safari_park} onChange={handleServiceChange} required />
                 )}
 
-                {form.trip_type === "Wedding" && (
+                {["Whale Watching", "Crocodile Watching", "Turtle Breeding Points"].includes(form.trip_type) && (
+                  <input name="activity_location" placeholder="Preferred location / area" value={serviceDetails.activity_location} onChange={handleServiceChange} required />
+                )}
+
+                {form.trip_type === "Beach Getaways" && (
                   <>
-                    <input name="event_location" placeholder="Wedding / Event Location" value={serviceDetails.event_location} onChange={handleServiceChange} required />
-                    <input name="event_time" type="time" value={serviceDetails.event_time} onChange={handleServiceChange} required />
+                    <input name="beach_location" placeholder="Beach destination. Example: Mirissa, Bentota, Unawatuna" value={serviceDetails.beach_location} onChange={handleServiceChange} required />
+                    <select name="accommodation_needed" value={serviceDetails.accommodation_needed} onChange={handleServiceChange} required>
+                      <option value="">Need accommodation support?</option>
+                      <option value="yes">Yes, help me find hotel</option>
+                      <option value="no">No, transport only</option>
+                    </select>
                   </>
                 )}
 
-                {form.trip_type === "Business Trip" && (
-                  <>
-                    <input name="company_name" placeholder="Company Name" value={serviceDetails.company_name} onChange={handleServiceChange} />
-                    <input name="business_location" placeholder="Meeting Location" value={serviceDetails.business_location} onChange={handleServiceChange} required />
-                  </>
-                )}
-
-                {form.trip_type === "Other" && (
-                  <textarea name="other_details" placeholder="Tell us your requirement" value={serviceDetails.other_details} onChange={handleServiceChange} required />
+                {form.trip_type && (
+                  <textarea name="special_requirements" placeholder="Any special requirements for this service?" value={serviceDetails.special_requirements} onChange={handleServiceChange} />
                 )}
               </div>
             </div>
 
             <div className="form-section">
-              <h3>Trip Locations & Time</h3>
-
-              {form.trip_type === "Airport Transfer" && serviceDetails.transfer_type && (
-                <p className="form-help">
-                  {serviceDetails.transfer_type === "Airport Pickup"
-                    ? "Airport Pickup: pickup is selected airport. Search your hotel or destination as drop-off."
-                    : "Airport Drop-off: search your hotel/home as pickup. Drop-off is selected airport."}
-                </p>
-              )}
+              <h3>Pickup, Drop-off & Time</h3>
 
               <div className="form-grid">
                 <LocationSearch
-                  placeholder={
-                    serviceDetails.transfer_type === "Airport Pickup"
-                      ? "Pickup Airport"
-                      : "Search Pickup Location / Hotel"
-                  }
+                  placeholder={form.trip_type === "Airport Pickups" ? "Pickup Airport" : "Search Pickup Location"}
                   value={form.pickup_location}
-                  readOnly={serviceDetails.transfer_type === "Airport Pickup"}
+                  readOnly={form.trip_type === "Airport Pickups"}
                   onChange={(value) => updateForm("pickup_location", value)}
                 />
 
                 <LocationSearch
-                  placeholder={
-                    serviceDetails.transfer_type === "Airport Drop-off"
-                      ? "Drop-off Airport"
-                      : "Search Drop-off Location / Hotel"
-                  }
+                  placeholder={form.trip_type === "Airport Drop-offs" ? "Drop-off Airport" : "Search Drop-off / Destination"}
                   value={form.drop_location}
-                  readOnly={serviceDetails.transfer_type === "Airport Drop-off"}
+                  readOnly={form.trip_type === "Airport Drop-offs"}
                   onChange={(value) => updateForm("drop_location", value)}
                 />
 
@@ -334,7 +328,7 @@ Selected Vehicle: ${form.vehicle_type}
 
             <div className="form-section">
               <h3>Extra Notes</h3>
-              <textarea name="message" placeholder="Special request / notes" value={form.message} onChange={handleChange} />
+              <textarea name="message" placeholder="Extra message / travel notes" value={form.message} onChange={handleChange} />
             </div>
 
             <button type="submit" className="booking-submit-btn">
