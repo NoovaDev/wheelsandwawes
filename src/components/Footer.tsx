@@ -19,7 +19,7 @@ const Footer = () => {
             <a href="#" aria-label="Facebook">
               <FaFacebookF />
             </a>
-            <a href="#" aria-label="WhatsApp">
+            <a href="https://wa.me/94701097969" aria-label="WhatsApp">
               <FaWhatsapp />
             </a>
           </div>
@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="footer-col">
           <h4>Contact Us</h4>
           <p>123, Galle Road, Moratuwa</p>
-          <p>+94 76 000 0000</p>
+          <p>+94701097969</p>
           <p>wwtravelandtour@gmail.com</p>
         </div>
       </div>

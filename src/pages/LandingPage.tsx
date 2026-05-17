@@ -350,7 +350,7 @@ const LandingPage = () => {
                 arrange your journey.
               </p>
               <a
-                href="https://wa.me/94771234567"
+                href="https://wa.me/94701097969"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ww-cta-whatsapp"
