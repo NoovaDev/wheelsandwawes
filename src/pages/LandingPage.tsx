@@ -193,7 +193,7 @@ const LandingPage = () => {
               <p className="ww-hero-text">{currentHero.description}</p>
 
               <div className="ww-hero-buttons">
-                <a href="/booking" className="ww-btn-primary">
+                <a href="booking" className="ww-btn-primary">
                   Book Your Trip
                 </a>
                 <a href="#services" className="ww-btn-secondary">
