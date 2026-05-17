@@ -4,102 +4,113 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+html,
+body {
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
 }
 
+/* NAVBAR */
+
 .lpnav {
-  width: 100%;
   position: sticky;
   top: 0;
-  z-index: 500;
-  font-family: "Poppins", sans-serif;
-  background: rgba(255, 255, 255, 0.88);
-  border-bottom: 1px solid rgba(191, 219, 254, 0.75);
+  width: 100%;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.06);
+  border-bottom: 1px solid rgba(219, 234, 254, 0.9);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
 }
 
 .lpnav-shell {
-  width: min(92%, 1320px);
+  width: min(94%, 1400px);
   margin: 0 auto;
-  min-height: 88px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 22px;
-}
-
-.lpnav-left {
+  min-height: 84px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
+/* BRAND */
+
 .lpnav-brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
+  gap: 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
 }
 
 .lpnav-logo-img {
   width: 58px;
   height: 58px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 18px;
   border: 2px solid #dbeafe;
+  background: white;
 }
 
 .lpnav-brand-text {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
 .lpnav-brand-text strong {
   color: #0f172a;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
 }
 
 .lpnav-brand-text span {
   color: #2563eb;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
+/* CENTER LINKS */
+
 .lpnav-links {
-  justify-self: center;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #dbeafe;
-  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 10px;
   border-radius: 999px;
+  border: 1px solid #dbeafe;
   box-shadow: 0 12px 26px rgba(30, 64, 175, 0.06);
 }
 
 .lpnav-link-item {
+  border: none;
+  background: transparent;
   color: #334155;
-  font-size: 14px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 16px;
+  padding: 12px 18px;
   border-radius: 999px;
-  transition: all 0.28s ease;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  text-decoration: none;
   white-space: nowrap;
 }
 
-.lpnav-link-item:hover {
+.lpnav-link-item:hover,
+.lpnav-link-item.active {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+  color: white;
+  box-shadow: 0 14px 24px rgba(37, 99, 235, 0.22);
 }
+
+/* RIGHT */
 
 .lpnav-right {
   display: flex;
@@ -109,47 +120,49 @@ html {
 
 .lpnav-login-btn {
   min-height: 48px;
-  padding: 12px 22px;
-  border-radius: 999px;
   border: none;
-  cursor: pointer;
+  border-radius: 999px;
+  padding: 12px 22px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
+  color: white;
   font-size: 14px;
   font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.2);
-  transition: all 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+  transition: 0.25s ease;
 }
 
 .lpnav-login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 30px rgba(37, 99, 235, 0.28);
 }
+
+/* MOBILE BUTTON */
 
 .lpnav-mobile-toggle {
   display: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
   border: none;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #fff;
-  font-size: 18px;
+  color: white;
+  font-size: 20px;
   cursor: pointer;
-  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.2);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 24px rgba(37, 99, 235, 0.22);
 }
+
+/* MOBILE MENU */
 
 .lpnav-mobile-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.42);
+  background: rgba(15, 23, 42, 0.45);
   opacity: 0;
   pointer-events: none;
   transition: 0.3s ease;
-  z-index: 900;
+  z-index: 9999;
 }
 
 .lpnav-mobile-overlay.show {
@@ -161,13 +174,13 @@ html {
   position: absolute;
   top: 0;
   right: 0;
-  width: min(86vw, 360px);
+  width: min(90vw, 380px);
   height: 100%;
   background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
-  box-shadow: -18px 0 40px rgba(15, 23, 42, 0.16);
-  padding: 22px 18px;
+  padding: 22px;
   transform: translateX(100%);
-  transition: transform 0.3s ease;
+  transition: 0.3s ease;
+  box-shadow: -18px 0 40px rgba(15, 23, 42, 0.18);
   display: flex;
   flex-direction: column;
 }
@@ -176,12 +189,14 @@ html {
   transform: translateX(0);
 }
 
+/* MOBILE TOP */
+
 .lpnav-mobile-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
 .lpnav-mobile-brand {
@@ -191,10 +206,11 @@ html {
 }
 
 .lpnav-mobile-logo {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
   object-fit: cover;
-  border-radius: 14px;
+  border: 2px solid #dbeafe;
 }
 
 .lpnav-mobile-brand strong {
@@ -208,140 +224,158 @@ html {
   display: block;
   color: #2563eb;
   font-size: 12px;
-  font-weight: 600;
+  margin-top: 3px;
+  word-break: break-word;
 }
 
 .lpnav-mobile-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   border: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
   background: #eff6ff;
   color: #1d4ed8;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
 }
+
+/* MOBILE LINKS */
 
 .lpnav-mobile-links {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .lpnav-mobile-link {
+  width: 100%;
+  border: none;
+  background: white;
+  border-radius: 18px;
+  padding: 15px 16px;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  color: #334155;
-  font-size: 14px;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.84);
+  cursor: pointer;
+  text-decoration: none;
   border: 1px solid #dbeafe;
-  transition: all 0.25s ease;
+  transition: 0.25s ease;
 }
 
 .lpnav-mobile-link:hover {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
-  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.18);
+  color: white;
 }
+
+/* MOBILE LOGOUT */
 
 .lpnav-mobile-login-btn {
   margin-top: auto;
-  min-height: 50px;
-  border-radius: 16px;
+  width: 100%;
+  min-height: 52px;
+  border-radius: 18px;
   border: none;
-  background: linear-gradient(135deg, #1e40af, #2563eb);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
   box-shadow: 0 14px 24px rgba(37, 99, 235, 0.2);
 }
 
+/* TABLET */
+
 @media (max-width: 1100px) {
+
   .lpnav-links {
-    gap: 6px;
-    padding: 8px 10px;
+    gap: 5px;
   }
 
   .lpnav-link-item {
-    padding: 10px 12px;
+    padding: 11px 14px;
     font-size: 13px;
   }
 }
 
+/* MOBILE */
+
 @media (max-width: 900px) {
+
+  .lpnav-shell {
+    min-height: 78px;
+  }
+
   .lpnav-links,
   .lpnav-login-btn {
     display: none;
   }
 
   .lpnav-mobile-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: flex;
   }
 }
 
+/* SMALL MOBILE */
+
 @media (max-width: 640px) {
+
   .lpnav-shell {
-    width: 94%;
+    width: 95%;
     min-height: 72px;
   }
 
   .lpnav-logo-img {
     width: 50px;
     height: 50px;
+    border-radius: 16px;
+  }
+
+  .lpnav-brand-text strong {
+    font-size: 15px;
+  }
+
+  .lpnav-brand-text span {
+    font-size: 11px;
+  }
+
+  .lpnav-mobile-toggle {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
   }
 
   .lpnav-mobile-panel {
     width: 100%;
     max-width: 100%;
+    padding: 20px;
   }
 }
-.lpnav-brand,
-.lpnav-link-item,
-.lpnav-mobile-link {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-family: inherit;
-}
 
-.lpnav-link-item.active {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
-}
+/* VERY SMALL PHONES */
 
-.lpnav-mobile-link {
-  width: 100%;
-}
-.lpnav-brand {
-  width: fit-content;
-}
+@media (max-width: 420px) {
 
-.lpnav-links {
-  position: relative;
-  z-index: 5;
-}
+  .lpnav-shell {
+    gap: 10px;
+  }
 
-.lpnav-brand,
-.lpnav-link-item,
-.lpnav-mobile-link {
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-}
+  .lpnav-brand {
+    gap: 10px;
+  }
 
-.lpnav-brand {
-  background: transparent;
-}
+  .lpnav-logo-img {
+    width: 46px;
+    height: 46px;
+  }
 
-.lpnav-link-item.active {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
+  .lpnav-brand-text strong {
+    font-size: 14px;
+  }
+
+  .lpnav-brand-text span {
+    font-size: 10px;
+  }
 }

@@ -2,188 +2,215 @@
   box-sizing: border-box;
 }
 
-.user-dashboard-page {
-  padding: 32px;
-  background: #f1f5f9;
-  min-height: 100vh;
+body {
+  overflow-x: hidden;
 }
 
-.user-dashboard-header {
+.user-dashboard-page {
+  min-height: 100vh;
+  background: #eef4fb;
+  padding: 34px;
+}
+
+.app-hero {
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: white;
+  border-radius: 30px;
+  padding: 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
+  gap: 24px;
+  box-shadow: 0 24px 55px rgba(30, 64, 175, 0.25);
+  margin-bottom: 24px;
 }
 
-.user-dashboard-header h2 {
-  font-size: 32px;
-  color: #0f172a;
+.hero-badge {
+  color: #bfdbfe;
+  font-weight: 900;
+  font-size: 14px;
 }
 
-.user-dashboard-header p {
-  color: #64748b;
-  margin-top: 6px;
+.app-hero h1 {
+  font-size: 38px;
+  margin: 8px 0;
+  line-height: 1.1;
 }
 
+.app-hero p {
+  color: #dbeafe;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.primary-app-btn,
 .new-booking-btn {
   background: #2563eb;
   color: white;
-  padding: 13px 22px;
-  border-radius: 12px;
+  padding: 14px 22px;
+  border-radius: 16px;
   text-decoration: none;
-  font-weight: 800;
-  white-space: nowrap;
+  font-weight: 900;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  border: none;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.25);
 }
 
-.profile-card,
-.stat-card,
-.dashboard-section {
-  background: white;
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
-}
-
-.profile-card {
-  display: flex;
-  gap: 22px;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
-.profile-avatar {
-  width: 88px;
-  height: 88px;
-  min-width: 88px;
-  border-radius: 50%;
-  background: #2563eb;
-  color: white;
-  font-size: 34px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-content h3 {
-  font-size: 26px;
-  color: #0f172a;
-}
-
-.profile-content p {
-  color: #64748b;
-  margin: 6px 0 18px;
-}
-
-.profile-info-grid {
-  display: flex;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-
-.profile-info-grid div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.profile-info-grid span {
-  color: #64748b;
-  font-size: 13px;
-}
-
-.profile-info-grid strong {
-  color: #0f172a;
-  word-break: break-word;
-}
-
+.stats-app-grid,
 .dashboard-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
+.app-stat-card,
+.stat-card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.07);
+  border: 1px solid #e2e8f0;
+}
+
+.app-stat-card span,
 .stat-card span {
   color: #64748b;
-  font-weight: 700;
+  font-weight: 800;
 }
 
+.app-stat-card h3,
 .stat-card h3 {
   font-size: 36px;
+  margin: 10px 0;
   color: #0f172a;
-  margin-top: 8px;
 }
 
+.app-stat-card p,
 .stat-card p {
   color: #94a3b8;
-  margin-top: 8px;
   font-size: 14px;
 }
 
+.app-section,
 .dashboard-section {
-  margin-bottom: 28px;
+  background: white;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.07);
+  margin-bottom: 24px;
 }
 
-.section-title {
+.app-section-title,
+.section-title,
+.user-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 22px;
 }
 
-.section-title h3 {
+.app-section-title h2,
+.section-title h3,
+.user-dashboard-header h2 {
   color: #0f172a;
-  font-size: 22px;
+  font-size: 25px;
 }
 
-.section-title p {
+.app-section-title p,
+.section-title p,
+.user-dashboard-header p {
   color: #64748b;
-  margin-top: 5px;
+  line-height: 1.5;
 }
 
-.table-scroll {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+.text-action-btn {
+  border: none;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 14px;
+  padding: 11px 15px;
+  font-weight: 900;
+  cursor: pointer;
 }
 
-.booking-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 760px;
-}
-
-.booking-table th {
+.latest-app-card,
+.latest-booking-pro-card {
   background: #f8fafc;
-  padding: 15px;
-  text-align: left;
-  color: #334155;
-  font-size: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 24px;
+  padding: 24px;
 }
 
-.booking-table td {
-  padding: 17px 15px;
-  border-top: 1px solid #e2e8f0;
-  color: #0f172a;
-  vertical-align: top;
+.latest-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
 }
 
-.booking-table td span {
-  display: block;
-  color: #64748b;
-  margin-top: 4px;
+.latest-card-top span,
+.latest-label {
+  color: #2563eb;
+  font-weight: 900;
   font-size: 13px;
 }
 
+.latest-card-top h3,
+.latest-booking-pro-card h3 {
+  font-size: 25px;
+  color: #0f172a;
+  margin-top: 6px;
+}
+
+.latest-route,
+.latest-booking-pro-card p {
+  color: #475569;
+  margin: 18px 0;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.latest-mini-grid,
+.latest-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.latest-mini-grid div,
+.latest-info-grid div {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.latest-mini-grid span,
+.latest-info-grid span {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.latest-mini-grid strong,
+.latest-info-grid strong {
+  color: #0f172a;
+  word-break: break-word;
+}
+
 .status {
-  padding: 7px 14px;
+  padding: 7px 13px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: capitalize;
   display: inline-flex;
+  width: fit-content;
 }
 
 .status.pending {
@@ -206,321 +233,128 @@
   color: #b91c1c;
 }
 
-.quick-booking-card {
-  background: #f8fafc;
-  border: 1px solid #dbeafe;
-  border-radius: 18px;
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.quick-booking-card strong {
-  font-size: 18px;
-  color: #0f172a;
-}
-
-.quick-booking-card span {
-  color: #64748b;
-}
-
-.small-action-btn {
-  width: fit-content;
-  margin-top: 10px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  padding: 11px 17px;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.small-action-btn:hover {
-  background: #1d4ed8;
-}
-
-.dashboard-hero {
-  background: linear-gradient(135deg, #0f172a, #1e40af);
-  border-radius: 26px;
-  padding: 34px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 22px;
-  margin-bottom: 28px;
-  box-shadow: 0 20px 45px rgba(30, 64, 175, 0.22);
-}
-
-.dashboard-hero span {
-  color: #93c5fd;
-  font-weight: 800;
-}
-
-.dashboard-hero h2 {
-  font-size: 36px;
-  margin: 8px 0;
-  line-height: 1.1;
-}
-
-.dashboard-hero p {
-  color: #dbeafe;
-  line-height: 1.6;
-}
-
-.latest-booking-pro-card {
-  border: 1px solid #dbeafe;
-  border-radius: 22px;
-  padding: 24px;
-  background: #f8fafc;
-}
-
-.latest-label {
-  color: #2563eb;
-  font-weight: 900;
-  font-size: 13px;
-}
-
-.latest-booking-pro-card h3 {
-  font-size: 25px;
-  color: #0f172a;
-  margin: 8px 0;
-}
-
-.latest-booking-pro-card p {
-  color: #64748b;
-}
-
-.latest-info-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin: 22px 0;
-}
-
-.latest-info-grid div {
-  background: white;
-  border-radius: 16px;
-  padding: 17px;
-  border: 1px solid #e2e8f0;
-}
-
-.latest-info-grid span {
-  display: block;
-  color: #64748b;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.latest-info-grid strong {
-  color: #0f172a;
-  word-break: break-word;
-}
-
+.empty-app-card,
 .empty-dashboard-card {
+  text-align: center;
   background: #f8fafc;
   border: 1px dashed #93c5fd;
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 34px;
-  text-align: center;
 }
 
+.empty-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.empty-app-card h3,
 .empty-dashboard-card h3 {
-  font-size: 24px;
   color: #0f172a;
+  font-size: 24px;
 }
 
+.empty-app-card p,
 .empty-dashboard-card p {
   color: #64748b;
   margin: 10px 0 20px;
 }
 
-.cancel-trip-btn {
-  border: none;
-  background: #dc2626;
+.mobile-page-title {
+  margin-bottom: 22px;
+}
+
+.mobile-page-title h2 {
+  color: #0f172a;
+  font-size: 30px;
+}
+
+.mobile-page-title p {
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.profile-app-card,
+.profile-card {
+  background: white;
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.profile-top,
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+  min-width: 88px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
-  padding: 9px 14px;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
+  font-size: 36px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cancel-trip-btn:hover {
-  background: #b91c1c;
+.profile-top h2,
+.profile-content h3 {
+  color: #0f172a;
+  font-size: 28px;
 }
 
-.cancel-disabled {
-  color: #94a3b8;
+.profile-top p,
+.profile-content p {
+  color: #64748b;
+  margin-top: 6px;
+  word-break: break-word;
+}
+
+.profile-app-grid,
+.profile-info-grid {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.profile-app-grid div,
+.profile-info-grid div {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.profile-app-grid span,
+.profile-info-grid span {
+  color: #64748b;
+  display: block;
   font-size: 13px;
-  font-weight: 800;
+  margin-bottom: 6px;
 }
 
-/* Tablet */
-@media (max-width: 1024px) {
-  .user-dashboard-page {
-    padding: 24px;
-  }
-
-  .dashboard-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .latest-info-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .dashboard-hero {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .user-dashboard-page {
-    padding: 16px;
-  }
-
-  .user-dashboard-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .user-dashboard-header h2 {
-    font-size: 25px;
-  }
-
-  .new-booking-btn {
-    width: 100%;
-    padding: 14px;
-  }
-
-  .dashboard-hero {
-    padding: 24px;
-    border-radius: 22px;
-  }
-
-  .dashboard-hero h2 {
-    font-size: 28px;
-  }
-
-  .profile-card {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 22px;
-  }
-
-  .profile-avatar {
-    width: 76px;
-    height: 76px;
-    min-width: 76px;
-    font-size: 28px;
-  }
-
-  .profile-content h3 {
-    font-size: 23px;
-  }
-
-  .profile-info-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-    width: 100%;
-  }
-
-  .dashboard-stats-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .stat-card,
-  .dashboard-section {
-    padding: 22px;
-    border-radius: 20px;
-  }
-
-  .stat-card h3 {
-    font-size: 32px;
-  }
-
-  .latest-info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .latest-booking-pro-card {
-    padding: 20px;
-  }
-
-  .latest-booking-pro-card h3 {
-    font-size: 22px;
-  }
-
-  .empty-dashboard-card {
-    padding: 26px 18px;
-  }
-
-  .table-scroll {
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    background: white;
-  }
-
-  .booking-table {
-    min-width: 720px;
-  }
-
-  .small-action-btn,
-  .cancel-trip-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-  .user-dashboard-page {
-    padding: 12px;
-  }
-
-  .dashboard-hero {
-    padding: 20px;
-  }
-
-  .dashboard-hero h2 {
-    font-size: 24px;
-  }
-
-  .dashboard-hero p {
-    font-size: 14px;
-  }
-
-  .profile-card,
-  .stat-card,
-  .dashboard-section {
-    padding: 18px;
-  }
-
-  .section-title h3 {
-    font-size: 20px;
-  }
-
-  .booking-table {
-    min-width: 680px;
-  }
+.profile-app-grid strong,
+.profile-info-grid strong {
+  color: #0f172a;
+  word-break: break-word;
 }
 
 .mobile-trip-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
 }
 
 .trip-mobile-card {
   background: #f8fafc;
   border: 1px solid #dbeafe;
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 22px;
 }
 
@@ -534,28 +368,28 @@
 .trip-label {
   color: #2563eb;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: uppercase;
 }
 
 .trip-mobile-top h3 {
-  font-size: 22px;
-  margin-top: 5px;
+  font-size: 21px;
   color: #0f172a;
+  margin-top: 5px;
 }
 
 .trip-route {
   color: #475569;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   word-break: break-word;
 }
 
 .trip-mobile-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .trip-mobile-grid div {
@@ -577,6 +411,16 @@
   font-size: 14px;
 }
 
+.cancel-trip-btn {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .full-btn {
   width: 100%;
 }
@@ -587,51 +431,162 @@
   padding: 14px;
   border-radius: 14px;
   text-align: center;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .late-warning {
-  margin-top: 14px;
+  margin-top: 12px;
   background: #fef2f2;
   color: #dc2626;
   padding: 12px;
   border-radius: 12px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-@media (max-width: 768px) {
-
-  .dashboard-hero {
-    margin-top: 14px;
+/* tablet */
+@media (max-width: 1024px) {
+  .stats-app-grid,
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .trip-mobile-grid {
+  .mobile-trip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .latest-mini-grid,
+  .latest-info-grid,
+  .profile-app-grid,
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* mobile app view */
+@media (max-width: 768px) {
+  .user-dashboard-page {
+    padding: 14px;
+    padding-bottom: 95px;
+  }
+
+  .app-hero {
+    border-radius: 26px;
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+
+  .app-hero h1 {
+    font-size: 29px;
+  }
+
+  .app-hero p {
+    font-size: 15px;
+  }
+
+  .primary-app-btn,
+  .new-booking-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .stats-app-grid,
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .app-stat-card,
+  .stat-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .app-stat-card h3,
+  .stat-card h3 {
+    font-size: 30px;
+  }
+
+  .app-section,
+  .dashboard-section {
+    padding: 20px;
+    border-radius: 26px;
+  }
+
+  .app-section-title,
+  .section-title,
+  .user-dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .latest-card-top {
+    flex-direction: column;
+  }
+
+  .latest-mini-grid,
+  .latest-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-app-card,
+  .profile-card {
+    padding: 22px;
+    border-radius: 28px;
+  }
+
+  .profile-top,
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-avatar {
+    width: 84px;
+    height: 84px;
+    min-width: 84px;
+    border-radius: 26px;
+  }
+
+  .profile-app-grid,
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-trip-grid {
     grid-template-columns: 1fr;
   }
 
   .trip-mobile-card {
     padding: 18px;
+    border-radius: 24px;
   }
 
   .trip-mobile-top {
     flex-direction: column;
-    align-items: flex-start;
   }
 
-  .trip-mobile-top h3 {
-    font-size: 20px;
+  .trip-mobile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* small phones */
+@media (max-width: 420px) {
+  .user-dashboard-page {
+    padding: 10px;
+    padding-bottom: 95px;
   }
 
-  .profile-card {
-    padding: 20px;
+  .app-hero h1 {
+    font-size: 25px;
   }
 
-  .profile-content h3 {
-    font-size: 24px;
-  }
-
-  .dashboard-hero h2 {
-    font-size: 28px;
+  .stats-app-grid,
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr;
   }
 }

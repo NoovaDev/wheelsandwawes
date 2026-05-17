@@ -17,102 +17,106 @@ const DashboardHome = ({ bookings, setActiveTab }) => {
 
   return (
     <>
-      <div className="dashboard-hero">
+      <section className="app-hero">
         <div>
-          <span>Welcome Back</span>
-          <h2>User Dashboard</h2>
-          <p>Track your bookings, trip status, and travel plans in one place.</p>
+          <span className="hero-badge">Welcome Back</span>
+          <h1>Your Travel Dashboard</h1>
+          <p>Manage bookings, track trip status, and plan your next Sri Lanka tour.</p>
         </div>
 
-        <a href="/booking" className="new-booking-btn">
+        <a href="/booking" className="primary-app-btn">
           + New Booking
         </a>
-      </div>
+      </section>
 
-      <div className="dashboard-stats-grid">
-        <div className="stat-card">
-          <span>Total Bookings</span>
+      <section className="stats-app-grid">
+        <div className="app-stat-card">
+          <span>Total</span>
           <h3>{totalBookings}</h3>
-          <p>All your trip requests</p>
+          <p>All bookings</p>
         </div>
 
-        <div className="stat-card">
+        <div className="app-stat-card warning">
           <span>Pending</span>
           <h3>{pendingBookings}</h3>
-          <p>Waiting for confirmation</p>
+          <p>Waiting</p>
         </div>
 
-        <div className="stat-card">
+        <div className="app-stat-card success">
           <span>Confirmed</span>
           <h3>{confirmedBookings}</h3>
-          <p>Approved bookings</p>
+          <p>Approved</p>
         </div>
 
-        <div className="stat-card">
+        <div className="app-stat-card blue">
           <span>Completed</span>
           <h3>{completedBookings}</h3>
-          <p>Finished trips</p>
+          <p>Finished</p>
         </div>
-      </div>
+      </section>
 
-      <div className="dashboard-section">
-        <div className="section-title">
-          <h3>Latest Booking</h3>
-          <p>Your most recent trip request.</p>
+      <section className="app-section">
+        <div className="app-section-title">
+          <div>
+            <h2>Latest Booking</h2>
+            <p>Your most recent trip request</p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("trips")}
+            className="text-action-btn"
+          >
+            View All
+          </button>
         </div>
 
         {latestBooking ? (
-          <div className="latest-booking-pro-card">
-            <div>
-              <span className="latest-label">Trip Type</span>
-              <h3>{latestBooking.trip_type || "Vehicle Booking"}</h3>
-              <p>
-                {latestBooking.pickup_location} → {latestBooking.drop_location}
-              </p>
+          <div className="latest-app-card">
+            <div className="latest-card-top">
+              <div>
+                <span>Trip Type</span>
+                <h3>{latestBooking.trip_type || "Vehicle Booking"}</h3>
+              </div>
+
+              <strong className={`status ${latestBooking.status || "pending"}`}>
+                {latestBooking.status || "pending"}
+              </strong>
             </div>
 
-            <div className="latest-info-grid">
+            <p className="latest-route">
+              {latestBooking.pickup_location || "-"} → {latestBooking.drop_location || "-"}
+            </p>
+
+            <div className="latest-mini-grid">
               <div>
                 <span>Date</span>
-                <strong>{latestBooking.pickup_date}</strong>
+                <strong>{latestBooking.pickup_date || "-"}</strong>
               </div>
 
               <div>
                 <span>Time</span>
-                <strong>{latestBooking.pickup_time}</strong>
+                <strong>{latestBooking.pickup_time || "-"}</strong>
               </div>
 
               <div>
                 <span>Vehicle</span>
                 <strong>{latestBooking.vehicle_type || "-"}</strong>
               </div>
-
-              <div>
-                <span>Status</span>
-                <strong className={`status ${latestBooking.status || "pending"}`}>
-                  {latestBooking.status || "pending"}
-                </strong>
-              </div>
             </div>
-
-            <button
-              type="button"
-              className="small-action-btn"
-              onClick={() => setActiveTab("trips")}
-            >
-              View All Trips
-            </button>
           </div>
         ) : (
-          <div className="empty-dashboard-card">
+          <div className="empty-app-card">
+            <div className="empty-icon">🚐</div>
             <h3>No bookings yet</h3>
-            <p>Create your first booking and track it here.</p>
-            <a href="/booking" className="new-booking-btn">
+            <p>Create your first booking and track everything here.</p>
+
+            <a href="/booking" className="primary-app-btn">
               Create Booking
             </a>
           </div>
         )}
-      </div>
+      </section>
     </>
   );
 };
