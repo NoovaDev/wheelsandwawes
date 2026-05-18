@@ -759,68 +759,105 @@ body {
     grid-template-columns: 1fr;
   }
 }
+.trip-mobile-card {
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  border-radius: 20px;
+  padding: 16px;
+}
+
 .trip-card-header {
   display: flex;
   justify-content: space-between;
-  gap: 14px;
+  gap: 10px;
   align-items: flex-start;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+}
+
+.trip-mobile-top h3,
+.trip-card-header h3 {
+  font-size: 18px;
+  color: #0f172a;
+  margin-top: 4px;
 }
 
 .trip-date-highlight {
   background: linear-gradient(135deg, #eff6ff, #dbeafe);
   border: 1px solid #bfdbfe;
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-
-.trip-date-highlight span {
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
 }
 
 .trip-date-highlight strong {
   display: block;
   color: #0f172a;
-  font-size: 22px;
-  margin-top: 6px;
+  font-size: 18px;
+  margin-top: 4px;
 }
 
 .trip-date-highlight p {
   color: #475569;
-  margin-top: 6px;
+  margin-top: 4px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .trip-route-box {
   background: white;
   border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 16px;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
 }
 
-.trip-route-box span {
-  display: block;
-  color: #64748b;
-  font-size: 12px;
-  margin-bottom: 6px;
+.trip-mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
-.trip-route-box strong {
+.trip-mobile-grid div {
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.trip-mobile-grid strong {
   color: #0f172a;
-  line-height: 1.5;
+  font-size: 13px;
+}
+
+.cancel-trip-btn {
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.booking-finished-box {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.late-warning {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
 }
 
 @media (max-width: 768px) {
-  .trip-card-header {
-    flex-direction: column;
+
+  .trip-mobile-card {
+    padding: 14px;
+    border-radius: 18px;
   }
 
-  .trip-date-highlight strong {
-    font-size: 20px;
+  .trip-mobile-grid {
+    grid-template-columns: 1fr;
   }
+
 }
