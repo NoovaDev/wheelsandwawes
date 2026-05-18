@@ -1,23 +1,95 @@
 import axios from "axios";
 
 const UserTrips = ({ bookings, refreshBookings }) => {
-  const formatTripDate = (dateValue) => {
-    if (!dateValue) return "-";
+  /*
+    IMPORTANT:
+    MySQL DATE fields can come to React like:
+    2026-05-18T18:30:00.000Z
 
-    const dateOnly = dateValue.split("T")[0];
-    const date = new Date(`${dateOnly}T00:00:00`);
+    In Sri Lanka timezone, that is actually:
+    2026-05-19
 
-    return date.toLocaleDateString("en-US", {
-      weekday: "short",
+    So we format dates using Asia/Colombo timezone.
+  */
+
+  const getSriLankaDateParts = (dateValue) => {
+    if (!dateValue) return null;
+
+    // If backend sends normal date input format: 2026-05-19
+    if (typeof dateValue === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+      const [year, month, day] = dateValue.split("-");
+      return {
+        year,
+        month,
+        day,
+      };
+    }
+
+    // If backend sends ISO date: 2026-05-18T18:30:00.000Z
+    const date = new Date(dateValue);
+
+    if (Number.isNaN(date.getTime())) return null;
+
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Colombo",
       year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(date);
+
+    return {
+      year: parts.find((p) => p.type === "year")?.value,
+      month: parts.find((p) => p.type === "month")?.value,
+      day: parts.find((p) => p.type === "day")?.value,
+    };
+  };
+
+  const formatTripDate = (dateValue) => {
+    const parts = getSriLankaDateParts(dateValue);
+
+    if (!parts) return "-";
+
+    const { year, month, day } = parts;
+
+    const date = new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day)
+    );
+
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    return `${weekdays[date.getDay()]}, ${months[Number(month) - 1]} ${Number(
+      day
+    )}, ${year}`;
+  };
+
+  const getDateForCancelCheck = (dateValue) => {
+    const parts = getSriLankaDateParts(dateValue);
+
+    if (!parts) return null;
+
+    return `${parts.year}-${parts.month}-${parts.day}`;
   };
 
   const formatTripTime = (timeValue) => {
     if (!timeValue) return "-";
-    return timeValue.slice(0, 5);
+    return String(timeValue).slice(0, 5);
   };
 
   const getBookingType = (booking) => {
@@ -29,12 +101,23 @@ const UserTrips = ({ bookings, refreshBookings }) => {
     );
   };
 
+  const getDriverText = (value) => {
+    if (!value) return "-";
+    if (value === "yes") return "Driver needed";
+    if (value === "no") return "Self drive";
+    return value;
+  };
+
   const isLateCancel = (booking) => {
     if (!booking.pickup_date || !booking.pickup_time) return false;
 
-    const dateOnly = booking.pickup_date.split("T")[0];
-    const timeOnly = booking.pickup_time.slice(0, 5);
-    const tripDateTime = new Date(`${dateOnly}T${timeOnly}:00`);
+    const dateOnly = getDateForCancelCheck(booking.pickup_date);
+    const timeOnly = formatTripTime(booking.pickup_time);
+
+    if (!dateOnly || timeOnly === "-") return false;
+
+    // Sri Lanka timezone offset
+    const tripDateTime = new Date(`${dateOnly}T${timeOnly}:00+05:30`);
     const now = new Date();
 
     const hoursLeft =
@@ -83,7 +166,7 @@ const UserTrips = ({ bookings, refreshBookings }) => {
       <div className="user-dashboard-header">
         <div>
           <h2>My Trips</h2>
-          <p>View your selected trip dates, routes, and booking status.</p>
+          <p>View your selected travel date, route, and booking status.</p>
         </div>
 
         <a href="/booking" className="new-booking-btn">
@@ -92,12 +175,11 @@ const UserTrips = ({ bookings, refreshBookings }) => {
       </div>
 
       <div className="dashboard-section">
-        <div className="section-title">
+        <div className="section-title trips-title-row">
           <div>
             <h3>Booked Trips</h3>
             <p>
-              Trip date means the date you selected for travel, not the day you
-              created the booking.
+              This page shows the trip date you selected in the booking form.
             </p>
           </div>
         </div>
@@ -105,7 +187,7 @@ const UserTrips = ({ bookings, refreshBookings }) => {
         {bookings.length > 0 ? (
           <div className="mobile-trip-grid">
             {bookings.map((booking) => (
-              <div key={booking.id} className="trip-mobile-card">
+              <div key={booking.id} className="trip-mobile-card compact-trip-card">
                 <div className="trip-card-header">
                   <div>
                     <span className="trip-label">Booking Type</span>
@@ -125,13 +207,15 @@ const UserTrips = ({ bookings, refreshBookings }) => {
 
                 <div className="trip-route-box">
                   <span>Route</span>
-                  <strong>
-                    {booking.pickup_location || "-"} →{" "}
-                    {booking.drop_location || "-"}
-                  </strong>
+
+                  <strong>{booking.pickup_location || "-"}</strong>
+
+                  <small>to</small>
+
+                  <strong>{booking.drop_location || "-"}</strong>
                 </div>
 
-                <div className="trip-mobile-grid">
+                <div className="trip-mobile-grid compact-info-grid">
                   <div>
                     <span>Vehicle</span>
                     <strong>{booking.vehicle_type || "-"}</strong>
@@ -144,7 +228,7 @@ const UserTrips = ({ bookings, refreshBookings }) => {
 
                   <div>
                     <span>Driver</span>
-                    <strong>{booking.need_driver || "-"}</strong>
+                    <strong>{getDriverText(booking.need_driver)}</strong>
                   </div>
 
                   <div>
