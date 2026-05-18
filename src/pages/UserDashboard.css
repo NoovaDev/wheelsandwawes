@@ -759,3 +759,68 @@ body {
     grid-template-columns: 1fr;
   }
 }
+.trip-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.trip-date-highlight {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border: 1px solid #bfdbfe;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.trip-date-highlight span {
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trip-date-highlight strong {
+  display: block;
+  color: #0f172a;
+  font-size: 22px;
+  margin-top: 6px;
+}
+
+.trip-date-highlight p {
+  color: #475569;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.trip-route-box {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.trip-route-box span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.trip-route-box strong {
+  color: #0f172a;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .trip-card-header {
+    flex-direction: column;
+  }
+
+  .trip-date-highlight strong {
+    font-size: 20px;
+  }
+}
