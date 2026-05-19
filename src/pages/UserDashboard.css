@@ -1072,3 +1072,158 @@ body {
     padding: 12px;
   }
 }
+.trips-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.trips-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.trips-table thead {
+  background: #2563eb;
+}
+
+.trips-table thead th {
+  color: white;
+  padding: 18px;
+  font-size: 14px;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.trips-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: 0.3s;
+}
+
+.trips-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.trips-table td {
+  padding: 18px;
+  font-size: 14px;
+  color: #0f172a;
+  vertical-align: middle;
+}
+
+.status {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.confirmed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.cancel-trip-btn {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.cancel-trip-btn:hover {
+  background: #dc2626;
+}
+
+.booking-finished-box {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.late-warning {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 768px) {
+  .trips-table {
+    min-width: 100%;
+    border: 0;
+  }
+
+  .trips-table thead {
+    display: none;
+  }
+
+  .trips-table,
+  .trips-table tbody,
+  .trips-table tr,
+  .trips-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .trips-table tr {
+    margin-bottom: 18px;
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    padding: 12px;
+  }
+
+  .trips-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: right;
+    padding: 14px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+  }
+
+  .trips-table td:last-child {
+    border-bottom: none;
+  }
+
+  .trips-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #0f172a;
+    text-align: left;
+  }
+
+  .cancel-trip-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

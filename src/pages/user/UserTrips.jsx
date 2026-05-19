@@ -1,33 +1,15 @@
 import axios from "axios";
 
 const UserTrips = ({ bookings, refreshBookings }) => {
-  /*
-    IMPORTANT:
-    MySQL DATE fields can come to React like:
-    2026-05-18T18:30:00.000Z
-
-    In Sri Lanka timezone, that is actually:
-    2026-05-19
-
-    So we format dates using Asia/Colombo timezone.
-  */
-
   const getSriLankaDateParts = (dateValue) => {
     if (!dateValue) return null;
 
-    // If backend sends normal date input format: 2026-05-19
     if (typeof dateValue === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
       const [year, month, day] = dateValue.split("-");
-      return {
-        year,
-        month,
-        day,
-      };
+      return { year, month, day };
     }
 
-    // If backend sends ISO date: 2026-05-18T18:30:00.000Z
     const date = new Date(dateValue);
-
     if (Number.isNaN(date.getTime())) return null;
 
     const parts = new Intl.DateTimeFormat("en-CA", {
@@ -46,44 +28,20 @@ const UserTrips = ({ bookings, refreshBookings }) => {
 
   const formatTripDate = (dateValue) => {
     const parts = getSriLankaDateParts(dateValue);
-
     if (!parts) return "-";
 
     const { year, month, day } = parts;
+    const date = new Date(Number(year), Number(month) - 1, Number(day));
 
-    const date = new Date(
-      Number(year),
-      Number(month) - 1,
-      Number(day)
-    );
-
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    return `${weekdays[date.getDay()]}, ${months[Number(month) - 1]} ${Number(
-      day
-    )}, ${year}`;
+    return `${weekdays[date.getDay()]}, ${months[Number(month) - 1]} ${Number(day)}, ${year}`;
   };
 
   const getDateForCancelCheck = (dateValue) => {
     const parts = getSriLankaDateParts(dateValue);
-
     if (!parts) return null;
-
     return `${parts.year}-${parts.month}-${parts.day}`;
   };
 
@@ -93,12 +51,7 @@ const UserTrips = ({ bookings, refreshBookings }) => {
   };
 
   const getBookingType = (booking) => {
-    return (
-      booking.trip_type ||
-      booking.service_type ||
-      booking.booking_type ||
-      "Travel Booking"
-    );
+    return booking.trip_type || booking.service_type || booking.booking_type || "Travel Booking";
   };
 
   const getDriverText = (value) => {
@@ -116,12 +69,10 @@ const UserTrips = ({ bookings, refreshBookings }) => {
 
     if (!dateOnly || timeOnly === "-") return false;
 
-    // Sri Lanka timezone offset
     const tripDateTime = new Date(`${dateOnly}T${timeOnly}:00+05:30`);
     const now = new Date();
 
-    const hoursLeft =
-      (tripDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+    const hoursLeft = (tripDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
 
     return hoursLeft < 10;
   };
@@ -178,97 +129,82 @@ const UserTrips = ({ bookings, refreshBookings }) => {
         <div className="section-title trips-title-row">
           <div>
             <h3>Booked Trips</h3>
-            <p>
-              This page shows the trip date you selected in the booking form.
-            </p>
+            <p>This page shows the trip date you selected in the booking form.</p>
           </div>
         </div>
 
         {bookings.length > 0 ? (
-          <div className="mobile-trip-grid">
-            {bookings.map((booking) => (
-              <div key={booking.id} className="trip-mobile-card compact-trip-card">
-                <div className="trip-card-header">
-                  <div>
-                    <span className="trip-label">Booking Type</span>
-                    <h3>{getBookingType(booking)}</h3>
-                  </div>
+          <div className="trips-table-wrapper">
+            <table className="trips-table">
+              <thead>
+                <tr>
+                  <th>Trip Type</th>
+                  <th>Pickup Date</th>
+                  <th>Pickup Time</th>
+                  <th>Pickup Location</th>
+                  <th>Drop Location</th>
+                  <th>Vehicle</th>
+                  <th>Passengers</th>
+                  <th>Driver</th>
+                  <th>Return Date</th>
+                  <th>Return Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-                  <span className={`status ${booking.status || "pending"}`}>
-                    {booking.status || "pending"}
-                  </span>
-                </div>
+              <tbody>
+                {bookings.map((booking) => (
+                  <tr key={booking.id}>
+                    <td data-label="Trip Type">{getBookingType(booking)}</td>
+                    <td data-label="Pickup Date">{formatTripDate(booking.pickup_date)}</td>
+                    <td data-label="Pickup Time">{formatTripTime(booking.pickup_time)}</td>
+                    <td data-label="Pickup Location">{booking.pickup_location || "-"}</td>
+                    <td data-label="Drop Location">{booking.drop_location || "-"}</td>
+                    <td data-label="Vehicle">{booking.vehicle_type || "-"}</td>
+                    <td data-label="Passengers">{booking.passengers || "-"}</td>
+                    <td data-label="Driver">{getDriverText(booking.need_driver)}</td>
+                    <td data-label="Return Date">{formatTripDate(booking.return_date)}</td>
+                    <td data-label="Return Time">{formatTripTime(booking.return_time)}</td>
 
-                <div className="trip-date-highlight">
-                  <span>Selected Trip Date</span>
-                  <strong>{formatTripDate(booking.pickup_date)}</strong>
-                  <p>Pickup time: {formatTripTime(booking.pickup_time)}</p>
-                </div>
+                    <td data-label="Status">
+                      <span className={`status ${booking.status || "pending"}`}>
+                        {booking.status || "pending"}
+                      </span>
+                    </td>
 
-                <div className="trip-route-box">
-                  <span>Route</span>
+                    <td data-label="Action">
+                      {canShowCancelButton(booking) ? (
+                        <>
+                          <button
+                            type="button"
+                            className="cancel-trip-btn"
+                            onClick={() => cancelBooking(booking)}
+                          >
+                            Cancel
+                          </button>
 
-                  <strong>{booking.pickup_location || "-"}</strong>
-
-                  <small>to</small>
-
-                  <strong>{booking.drop_location || "-"}</strong>
-                </div>
-
-                <div className="trip-mobile-grid compact-info-grid">
-                  <div>
-                    <span>Vehicle</span>
-                    <strong>{booking.vehicle_type || "-"}</strong>
-                  </div>
-
-                  <div>
-                    <span>Passengers</span>
-                    <strong>{booking.passengers || "-"}</strong>
-                  </div>
-
-                  <div>
-                    <span>Driver</span>
-                    <strong>{getDriverText(booking.need_driver)}</strong>
-                  </div>
-
-                  <div>
-                    <span>Return Date</span>
-                    <strong>{formatTripDate(booking.return_date)}</strong>
-                  </div>
-                </div>
-
-                {canShowCancelButton(booking) ? (
-                  <button
-                    type="button"
-                    className="cancel-trip-btn full-btn"
-                    onClick={() => cancelBooking(booking)}
-                  >
-                    Cancel Booking
-                  </button>
-                ) : (
-                  <div className="booking-finished-box">
-                    {booking.status === "cancelled"
-                      ? "This booking was cancelled"
-                      : "Trip completed"}
-                  </div>
-                )}
-
-                {isLateCancel(booking) && canShowCancelButton(booking) && (
-                  <div className="late-warning">
-                    Late cancellation — payment not refundable
-                  </div>
-                )}
-              </div>
-            ))}
+                          {isLateCancel(booking) && (
+                            <div className="late-warning">
+                              Non refundable
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="booking-finished-box">
+                          {booking.status === "cancelled" ? "Cancelled" : "Completed"}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : (
           <div className="empty-dashboard-card">
             <h3>No trips booked yet</h3>
-
-            <p>
-              Create your first booking and your selected travel date will show
-              here.
-            </p>
+            <p>Create your first booking and your selected travel date will show here.</p>
 
             <a href="/booking" className="new-booking-btn">
               Create Booking
