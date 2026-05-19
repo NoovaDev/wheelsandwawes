@@ -186,6 +186,7 @@ const LandingPage = () => {
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
   const visibleDestinations = destinations.slice(0, 4);
+  const feedbackLoopItems = feedbackList.length > 0 ? [...feedbackList, ...feedbackList] : [];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -477,26 +478,31 @@ const LandingPage = () => {
               </p>
             </div>
 
-            <div className="ww-feedback-layout">
+            <div className="ww-feedback-layout ww-feedback-single">
               <form className="ww-feedback-form" onSubmit={submitFeedback}>
                 <h3>Send Feedback</h3>
+                <p className="ww-feedback-form-note">
+                  After submit, your feedback will appear in the live feedback loop below.
+                </p>
 
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={feedbackForm.name}
-                  onChange={handleFeedbackChange}
-                  required
-                />
+                <div className="ww-feedback-two-inputs">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    value={feedbackForm.name}
+                    onChange={handleFeedbackChange}
+                    required
+                  />
 
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email Optional"
-                  value={feedbackForm.email}
-                  onChange={handleFeedbackChange}
-                />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email Optional"
+                    value={feedbackForm.email}
+                    onChange={handleFeedbackChange}
+                  />
+                </div>
 
                 <select
                   name="rating"
@@ -524,30 +530,39 @@ const LandingPage = () => {
                 </button>
               </form>
 
-              <div className="ww-feedback-list">
+              <div className="ww-feedback-loop-wrap">
+                <div className="ww-feedback-loop-title">
+                  <span>Recent Feedback</span>
+                  <strong>{feedbackList.length} review{feedbackList.length === 1 ? "" : "s"}</strong>
+                </div>
+
                 {feedbackList.length > 0 ? (
-                  feedbackList.map((item) => (
-                    <article className="ww-feedback-card" key={item.id}>
-                      <div className="ww-feedback-top">
-                        <div className="ww-feedback-avatar">
-                          {String(item.name || "G").charAt(0).toUpperCase()}
-                        </div>
+                  <div className="ww-feedback-loop-mask">
+                    <div className="ww-feedback-loop-track">
+                      {feedbackLoopItems.map((item, loopIndex) => (
+                        <article className="ww-feedback-card" key={`${item.id}-${loopIndex}`}>
+                          <div className="ww-feedback-top">
+                            <div className="ww-feedback-avatar">
+                              {String(item.name || "G").charAt(0).toUpperCase()}
+                            </div>
 
-                        <div>
-                          <strong>{item.name}</strong>
-                          <div className="ww-feedback-stars">
-                            {Array.from({ length: Number(item.rating) || 5 }).map(
-                              (_, index) => (
-                                <FaStar key={index} />
-                              )
-                            )}
+                            <div>
+                              <strong>{item.name}</strong>
+                              <div className="ww-feedback-stars">
+                                {Array.from({ length: Number(item.rating) || 5 }).map(
+                                  (_, index) => (
+                                    <FaStar key={index} />
+                                  )
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      <p>“{item.message}”</p>
-                    </article>
-                  ))
+                          <p>“{item.message}”</p>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   <div className="ww-feedback-empty">
                     <h3>No feedback yet</h3>
@@ -569,17 +584,19 @@ const LandingPage = () => {
                 arrange your journey.
               </p>
 
-              <a
-                href="https://wa.me/94701097969"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ww-cta-whatsapp"
-              >
-                <FaWhatsapp />
-                Contact on WhatsApp
-              </a>
+              <div className="ww-cta-action">
+                <a
+                  href="https://wa.me/94701097969"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ww-cta-whatsapp"
+                >
+                  <FaWhatsapp />
+                  Contact on WhatsApp
+                </a>
 
-              <small>We typically reply within 15 minutes.</small>
+                <small>We typically reply within 15 minutes.</small>
+              </div>
             </div>
           </div>
         </section>
