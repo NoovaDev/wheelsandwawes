@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   FaPlaneArrival,
   FaPlaneDeparture,
@@ -16,9 +17,11 @@ import {
   FaShip,
   FaWater,
   FaTree,
+  FaArrowRight,
+  FaStar,
 } from "react-icons/fa";
+
 import Navbar from "../components/Navbar";
-import { FaArrowRight } from "react-icons/fa";
 import Footer from "../components/Footer";
 import "./LandingPage.css";
 
@@ -134,7 +137,8 @@ const destinations = [
   },
   {
     title: "Ella",
-    description: "Hill country destination with waterfalls, tea fields, and Nine Arch Bridge.",
+    description:
+      "Hill country destination with waterfalls, tea fields, and Nine Arch Bridge.",
     image: "/destinations/ella.jpg",
   },
   {
@@ -147,10 +151,45 @@ const destinations = [
     description: "Wildlife safari destination famous for leopards and elephants.",
     image: "/destinations/yala.jpg",
   },
+  {
+    title: "Kandy",
+    description: "Cultural capital with temples, lake views, and hill-country charm.",
+    image: "/destinations/kandy.jpg",
+  },
+  {
+    title: "Galle",
+    description: "Historic coastal city with Dutch Fort, beaches, and cafés.",
+    image: "/destinations/galle.jpg",
+  },
+  {
+    title: "Nuwara Eliya",
+    description: "Tea country destination with cool weather and scenic views.",
+    image: "/destinations/nuwara-eliya.jpg",
+  },
+  {
+    title: "Bentota",
+    description: "Beach getaway destination with river rides and relaxing resorts.",
+    image: "/destinations/bentota.jpg",
+  },
 ];
 
 const LandingPage = () => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [showAllDestinations, setShowAllDestinations] = useState(false);
+
+  const [feedbackForm, setFeedbackForm] = useState({
+    name: "",
+    email: "",
+    rating: 5,
+    message: "",
+  });
+
+  const [feedbackList, setFeedbackList] = useState<any[]>([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+
+  const visibleDestinations = showAllDestinations
+    ? destinations
+    : destinations.slice(0, 4);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -159,6 +198,61 @@ const LandingPage = () => {
 
     return () => window.clearInterval(timer);
   }, []);
+
+  const loadFeedback = async () => {
+    try {
+      const res = await axios.get("/api/feedback");
+      setFeedbackList(res.data || []);
+    } catch (error) {
+      console.log("LOAD FEEDBACK ERROR:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadFeedback();
+  }, []);
+
+  const handleFeedbackChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFeedbackForm({
+      ...feedbackForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitFeedback = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!feedbackForm.name || !feedbackForm.message) {
+      alert("Please enter your name and feedback message");
+      return;
+    }
+
+    try {
+      setFeedbackLoading(true);
+
+      await axios.post("/api/feedback", {
+        ...feedbackForm,
+        rating: Number(feedbackForm.rating),
+      });
+
+      alert("Thank you! Your feedback was submitted.");
+
+      setFeedbackForm({
+        name: "",
+        email: "",
+        rating: 5,
+        message: "",
+      });
+
+      loadFeedback();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Feedback submit failed");
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
 
   const currentHero = heroSlides[activeSlide];
 
@@ -193,7 +287,7 @@ const LandingPage = () => {
               <p className="ww-hero-text">{currentHero.description}</p>
 
               <div className="ww-hero-buttons">
-                <a href="booking" className="ww-btn-primary">
+                <a href="/booking" className="ww-btn-primary">
                   Book Your Trip
                 </a>
                 <a href="#services" className="ww-btn-secondary">
@@ -218,38 +312,44 @@ const LandingPage = () => {
           </div>
         </section>
 
-        
         <section id="destinations" className="ww-section ww-destinations-section">
-  <div className="ww-shell">
-    <div className="ww-title-block">
-      <span>Sri Lankan Destinations</span>
-      <h2>Places You Can Explore</h2>
-      <p>
-        Discover beautiful destinations across Sri Lanka with comfortable
-        transport and custom travel planning.
-      </p>
-    </div>
+          <div className="ww-shell">
+            <div className="ww-title-block">
+              <span>Sri Lankan Destinations</span>
+              <h2>Places You Can Explore</h2>
+              <p>
+                Discover beautiful destinations across Sri Lanka with comfortable
+                transport and custom travel planning.
+              </p>
+            </div>
 
-    <div className="ww-destinations-grid">
-      {destinations.map((place) => (
-        <article className="ww-destination-card" key={place.title}>
-          <div className="ww-destination-img">
-            <img src={place.image} alt={place.title} />
+            <div className="ww-destinations-grid">
+              {visibleDestinations.map((place) => (
+                <article className="ww-destination-card" key={place.title}>
+                  <div className="ww-destination-img">
+                    <img src={place.image} alt={place.title} />
+                  </div>
+
+                  <div className="ww-destination-content">
+                    <h3>{place.title}</h3>
+                    <p>{place.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="ww-destination-more-wrap">
+              <button
+                type="button"
+                className="ww-see-more-btn ww-see-more-main"
+                onClick={() => setShowAllDestinations(!showAllDestinations)}
+              >
+                {showAllDestinations ? "Show Less" : "See More Destinations"}
+                <FaArrowRight />
+              </button>
+            </div>
           </div>
-
-          <div className="ww-destination-content">
-            <h3>{place.title}</h3>
-            <p>{place.description}</p>
-
-            <a href="/destinations" className="ww-see-more-btn">
-              See More <FaArrowRight />
-            </a>
-          </div>
-        </article>
-      ))}
-    </div>
-  </div>
-</section>
+        </section>
 
         <section id="about" className="ww-section ww-about-section">
           <div className="ww-shell">
@@ -339,6 +439,89 @@ const LandingPage = () => {
           </div>
         </section>
 
+        <section className="ww-section ww-feedback-section" id="feedback">
+          <div className="ww-shell">
+            <div className="ww-title-block">
+              <span>Customer Feedback</span>
+              <h2>Share Your Travel Experience</h2>
+              <p>
+                Your feedback helps us improve our airport transfers, tours, and
+                Sri Lanka travel services.
+              </p>
+            </div>
+
+            <div className="ww-feedback-layout">
+              <form className="ww-feedback-form" onSubmit={submitFeedback}>
+                <h3>Send Feedback</h3>
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={feedbackForm.name}
+                  onChange={handleFeedbackChange}
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email Optional"
+                  value={feedbackForm.email}
+                  onChange={handleFeedbackChange}
+                />
+
+                <select
+                  name="rating"
+                  value={feedbackForm.rating}
+                  onChange={handleFeedbackChange}
+                >
+                  <option value="5">5 Stars - Excellent</option>
+                  <option value="4">4 Stars - Very Good</option>
+                  <option value="3">3 Stars - Good</option>
+                  <option value="2">2 Stars - Fair</option>
+                  <option value="1">1 Star - Poor</option>
+                </select>
+
+                <textarea
+                  name="message"
+                  rows={6}
+                  placeholder="Write your feedback..."
+                  value={feedbackForm.message}
+                  onChange={handleFeedbackChange}
+                />
+
+                <button type="submit" disabled={feedbackLoading}>
+                  {feedbackLoading ? "Submitting..." : "Submit Feedback"}
+                </button>
+              </form>
+
+              <div className="ww-feedback-list">
+                {feedbackList.length > 0 ? (
+                  feedbackList.map((item) => (
+                    <article className="ww-feedback-card" key={item.id}>
+                      <div className="ww-feedback-stars">
+                        {Array.from({ length: Number(item.rating) }).map(
+                          (_, index) => (
+                            <FaStar key={index} />
+                          )
+                        )}
+                      </div>
+
+                      <p>“{item.message}”</p>
+
+                      <strong>{item.name}</strong>
+                    </article>
+                  ))
+                ) : (
+                  <div className="ww-feedback-empty">
+                    <h3>No feedback yet</h3>
+                    <p>Be the first customer to share your experience.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="ww-cta-section">
           <div className="ww-shell">
@@ -349,6 +532,7 @@ const LandingPage = () => {
                 trip, or full island round trip? Contact us and we will help
                 arrange your journey.
               </p>
+
               <a
                 href="https://wa.me/94701097969"
                 target="_blank"
@@ -358,6 +542,7 @@ const LandingPage = () => {
                 <FaWhatsapp />
                 Contact on WhatsApp
               </a>
+
               <small>We typically reply within 15 minutes.</small>
             </div>
           </div>
@@ -382,12 +567,14 @@ const LandingPage = () => {
                     </strong>
                     <span>+94 77 123 4567</span>
                   </div>
+
                   <div>
                     <strong>
                       <FaEnvelope /> Email
                     </strong>
                     <span>info@wwtravels.lk</span>
                   </div>
+
                   <div>
                     <strong>
                       <FaMapMarkerAlt /> Location

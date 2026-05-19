@@ -5,6 +5,7 @@ require("dotenv").config();
 const bookingRoutes = require("./routes/bookingRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 app.get("/", (req, res) => {
   res.send("Vehicle Booking API Running");
