@@ -1,13 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-
 import {
   createUserWithEmailAndPassword,
-  sendEmailVerification
+  sendEmailVerification,
 } from "firebase/auth";
-
 import { auth } from "../firebase";
-
 import "./Auth.css";
 
 const Register = () => {
@@ -23,129 +20,149 @@ const Register = () => {
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const registerUser = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
-
-      // CREATE FIREBASE USER
-      const firebaseUser =
-        await createUserWithEmailAndPassword(
-          auth,
-          form.email,
-          form.password
-        );
-
-      // SEND EMAIL VERIFICATION
-      await sendEmailVerification(
-        firebaseUser.user
+      const firebaseUser = await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
       );
 
-      // GET FIREBASE TOKEN
-      const firebaseToken =
-        await firebaseUser.user.getIdToken();
+      await sendEmailVerification(firebaseUser.user);
 
-      // SAVE USER TO VPS DATABASE
-      await axios.post(
-        "/api/auth/register",
-        {
-          firebaseToken,
-          full_name: form.full_name,
-          phone: form.phone,
-        }
-      );
+      const firebaseToken = await firebaseUser.user.getIdToken();
+
+      await axios.post("/api/auth/register", {
+        firebaseToken,
+        full_name: form.full_name,
+        phone: form.phone,
+      });
 
       alert(
         "Account created successfully. Please verify your email before login."
       );
 
       window.location.href = "/login";
-
     } catch (error) {
-
-      console.log(
-        "REGISTER ERROR:",
-        error.response?.data || error
-      );
+      console.log("REGISTER ERROR:", error.response?.data || error);
 
       alert(
         error.response?.data?.message ||
-        error.message ||
-        "Registration failed"
+          error.message ||
+          "Registration failed"
       );
-
     } finally {
       setLoading(false);
     }
   };
 
+  const whatsappNumber = "947XXXXXXXX"; // change your WhatsApp number
+
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2>Create Account</h2>
+      <div className="auth-container">
+        <div className="auth-left">
+          <span className="auth-badge">Create Your Travel Account</span>
 
-        <p>
-          Register to book vehicles and
-          manage your trips.
-        </p>
+          <h1>Start booking vehicles in a smarter way</h1>
 
-        <form onSubmit={registerUser}>
-          <input
-            name="full_name"
-            placeholder="Full Name"
-            value={form.full_name}
-            onChange={handleChange}
-            required
-          />
+          <p>
+            Register once and easily manage your future trips, bookings, and
+            customer details.
+          </p>
 
-          <input
-            name="email"
-            type="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
+          <div className="auth-features">
+            <div>
+              <strong>Easy booking</strong>
+              <span>Save your details for faster future reservations.</span>
+            </div>
 
-          <input
-            name="phone"
-            placeholder="Phone / WhatsApp Number"
-            value={form.phone}
-            onChange={handleChange}
-            required
-          />
+            <div>
+              <strong>Booking history</strong>
+              <span>Track all your previous and upcoming trips.</span>
+            </div>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+            <div>
+              <strong>Email protection</strong>
+              <span>Verify your email before using your account.</span>
+            </div>
+          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
+          <a
+            className="whatsapp-btn"
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+              "Hello, I want to make a quick vehicle booking."
+            )}`}
+            target="_blank"
+            rel="noreferrer"
           >
-            {loading
-              ? "Creating account..."
-              : "Register"}
-          </button>
-        </form>
-
-        <span>
-          Already have an account?{" "}
-          <a href="/login">
-            Login
+            Quick Booking via WhatsApp
           </a>
-        </span>
+        </div>
+
+        <div className="auth-card">
+          <h2>Create Account</h2>
+          <p>Register to book and manage your trips.</p>
+
+          <form onSubmit={registerUser}>
+            <label>Full Name</label>
+            <input
+              name="full_name"
+              placeholder="Enter your full name"
+              value={form.full_name}
+              onChange={handleChange}
+              required
+            />
+
+            <label>Email Address</label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+
+            <label>Phone / WhatsApp Number</label>
+            <input
+              name="phone"
+              placeholder="Enter your phone number"
+              value={form.phone}
+              onChange={handleChange}
+              required
+            />
+
+            <label>Password</label>
+            <input
+              name="password"
+              type="password"
+              placeholder="Create a password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Creating account..." : "Register"}
+            </button>
+          </form>
+
+          <div className="auth-bottom">
+            <span>
+              Already have an account? <a href="/login">Login</a>
+            </span>
+
+            <small>After register, check your email verification link.</small>
+          </div>
+        </div>
       </div>
     </div>
   );

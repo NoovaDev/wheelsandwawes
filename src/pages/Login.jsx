@@ -5,11 +5,18 @@ import { auth } from "../firebase";
 import "./Auth.css";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const loginUser = async (e) => {
@@ -46,51 +53,51 @@ const Login = () => {
       console.log("LOGIN ERROR:", error.response?.data || error);
 
       alert(
-        error.response?.data?.message || error.message || "Login failed"
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed"
       );
     } finally {
       setLoading(false);
     }
   };
 
-  const whatsappNumber = "947XXXXXXXX"; // change this
-  const whatsappMessage =
-    "Hello, I want to make a quick vehicle booking.";
+  const whatsappNumber = "947XXXXXXXX"; // change your WhatsApp number
 
   return (
     <div className="auth-page">
-      <div className="auth-wrapper">
-        <div className="auth-info">
-          <span className="auth-badge">Sri Lanka Travel Booking</span>
+      <div className="auth-container">
+        <div className="auth-left">
+          <span className="auth-badge">Fast & Secure Booking</span>
 
-          <h1>Book your ride faster and safer</h1>
+          <h1>Welcome back to your travel dashboard</h1>
 
           <p>
-            Login to manage your bookings, view trip status, cancel trips,
-            and plan your next journey easily.
+            Login to manage your bookings, check trip status, and plan your next
+            journey with ease.
           </p>
 
-          <div className="auth-tips">
+          <div className="auth-features">
             <div>
-              <strong>Fast booking</strong>
-              <span>Save your details and book faster next time.</span>
+              <strong>Manage bookings</strong>
+              <span>View pending, confirmed, and completed trips.</span>
             </div>
 
             <div>
-              <strong>Trip tracking</strong>
-              <span>Check pending, confirmed, and completed bookings.</span>
+              <strong>Quick support</strong>
+              <span>Contact us through WhatsApp for urgent bookings.</span>
             </div>
 
             <div>
-              <strong>Secure account</strong>
-              <span>Email verification keeps your account protected.</span>
+              <strong>Secure login</strong>
+              <span>Email verification protects customer accounts.</span>
             </div>
           </div>
 
           <a
             className="whatsapp-btn"
             href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-              whatsappMessage
+              "Hello, I want to make a quick vehicle booking."
             )}`}
             target="_blank"
             rel="noreferrer"
@@ -100,10 +107,8 @@ const Login = () => {
         </div>
 
         <div className="auth-card">
-          <div className="auth-card-header">
-            <h2>Welcome Back</h2>
-            <p>Login to continue your travel booking.</p>
-          </div>
+          <h2>Login</h2>
+          <p>Enter your details to continue.</p>
 
           <form onSubmit={loginUser}>
             <label>Email Address</label>
@@ -131,15 +136,12 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="auth-help">
-            <p>
-              New customer? <a href="/register">Create account</a>
-            </p>
+          <div className="auth-bottom">
+            <span>
+              Don’t have an account? <a href="/register">Register</a>
+            </span>
 
-            <small>
-              Tip: Verify your email before login. Otherwise login will be
-              blocked.
-            </small>
+            <small>Please verify your email before login.</small>
           </div>
         </div>
       </div>
