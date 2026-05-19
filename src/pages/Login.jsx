@@ -1,146 +1,147 @@
 import { useState } from "react";
 import axios from "axios";
-import {
-  signInWithEmailAndPassword
-} from "firebase/auth";
-
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-
 import "./Auth.css";
 
 const Login = () => {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const loginUser = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
+      const firebaseUser = await signInWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
 
-      // FIREBASE LOGIN
-      const firebaseUser =
-        await signInWithEmailAndPassword(
-          auth,
-          form.email,
-          form.password
-        );
-
-      // CHECK EMAIL VERIFIED
       if (!firebaseUser.user.emailVerified) {
-
-        alert(
-          "Please verify your email before login."
-        );
-
+        alert("Please verify your email before login.");
         return;
       }
 
-      // GET FIREBASE TOKEN
-      const firebaseToken =
-        await firebaseUser.user.getIdToken();
+      const firebaseToken = await firebaseUser.user.getIdToken();
 
-      // SEND TOKEN TO VPS BACKEND
-      const res = await axios.post(
-        "/api/auth/login",
-        {
-          firebaseToken,
-        }
-      );
+      const res = await axios.post("/api/auth/login", {
+        firebaseToken,
+      });
 
-      console.log("LOGIN SUCCESS:", res.data);
-
-      localStorage.setItem(
-        "token",
-        res.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res.data.user)
-      );
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       if (res.data.user.role === "admin") {
         window.location.href = "/admin";
       } else {
         window.location.href = "/dashboard";
       }
-
     } catch (error) {
-
-      console.log(
-        "LOGIN ERROR:",
-        error.response?.data || error
-      );
+      console.log("LOGIN ERROR:", error.response?.data || error);
 
       alert(
-        error.response?.data?.message ||
-        error.message ||
-        "Login failed"
+        error.response?.data?.message || error.message || "Login failed"
       );
-
     } finally {
       setLoading(false);
     }
   };
 
+  const whatsappNumber = "947XXXXXXXX"; // change this
+  const whatsappMessage =
+    "Hello, I want to make a quick vehicle booking.";
+
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2>Welcome Back</h2>
+      <div className="auth-wrapper">
+        <div className="auth-info">
+          <span className="auth-badge">Sri Lanka Travel Booking</span>
 
-        <p>
-          Login to manage your bookings,
-          tours, and account details.
-        </p>
+          <h1>Book your ride faster and safer</h1>
 
-        <form onSubmit={loginUser}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
+          <p>
+            Login to manage your bookings, view trip status, cancel trips,
+            and plan your next journey easily.
+          </p>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="auth-tips">
+            <div>
+              <strong>Fast booking</strong>
+              <span>Save your details and book faster next time.</span>
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
+            <div>
+              <strong>Trip tracking</strong>
+              <span>Check pending, confirmed, and completed bookings.</span>
+            </div>
+
+            <div>
+              <strong>Secure account</strong>
+              <span>Email verification keeps your account protected.</span>
+            </div>
+          </div>
+
+          <a
+            className="whatsapp-btn"
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+              whatsappMessage
+            )}`}
+            target="_blank"
+            rel="noreferrer"
           >
-            {loading
-              ? "Logging in..."
-              : "Login"}
-          </button>
-        </form>
-
-        <span>
-          Don’t have an account?{" "}
-          <a href="/register">
-            Register
+            Quick Booking via WhatsApp
           </a>
-        </span>
+        </div>
+
+        <div className="auth-card">
+          <div className="auth-card-header">
+            <h2>Welcome Back</h2>
+            <p>Login to continue your travel booking.</p>
+          </div>
+
+          <form onSubmit={loginUser}>
+            <label>Email Address</label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+
+            <label>Password</label>
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+
+          <div className="auth-help">
+            <p>
+              New customer? <a href="/register">Create account</a>
+            </p>
+
+            <small>
+              Tip: Verify your email before login. Otherwise login will be
+              blocked.
+            </small>
+          </div>
+        </div>
       </div>
     </div>
   );
