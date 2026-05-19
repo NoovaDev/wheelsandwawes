@@ -75,7 +75,23 @@ const BookingForm = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChange = (e) => updateForm(e.target.name, e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "nationality") {
+      setForm((prev) => ({
+        ...prev,
+        nationality: value,
+        nic_number: value === "sri_lankan" ? prev.nic_number : "",
+        passport_number: value === "foreigner" ? prev.passport_number : "",
+        need_driver: value === "foreigner" ? "yes" : prev.need_driver,
+      }));
+
+      return;
+    }
+
+    updateForm(name, value);
+  };
 
   const handleDetailsChange = (e) => {
     const { name, value } = e.target;
@@ -123,15 +139,15 @@ const BookingForm = () => {
 
   const getLocationHelp = () => {
     if (form.trip_type === "Airport Pickups") {
-      return "Pickup is the airport. Please select airport above, then enter hotel or destination as drop-off.";
+      return "Pickup is the airport. Select airport above, then enter your hotel or destination as drop-off.";
     }
 
     if (form.trip_type === "Airport Drop-offs") {
-      return "Drop-off is the airport. Please enter your hotel or home as pickup location.";
+      return "Drop-off is the airport. Enter your hotel, home, or current place as pickup location.";
     }
 
     if (form.trip_type === "Island Round Trips") {
-      return "Enter first pickup point and final drop-off point. Add full route in service details.";
+      return "Enter your first pickup point and final drop-off point. Add your full route in service details.";
     }
 
     return "Enter where we should pick you up and where your trip should end.";
@@ -148,8 +164,12 @@ const BookingForm = () => {
       return;
     }
 
+    const finalNeedDriver =
+      form.nationality === "foreigner" ? "yes" : form.need_driver;
+
     const finalForm = {
       ...form,
+      need_driver: finalNeedDriver,
       message: `
 Customer Message:
 ${form.message || "No extra message"}
@@ -171,6 +191,7 @@ Special Request: ${details.special_request || "-"}
 Vehicle Details:
 Vehicle Category: ${vehicleCategory || "-"}
 Selected Vehicle: ${form.vehicle_type || "-"}
+Driver Option: ${finalNeedDriver || "-"}
 `,
     };
 
@@ -197,39 +218,119 @@ Selected Vehicle: ${form.vehicle_type || "-"}
           <div className="booking-header">
             <span>Wheels & Waves Travels</span>
             <h2>Book Your Travel Service</h2>
-            <p>Choose your service first. The form will show only the details needed for that service.</p>
+            <p>
+              Select your service first. The form will guide you step by step
+              and only ask for the details needed for your trip.
+            </p>
+          </div>
+
+          <div className="booking-guide">
+            <div>
+              <strong>1</strong>
+              <span>Your Details</span>
+            </div>
+
+            <div>
+              <strong>2</strong>
+              <span>Service</span>
+            </div>
+
+            <div>
+              <strong>3</strong>
+              <span>Trip Details</span>
+            </div>
+
+            <div>
+              <strong>4</strong>
+              <span>Vehicle</span>
+            </div>
           </div>
 
           <form className="smart-booking-form" onSubmit={submitBooking}>
             <div className="form-section">
               <h3>1. Your Details</h3>
 
-              <div className="form-grid">
-                <input name="full_name" placeholder="Full Name" value={form.full_name} onChange={handleChange} required />
-                <input name="email" type="email" placeholder="Email Address" value={form.email} onChange={handleChange} required />
-                <input name="phone" placeholder="WhatsApp / Phone Number" value={form.phone} onChange={handleChange} required />
+              <p className="form-help">
+                Please enter correct contact details. We may contact you through
+                WhatsApp to confirm your booking.
+              </p>
 
-                <select name="nationality" value={form.nationality} onChange={handleChange} required>
+              <div className="form-grid">
+                <input
+                  name="full_name"
+                  placeholder="Full Name"
+                  value={form.full_name}
+                  onChange={handleChange}
+                  required
+                />
+
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <input
+                  name="phone"
+                  placeholder="WhatsApp / Phone Number"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                />
+
+                <select
+                  name="nationality"
+                  value={form.nationality}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select Nationality</option>
                   <option value="sri_lankan">Sri Lankan</option>
                   <option value="foreigner">Foreigner</option>
                 </select>
 
                 {form.nationality === "sri_lankan" && (
-                  <input name="nic_number" placeholder="NIC Number" value={form.nic_number} onChange={handleChange} required />
+                  <input
+                    name="nic_number"
+                    placeholder="NIC Number"
+                    value={form.nic_number}
+                    onChange={handleChange}
+                    required
+                  />
                 )}
 
                 {form.nationality === "foreigner" && (
-                  <input name="passport_number" placeholder="Passport Number" value={form.passport_number} onChange={handleChange} required />
+                  <input
+                    name="passport_number"
+                    placeholder="Passport Number"
+                    value={form.passport_number}
+                    onChange={handleChange}
+                    required
+                  />
                 )}
               </div>
+
+              {form.nationality === "foreigner" && (
+                <p className="form-help driver-rule">
+                  Foreign customers can book vehicles with driver only.
+                  Self-drive service is available only for Sri Lankan customers.
+                </p>
+              )}
             </div>
 
             <div className="form-section">
               <h3>2. Select Service</h3>
 
               <div className="form-grid">
-                <select name="trip_type" value={form.trip_type} onChange={handleServiceChange} required>
+                <select
+                  name="trip_type"
+                  value={form.trip_type}
+                  onChange={handleServiceChange}
+                  required
+                >
                   <option value="">What service do you need?</option>
                   {services.map((service) => (
                     <option key={service}>{service}</option>
@@ -239,7 +340,8 @@ Selected Vehicle: ${form.vehicle_type || "-"}
 
               {form.trip_type && (
                 <p className="form-help">
-                  Selected service: {form.trip_type}. Please fill the details below.
+                  Selected service: {form.trip_type}. Continue below and fill
+                  only the details related to this service.
                 </p>
               )}
             </div>
@@ -249,52 +351,125 @@ Selected Vehicle: ${form.vehicle_type || "-"}
                 <h3>3. Service Details</h3>
 
                 <div className="form-grid">
-                  {(form.trip_type === "Airport Pickups" || form.trip_type === "Airport Drop-offs") && (
+                  {(form.trip_type === "Airport Pickups" ||
+                    form.trip_type === "Airport Drop-offs") && (
                     <>
-                      <select name="airport_name" value={details.airport_name} onChange={handleDetailsChange} required>
+                      <select
+                        name="airport_name"
+                        value={details.airport_name}
+                        onChange={handleDetailsChange}
+                        required
+                      >
                         <option value="">Select Airport</option>
                         {airports.map((airport) => (
                           <option key={airport}>{airport}</option>
                         ))}
                       </select>
 
-                      <input name="flight_number" placeholder="Flight Number" value={details.flight_number} onChange={handleDetailsChange} />
-                      <input name="hotel_name" placeholder="Hotel / Destination Name" value={details.hotel_name} onChange={handleDetailsChange} required />
+                      <input
+                        name="flight_number"
+                        placeholder="Flight Number"
+                        value={details.flight_number}
+                        onChange={handleDetailsChange}
+                      />
+
+                      <input
+                        name="hotel_name"
+                        placeholder="Hotel / Destination Name"
+                        value={details.hotel_name}
+                        onChange={handleDetailsChange}
+                        required
+                      />
                     </>
                   )}
 
                   {form.trip_type === "City & Day Tours" && (
-                    <textarea name="places" placeholder="Places you want to visit. Example: Colombo City, Galle Fort, Kandy, Ella..." value={details.places} onChange={handleDetailsChange} required />
+                    <textarea
+                      name="places"
+                      placeholder="Places you want to visit. Example: Colombo City, Galle Fort, Kandy, Ella..."
+                      value={details.places}
+                      onChange={handleDetailsChange}
+                      required
+                    />
                   )}
 
                   {form.trip_type === "Island Round Trips" && (
                     <>
-                      <input name="days" type="number" placeholder="How many days?" value={details.days} onChange={handleDetailsChange} required />
-                      <textarea name="route" placeholder="Your route. Example: Airport → Kandy → Ella → Yala → Mirissa → Galle" value={details.route} onChange={handleDetailsChange} required />
+                      <input
+                        name="days"
+                        type="number"
+                        placeholder="How many days?"
+                        value={details.days}
+                        onChange={handleDetailsChange}
+                        required
+                      />
+
+                      <textarea
+                        name="route"
+                        placeholder="Your route. Example: Airport → Kandy → Ella → Yala → Mirissa → Galle"
+                        value={details.route}
+                        onChange={handleDetailsChange}
+                        required
+                      />
                     </>
                   )}
 
                   {form.trip_type === "Wildlife Safaris" && (
-                    <input name="activity_location" placeholder="Safari park. Example: Yala, Udawalawe, Wilpattu" value={details.activity_location} onChange={handleDetailsChange} required />
+                    <input
+                      name="activity_location"
+                      placeholder="Safari park. Example: Yala, Udawalawe, Wilpattu"
+                      value={details.activity_location}
+                      onChange={handleDetailsChange}
+                      required
+                    />
                   )}
 
                   {form.trip_type === "Whale Watching" && (
-                    <input name="activity_location" placeholder="Whale watching area. Example: Mirissa, Trincomalee" value={details.activity_location} onChange={handleDetailsChange} required />
+                    <input
+                      name="activity_location"
+                      placeholder="Whale watching area. Example: Mirissa, Trincomalee"
+                      value={details.activity_location}
+                      onChange={handleDetailsChange}
+                      required
+                    />
                   )}
 
                   {form.trip_type === "Crocodile Watching" && (
-                    <input name="activity_location" placeholder="Crocodile watching location / area" value={details.activity_location} onChange={handleDetailsChange} required />
+                    <input
+                      name="activity_location"
+                      placeholder="Crocodile watching location / area"
+                      value={details.activity_location}
+                      onChange={handleDetailsChange}
+                      required
+                    />
                   )}
 
                   {form.trip_type === "Turtle Breeding Points" && (
-                    <input name="activity_location" placeholder="Turtle point location. Example: Kosgoda, Hikkaduwa" value={details.activity_location} onChange={handleDetailsChange} required />
+                    <input
+                      name="activity_location"
+                      placeholder="Turtle point location. Example: Kosgoda, Hikkaduwa"
+                      value={details.activity_location}
+                      onChange={handleDetailsChange}
+                      required
+                    />
                   )}
 
                   {form.trip_type === "Beach Getaways" && (
                     <>
-                      <input name="activity_location" placeholder="Beach destination. Example: Mirissa, Bentota, Unawatuna" value={details.activity_location} onChange={handleDetailsChange} required />
+                      <input
+                        name="activity_location"
+                        placeholder="Beach destination. Example: Mirissa, Bentota, Unawatuna"
+                        value={details.activity_location}
+                        onChange={handleDetailsChange}
+                        required
+                      />
 
-                      <select name="accommodation_needed" value={details.accommodation_needed} onChange={handleDetailsChange} required>
+                      <select
+                        name="accommodation_needed"
+                        value={details.accommodation_needed}
+                        onChange={handleDetailsChange}
+                        required
+                      >
                         <option value="">Need hotel/accommodation support?</option>
                         <option value="yes">Yes, help me find hotel</option>
                         <option value="no">No, transport only</option>
@@ -302,7 +477,12 @@ Selected Vehicle: ${form.vehicle_type || "-"}
                     </>
                   )}
 
-                  <textarea name="special_request" placeholder="Any special request for this service? Optional" value={details.special_request} onChange={handleDetailsChange} />
+                  <textarea
+                    name="special_request"
+                    placeholder="Any special request for this service? Optional"
+                    value={details.special_request}
+                    onChange={handleDetailsChange}
+                  />
                 </div>
               </div>
             )}
@@ -315,24 +495,56 @@ Selected Vehicle: ${form.vehicle_type || "-"}
 
                 <div className="form-grid">
                   <LocationSearch
-                    placeholder={form.trip_type === "Airport Pickups" ? "Airport pickup selected above" : "Pickup location / hotel"}
+                    placeholder={
+                      form.trip_type === "Airport Pickups"
+                        ? "Airport pickup selected above"
+                        : "Pickup location / hotel"
+                    }
                     value={form.pickup_location}
                     readOnly={form.trip_type === "Airport Pickups"}
                     onChange={(value) => updateForm("pickup_location", value)}
                   />
 
                   <LocationSearch
-                    placeholder={form.trip_type === "Airport Drop-offs" ? "Airport drop-off selected above" : "Drop-off / destination"}
+                    placeholder={
+                      form.trip_type === "Airport Drop-offs"
+                        ? "Airport drop-off selected above"
+                        : "Drop-off / destination"
+                    }
                     value={form.drop_location}
                     readOnly={form.trip_type === "Airport Drop-offs"}
                     onChange={(value) => updateForm("drop_location", value)}
                   />
 
-                  <input name="pickup_date" type="date" value={form.pickup_date} onChange={handleChange} required />
-                  <input name="pickup_time" type="time" value={form.pickup_time} onChange={handleChange} required />
+                  <input
+                    name="pickup_date"
+                    type="date"
+                    value={form.pickup_date}
+                    onChange={handleChange}
+                    required
+                  />
 
-                  <input name="return_date" type="date" value={form.return_date} onChange={handleChange} />
-                  <input name="return_time" type="time" value={form.return_time} onChange={handleChange} />
+                  <input
+                    name="pickup_time"
+                    type="time"
+                    value={form.pickup_time}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <input
+                    name="return_date"
+                    type="date"
+                    value={form.return_date}
+                    onChange={handleChange}
+                  />
+
+                  <input
+                    name="return_time"
+                    type="time"
+                    value={form.return_time}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
             )}
@@ -340,6 +552,11 @@ Selected Vehicle: ${form.vehicle_type || "-"}
             {form.trip_type && (
               <div className="form-section">
                 <h3>5. Vehicle Details</h3>
+
+                <p className="form-help">
+                  Select a vehicle based on passenger count and comfort level.
+                  For buses or large groups, choose the bus category.
+                </p>
 
                 <div className="form-grid">
                   <select
@@ -362,7 +579,12 @@ Selected Vehicle: ${form.vehicle_type || "-"}
                   </select>
 
                   {vehicleCategory && (
-                    <select name="vehicle_type" value={form.vehicle_type} onChange={handleChange} required>
+                    <select
+                      name="vehicle_type"
+                      value={form.vehicle_type}
+                      onChange={handleChange}
+                      required
+                    >
                       <option value="">Select Vehicle</option>
                       {vehicleGroups[vehicleCategory].map((vehicle) => (
                         <option key={vehicle}>{vehicle}</option>
@@ -370,21 +592,54 @@ Selected Vehicle: ${form.vehicle_type || "-"}
                     </select>
                   )}
 
-                  <input name="passengers" type="number" placeholder="Number of Passengers" value={form.passengers} onChange={handleChange} required />
+                  <input
+                    name="passengers"
+                    type="number"
+                    placeholder="Number of Passengers"
+                    value={form.passengers}
+                    onChange={handleChange}
+                    required
+                  />
 
-                  <select name="need_driver" value={form.need_driver} onChange={handleChange} required>
+                  <select
+                    name="need_driver"
+                    value={
+                      form.nationality === "foreigner"
+                        ? "yes"
+                        : form.need_driver
+                    }
+                    onChange={handleChange}
+                    required
+                    disabled={form.nationality === "foreigner"}
+                  >
                     <option value="">Need Driver?</option>
                     <option value="yes">Yes, I need driver</option>
-                    <option value="no">No, self drive</option>
+
+                    {form.nationality === "sri_lankan" && (
+                      <option value="no">No, self drive</option>
+                    )}
                   </select>
                 </div>
+
+                {form.nationality === "foreigner" && (
+                  <p className="form-help driver-rule">
+                    Driver option is automatically selected because foreign
+                    customers can book vehicles with driver only.
+                  </p>
+                )}
               </div>
             )}
 
             {form.trip_type && (
               <div className="form-section">
                 <h3>6. Extra Notes</h3>
-                <textarea name="message" placeholder="Anything else we should know?" value={form.message} onChange={handleChange} />
+
+                <textarea
+                  name="message"
+                  placeholder="Anything else we should know? Example: child seats, luggage count, preferred pickup sign name..."
+                  value={form.message}
+                  onChange={handleChange}
+                />
               </div>
             )}
 
