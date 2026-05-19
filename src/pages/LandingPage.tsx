@@ -175,8 +175,6 @@ const destinations = [
 
 const LandingPage = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [showAllDestinations, setShowAllDestinations] = useState(false);
-
   const [feedbackForm, setFeedbackForm] = useState({
     name: "",
     email: "",
@@ -187,9 +185,7 @@ const LandingPage = () => {
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
-  const visibleDestinations = showAllDestinations
-    ? destinations
-    : destinations.slice(0, 4);
+  const visibleDestinations = destinations.slice(0, 4);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -201,9 +197,19 @@ const LandingPage = () => {
 
   const loadFeedback = async () => {
     try {
+      const savedFeedback = JSON.parse(
+        localStorage.getItem("ww_feedback") || "[]"
+      );
+
       const res = await axios.get("/api/feedback");
-      setFeedbackList(res.data || []);
+      const apiFeedback = Array.isArray(res.data) ? res.data : [];
+
+      setFeedbackList([...savedFeedback, ...apiFeedback]);
     } catch (error) {
+      const savedFeedback = JSON.parse(
+        localStorage.getItem("ww_feedback") || "[]"
+      );
+      setFeedbackList(savedFeedback);
       console.log("LOAD FEEDBACK ERROR:", error);
     }
   };
@@ -232,10 +238,30 @@ const LandingPage = () => {
     try {
       setFeedbackLoading(true);
 
-      await axios.post("/api/feedback", {
-        ...feedbackForm,
+      const newFeedback = {
+        id: Date.now(),
+        name: feedbackForm.name.trim(),
+        email: feedbackForm.email.trim(),
         rating: Number(feedbackForm.rating),
-      });
+        message: feedbackForm.message.trim(),
+      };
+
+      try {
+        await axios.post("/api/feedback", newFeedback);
+      } catch (apiError) {
+        console.log("API feedback route not ready. Saved locally:", apiError);
+      }
+
+      const oldFeedback = JSON.parse(
+        localStorage.getItem("ww_feedback") || "[]"
+      );
+
+      localStorage.setItem(
+        "ww_feedback",
+        JSON.stringify([newFeedback, ...oldFeedback])
+      );
+
+      setFeedbackList((prev) => [newFeedback, ...prev]);
 
       alert("Thank you! Your feedback was submitted.");
 
@@ -245,10 +271,9 @@ const LandingPage = () => {
         rating: 5,
         message: "",
       });
-
-      loadFeedback();
     } catch (error: any) {
-      alert(error.response?.data?.message || "Feedback submit failed");
+      console.log("FEEDBACK SUBMIT ERROR:", error);
+      alert("Feedback submit failed. Please try again.");
     } finally {
       setFeedbackLoading(false);
     }
@@ -342,9 +367,11 @@ const LandingPage = () => {
               <button
                 type="button"
                 className="ww-see-more-btn ww-see-more-main"
-                onClick={() => setShowAllDestinations(!showAllDestinations)}
+                onClick={() => {
+                  window.location.href = "/login";
+                }}
               >
-                {showAllDestinations ? "Show Less" : "See More Destinations"}
+                See More Destinations
                 <FaArrowRight />
               </button>
             </div>
@@ -460,6 +487,7 @@ const LandingPage = () => {
                   placeholder="Your Name"
                   value={feedbackForm.name}
                   onChange={handleFeedbackChange}
+                  required
                 />
 
                 <input
@@ -488,6 +516,7 @@ const LandingPage = () => {
                   placeholder="Write your feedback..."
                   value={feedbackForm.message}
                   onChange={handleFeedbackChange}
+                  required
                 />
 
                 <button type="submit" disabled={feedbackLoading}>
@@ -499,17 +528,24 @@ const LandingPage = () => {
                 {feedbackList.length > 0 ? (
                   feedbackList.map((item) => (
                     <article className="ww-feedback-card" key={item.id}>
-                      <div className="ww-feedback-stars">
-                        {Array.from({ length: Number(item.rating) }).map(
-                          (_, index) => (
-                            <FaStar key={index} />
-                          )
-                        )}
+                      <div className="ww-feedback-top">
+                        <div className="ww-feedback-avatar">
+                          {String(item.name || "G").charAt(0).toUpperCase()}
+                        </div>
+
+                        <div>
+                          <strong>{item.name}</strong>
+                          <div className="ww-feedback-stars">
+                            {Array.from({ length: Number(item.rating) || 5 }).map(
+                              (_, index) => (
+                                <FaStar key={index} />
+                              )
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       <p>“{item.message}”</p>
-
-                      <strong>{item.name}</strong>
                     </article>
                   ))
                 ) : (

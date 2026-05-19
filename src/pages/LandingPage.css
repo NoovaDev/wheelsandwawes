@@ -726,3 +726,120 @@ select {
     padding: 22px;
   }
 }
+
+/* UPDATED FEEDBACK SECTION FIX */
+.ww-feedback-section {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
+}
+
+.ww-feedback-form h3 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.ww-feedback-form input:focus,
+.ww-feedback-form textarea:focus,
+.ww-feedback-form select:focus {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.ww-feedback-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ww-feedback-list {
+  align-content: start;
+}
+
+.ww-feedback-card {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ww-feedback-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.ww-feedback-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.ww-feedback-top strong {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.ww-feedback-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.9;
+}
+
+.ww-feedback-empty {
+  grid-column: 1 / -1;
+  min-height: 220px;
+  border: 1px dashed #bfdbfe;
+  border-radius: 28px;
+  background: #f8fbff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  color: var(--text-soft);
+}
+
+.ww-feedback-empty h3 {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .ww-feedback-layout {
+    gap: 22px;
+  }
+
+  .ww-feedback-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .ww-feedback-section .ww-title-block {
+    text-align: center;
+  }
+
+  .ww-feedback-form {
+    border-radius: 24px;
+  }
+
+  .ww-feedback-list {
+    gap: 16px;
+  }
+}
