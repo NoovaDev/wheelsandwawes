@@ -515,7 +515,7 @@ body {
   color: #0f172a;
 }
 
-/* RESPONSIVE */
+/* TABLET */
 
 @media (max-width: 1200px) {
   .admin-stats-grid {
@@ -526,6 +526,8 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* MOBILE */
 
 @media (max-width: 900px) {
   .admin-page {
@@ -617,6 +619,8 @@ body {
   }
 }
 
+/* SMALL MOBILE */
+
 @media (max-width: 480px) {
   .admin-page {
     padding: 10px;
@@ -634,5 +638,9 @@ body {
   .admin-user-actions,
   .quick-status-buttons {
     grid-template-columns: 1fr;
+  }
+
+  .admin-stat-card h3 {
+    font-size: 32px;
   }
 }
