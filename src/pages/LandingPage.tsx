@@ -153,7 +153,8 @@ const destinations = [
   },
   {
     title: "Kandy",
-    description: "Cultural capital with temples, lake views, and hill-country charm.",
+    description:
+      "Cultural capital with temples, lake views, and hill-country charm.",
     image: "/destinations/kandy.jpg",
   },
   {
@@ -213,7 +214,9 @@ const LandingPage = () => {
   }, []);
 
   const handleFeedbackChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFeedbackForm({
       ...feedbackForm,
@@ -224,7 +227,7 @@ const LandingPage = () => {
   const submitFeedback = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!feedbackForm.name || !feedbackForm.message) {
+    if (!feedbackForm.name.trim() || !feedbackForm.message.trim()) {
       alert("Please enter your name and feedback message");
       return;
     }
@@ -255,6 +258,8 @@ const LandingPage = () => {
   };
 
   const currentHero = heroSlides[activeSlide];
+  const feedbackLoopItems =
+    feedbackList.length > 0 ? [...feedbackList, ...feedbackList] : [];
 
   return (
     <>
@@ -333,6 +338,11 @@ const LandingPage = () => {
                   <div className="ww-destination-content">
                     <h3>{place.title}</h3>
                     <p>{place.description}</p>
+
+                    <a href="/booking" className="ww-card-see-btn">
+                      Plan Trip
+                      <FaArrowRight />
+                    </a>
                   </div>
                 </article>
               ))}
@@ -341,10 +351,12 @@ const LandingPage = () => {
             <div className="ww-destination-more-wrap">
               <button
                 type="button"
-                className="ww-see-more-btn ww-see-more-main"
+                className="ww-see-more-main"
                 onClick={() => setShowAllDestinations(!showAllDestinations)}
               >
-                {showAllDestinations ? "Show Less" : "See More Destinations"}
+                {showAllDestinations
+                  ? "Show Less Destinations"
+                  : "See More Destinations"}
                 <FaArrowRight />
               </button>
             </div>
@@ -450,41 +462,43 @@ const LandingPage = () => {
               </p>
             </div>
 
-            <div className="ww-feedback-layout">
+            <div className="ww-feedback-box">
               <form className="ww-feedback-form" onSubmit={submitFeedback}>
                 <h3>Send Feedback</h3>
 
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={feedbackForm.name}
-                  onChange={handleFeedbackChange}
-                />
+                <div className="ww-feedback-form-row">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    value={feedbackForm.name}
+                    onChange={handleFeedbackChange}
+                  />
 
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email Optional"
-                  value={feedbackForm.email}
-                  onChange={handleFeedbackChange}
-                />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email Optional"
+                    value={feedbackForm.email}
+                    onChange={handleFeedbackChange}
+                  />
 
-                <select
-                  name="rating"
-                  value={feedbackForm.rating}
-                  onChange={handleFeedbackChange}
-                >
-                  <option value="5">5 Stars - Excellent</option>
-                  <option value="4">4 Stars - Very Good</option>
-                  <option value="3">3 Stars - Good</option>
-                  <option value="2">2 Stars - Fair</option>
-                  <option value="1">1 Star - Poor</option>
-                </select>
+                  <select
+                    name="rating"
+                    value={feedbackForm.rating}
+                    onChange={handleFeedbackChange}
+                  >
+                    <option value="5">5 Stars - Excellent</option>
+                    <option value="4">4 Stars - Very Good</option>
+                    <option value="3">3 Stars - Good</option>
+                    <option value="2">2 Stars - Fair</option>
+                    <option value="1">1 Star - Poor</option>
+                  </select>
+                </div>
 
                 <textarea
                   name="message"
-                  rows={6}
+                  rows={5}
                   placeholder="Write your feedback..."
                   value={feedbackForm.message}
                   onChange={handleFeedbackChange}
@@ -495,29 +509,43 @@ const LandingPage = () => {
                 </button>
               </form>
 
-              <div className="ww-feedback-list">
-                {feedbackList.length > 0 ? (
-                  feedbackList.map((item) => (
-                    <article className="ww-feedback-card" key={item.id}>
+              <div className="ww-feedback-loop">
+                <div className="ww-feedback-track">
+                  {feedbackLoopItems.length > 0 ? (
+                    feedbackLoopItems.map((item, index) => (
+                      <article
+                        className="ww-feedback-card"
+                        key={`${item.id}-${index}`}
+                      >
+                        <div className="ww-feedback-stars">
+                          {Array.from({ length: Number(item.rating) }).map(
+                            (_, i) => (
+                              <FaStar key={i} />
+                            )
+                          )}
+                        </div>
+
+                        <p>“{item.message}”</p>
+                        <strong>{item.name}</strong>
+                      </article>
+                    ))
+                  ) : (
+                    <article className="ww-feedback-card">
                       <div className="ww-feedback-stars">
-                        {Array.from({ length: Number(item.rating) }).map(
-                          (_, index) => (
-                            <FaStar key={index} />
-                          )
-                        )}
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
                       </div>
-
-                      <p>“{item.message}”</p>
-
-                      <strong>{item.name}</strong>
+                      <p>
+                        “No feedback yet. Be the first customer to share your
+                        experience.”
+                      </p>
+                      <strong>W&amp;W Travels</strong>
                     </article>
-                  ))
-                ) : (
-                  <div className="ww-feedback-empty">
-                    <h3>No feedback yet</h3>
-                    <p>Be the first customer to share your experience.</p>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
