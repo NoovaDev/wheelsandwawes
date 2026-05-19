@@ -20,7 +20,6 @@ const AdminDashboard = () => {
 
   const getAuthHeader = () => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       logoutAdmin();
       return null;
@@ -79,9 +78,14 @@ const AdminDashboard = () => {
     return (
       <>
         <AdminNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="admin-page">
-          <h2>Loading admin dashboard...</h2>
-        </div>
+
+        <main className="admin-page">
+          <section className="admin-loading-card">
+            <div className="admin-loader"></div>
+            <h2>Loading admin panel</h2>
+            <p>Preparing bookings, customers, and travel data.</p>
+          </section>
+        </main>
       </>
     );
   }
@@ -90,19 +94,26 @@ const AdminDashboard = () => {
     <>
       <AdminNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="admin-page">
+      <main className="admin-page">
         {activeTab === "dashboard" && (
-          <AdminHome bookings={bookings} users={users} />
+          <AdminHome
+            bookings={bookings}
+            users={users}
+            setActiveTab={setActiveTab}
+          />
         )}
 
         {activeTab === "bookings" && (
-          <AdminBookings bookings={bookings} refreshBookings={getBookings} />
+          <AdminBookings
+            bookings={bookings}
+            refreshBookings={getBookings}
+          />
         )}
 
         {activeTab === "users" && (
           <AdminUsers users={users} refreshUsers={getUsers} />
         )}
-      </div>
+      </main>
     </>
   );
 };

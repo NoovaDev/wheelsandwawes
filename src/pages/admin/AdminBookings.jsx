@@ -8,12 +8,7 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
 
   const getAuthHeader = () => {
     const token = localStorage.getItem("token");
-
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    return { headers: { Authorization: `Bearer ${token}` } };
   };
 
   const updateStatus = async (id, status) => {
@@ -26,9 +21,23 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
 
       refreshBookings();
     } catch (error) {
-      console.log("Update status error:", error.response?.data || error);
       alert(error.response?.data?.message || "Status update failed");
     }
+  };
+
+  const cleanPhone = (phone) => {
+    if (!phone) return "";
+    let number = String(phone).replace(/\D/g, "");
+
+    if (number.startsWith("0")) {
+      number = "94" + number.slice(1);
+    }
+
+    if (!number.startsWith("94")) {
+      number = "94" + number;
+    }
+
+    return number;
   };
 
   const getDateOnly = (dateValue) => {
@@ -36,24 +45,28 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
     return String(dateValue).split("T")[0];
   };
 
+  const getBookingType = (booking) => {
+    return (
+      booking.trip_type ||
+      booking.service_type ||
+      booking.booking_type ||
+      "Travel Booking"
+    );
+  };
+
   const makeDateString = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-
     return `${year}-${month}-${day}`;
   };
 
   const today = new Date();
 
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
 
   const todayStr = makeDateString(today);
-  const yesterdayStr = makeDateString(yesterday);
   const tomorrowStr = makeDateString(tomorrow);
 
   const filteredBookings = bookings.filter((booking) => {
@@ -67,14 +80,15 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
       booking.email?.toLowerCase().includes(searchText) ||
       booking.phone?.toString().includes(search) ||
       booking.trip_type?.toLowerCase().includes(searchText) ||
-      booking.vehicle_type?.toLowerCase().includes(searchText);
+      booking.vehicle_type?.toLowerCase().includes(searchText) ||
+      booking.pickup_location?.toLowerCase().includes(searchText) ||
+      booking.drop_location?.toLowerCase().includes(searchText);
 
     const matchStatus =
       statusFilter === "all" || bookingStatus === statusFilter;
 
     const matchDate =
       dateFilter === "all" ||
-      (dateFilter === "yesterday" && bookingDate === yesterdayStr) ||
       (dateFilter === "today" && bookingDate === todayStr) ||
       (dateFilter === "tomorrow" && bookingDate === tomorrowStr);
 
@@ -85,35 +99,29 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
     <>
       <div className="admin-header">
         <div>
-          <h2>Booking Management</h2>
-          <p>Search, filter and update customer bookings.</p>
+          <span>Booking Management</span>
+          <h2>Manage Bookings</h2>
+          <p>Search, contact customers, and update trip status quickly.</p>
         </div>
       </div>
 
-      <div className="admin-filters">
+      <div className="admin-filters advanced">
         <input
-          placeholder="Search by name, email, phone, trip, vehicle"
+          placeholder="Search customer, phone, email, route, trip, vehicle"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
           <option value="all">All Status</option>
           <option value="pending">Pending</option>
           <option value="confirmed">Confirmed</option>
-          <option value="cancelled">Cancelled</option>
           <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
         </select>
 
-        <select
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-        >
+        <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)}>
           <option value="all">All Dates</option>
-          <option value="yesterday">Yesterday</option>
           <option value="today">Today</option>
           <option value="tomorrow">Tomorrow</option>
         </select>
@@ -125,66 +133,102 @@ const AdminBookings = ({ bookings = [], refreshBookings }) => {
             <tr>
               <th>Customer</th>
               <th>Contact</th>
-              <th>ID / Passport</th>
-              <th>Trip</th>
+              <th>Trip Details</th>
               <th>Vehicle</th>
-              <th>Date</th>
+              <th>Travel Date</th>
               <th>Status</th>
-              <th>Update</th>
+              <th>Quick Actions</th>
             </tr>
           </thead>
 
           <tbody>
             {filteredBookings.length > 0 ? (
-              filteredBookings.map((booking) => (
-                <tr key={booking.id}>
-                  <td>
-                    <strong>{booking.full_name}</strong>
-                    <span>{booking.nationality}</span>
-                  </td>
+              filteredBookings.map((booking) => {
+                const phone = cleanPhone(booking.phone);
+                const message = `Hello ${booking.full_name || ""}, this is about your ${
+                  getBookingType(booking)
+                } booking on ${getDateOnly(booking.pickup_date)} at ${
+                  booking.pickup_time || ""
+                }.`;
 
-                  <td>
-                    <span>{booking.phone}</span>
-                    <span>{booking.email}</span>
-                  </td>
+                return (
+                  <tr key={booking.id}>
+                    <td data-label="Customer">
+                      <strong>{booking.full_name || "-"}</strong>
+                      <span>{booking.nationality || "Customer"}</span>
+                      <span>{booking.nic_number || booking.passport_number || ""}</span>
+                    </td>
 
-                  <td>{booking.nic_number || booking.passport_number || "-"}</td>
+                    <td data-label="Contact">
+                      <span>{booking.phone || "-"}</span>
+                      <span>{booking.email || "-"}</span>
+                    </td>
 
-                  <td>
-                    <strong>{booking.trip_type || "Tour Booking"}</strong>
-                    <span>{booking.pickup_location}</span>
-                    <span>to {booking.drop_location}</span>
-                  </td>
+                    <td data-label="Trip Details">
+                      <strong>{getBookingType(booking)}</strong>
+                      <span>{booking.pickup_location || "-"}</span>
+                      <span>to {booking.drop_location || "-"}</span>
+                    </td>
 
-                  <td>{booking.vehicle_type}</td>
+                    <td data-label="Vehicle">
+                      <strong>{booking.vehicle_type || "-"}</strong>
+                      <span>{booking.passengers || "-"} passengers</span>
+                      <span>{booking.need_driver || "-"}</span>
+                    </td>
 
-                  <td>
-                    <span>{getDateOnly(booking.pickup_date)}</span>
-                    <span>{booking.pickup_time}</span>
-                  </td>
+                    <td data-label="Travel Date">
+                      <strong>{getDateOnly(booking.pickup_date) || "-"}</strong>
+                      <span>{booking.pickup_time || "-"}</span>
+                    </td>
 
-                  <td>
-                    <span className={`status ${booking.status || "pending"}`}>
-                      {booking.status || "pending"}
-                    </span>
-                  </td>
+                    <td data-label="Status">
+                      <span className={`status ${booking.status || "pending"}`}>
+                        {booking.status || "pending"}
+                      </span>
+                    </td>
 
-                  <td>
-                    <select
-                      value={booking.status || "pending"}
-                      onChange={(e) => updateStatus(booking.id, e.target.value)}
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="confirmed">Confirmed</option>
-                      <option value="cancelled">Cancelled</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  </td>
-                </tr>
-              ))
+                    <td data-label="Quick Actions">
+                      <div className="admin-action-stack">
+                        <select
+                          value={booking.status || "pending"}
+                          onChange={(e) => updateStatus(booking.id, e.target.value)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+
+                        <div className="quick-status-buttons">
+                          <button onClick={() => updateStatus(booking.id, "confirmed")}>
+                            Confirm
+                          </button>
+
+                          <button onClick={() => updateStatus(booking.id, "completed")}>
+                            Complete
+                          </button>
+                        </div>
+
+                        {phone ? (
+                          <a
+                            className="whatsapp-admin-btn"
+                            href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            WhatsApp Customer
+                          </a>
+                        ) : (
+                          <span>No WhatsApp</span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="8">No bookings found.</td>
+                <td colSpan="7">No bookings found.</td>
               </tr>
             )}
           </tbody>

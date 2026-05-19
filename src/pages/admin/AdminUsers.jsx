@@ -1,203 +1,170 @@
+import { useState } from "react";
 import axios from "axios";
 
-const UserTrips = ({ bookings, refreshBookings }) => {
-  const formatTripDate = (dateValue) => {
-    if (!dateValue) return "-";
+const AdminUsers = ({ users = [], refreshUsers }) => {
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
-    const dateOnly = dateValue.split("T")[0];
-    const [year, month, day] = dateOnly.split("-");
+  const getAuthHeader = () => {
+    const token = localStorage.getItem("token");
 
-    const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-
-    const date = new Date(Number(year), Number(month) - 1, Number(day));
-
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    return `${weekdays[date.getDay()]}, ${
-      months[Number(month) - 1]
-    } ${Number(day)}, ${year}`;
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
   };
 
-  const formatTripTime = (timeValue) => {
-    if (!timeValue) return "-";
-    return timeValue.slice(0, 5);
-  };
-
-  const getBookingType = (booking) => {
-    return (
-      booking.trip_type ||
-      booking.service_type ||
-      booking.booking_type ||
-      "Travel Booking"
-    );
-  };
-
-  const isLateCancel = (booking) => {
-    if (!booking.pickup_date || !booking.pickup_time) return false;
-
-    const dateOnly = booking.pickup_date.split("T")[0];
-    const timeOnly = booking.pickup_time.slice(0, 5);
-    const tripDateTime = new Date(`${dateOnly}T${timeOnly}:00`);
-
-    const now = new Date();
-
-    const hoursLeft =
-      (tripDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
-
-    return hoursLeft < 10;
-  };
-
-  const canShowCancelButton = (booking) => {
-    return booking.status !== "cancelled" && booking.status !== "completed";
-  };
-
-  const cancelBooking = async (booking) => {
-    const lateCancel = isLateCancel(booking);
-
-    const confirmCancel = window.confirm(
-      lateCancel
-        ? "This trip starts within 10 hours.\n\nAdvance payment is NOT refundable.\n\nCancel booking?"
-        : "Cancel this booking?"
-    );
-
-    if (!confirmCancel) return;
-
+  const updateUserStatus = async (id, status) => {
     try {
-      const token = localStorage.getItem("token");
-
       await axios.patch(
-        `/api/bookings/${booking.id}/cancel`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `/api/users/${id}/status`,
+        { status },
+        getAuthHeader()
       );
 
-      alert("Booking cancelled successfully");
-      refreshBookings();
+      refreshUsers();
     } catch (error) {
-      alert(error.response?.data?.message || "Cancel failed");
+      alert(error.response?.data?.message || "User status update failed");
     }
   };
 
+  const cleanPhone = (phone) => {
+    if (!phone) return "";
+    let number = String(phone).replace(/\D/g, "");
+
+    if (number.startsWith("0")) {
+      number = "94" + number.slice(1);
+    }
+
+    if (!number.startsWith("94")) {
+      number = "94" + number;
+    }
+
+    return number;
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const text = search.toLowerCase();
+    const role = user.role || "customer";
+    const status = user.status || "active";
+
+    const matchSearch =
+      !search ||
+      user.full_name?.toLowerCase().includes(text) ||
+      user.email?.toLowerCase().includes(text) ||
+      user.phone?.toString().includes(search);
+
+    const matchRole = roleFilter === "all" || role === roleFilter;
+    const matchStatus = statusFilter === "all" || status === statusFilter;
+
+    return matchSearch && matchRole && matchStatus;
+  });
+
   return (
     <>
-      <div className="user-dashboard-header">
+      <div className="admin-header">
         <div>
-          <h2>My Trips</h2>
-          <p>View your selected trip dates, routes, and booking status.</p>
+          <span>User Management</span>
+          <h2>Manage Customers</h2>
+          <p>Search customers, contact them, and control account status.</p>
         </div>
-
-        <a href="/booking" className="new-booking-btn">
-          + New Booking
-        </a>
       </div>
 
-      <div className="dashboard-section">
-        <div className="section-title">
-          <div>
-            <h3>Booked Trips</h3>
-            <p>
-              Trip date means the date you selected for travel, not the day you
-              created the booking.
-            </p>
-          </div>
-        </div>
+      <div className="admin-filters advanced">
+        <input
+          placeholder="Search name, email or phone"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-        {bookings.length > 0 ? (
-          <div className="mobile-trip-grid">
-            {bookings.map((booking) => (
-              <div key={booking.id} className="trip-mobile-card">
-                <div className="trip-card-header">
-                  <div>
-                    <span className="trip-label">Booking Type</span>
-                    <h3>{getBookingType(booking)}</h3>
-                  </div>
+        <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
+          <option value="all">All Roles</option>
+          <option value="customer">Customers</option>
+          <option value="admin">Admins</option>
+        </select>
 
-                  <span className={`status ${booking.status || "pending"}`}>
-                    {booking.status || "pending"}
-                  </span>
-                </div>
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="blocked">Blocked</option>
+        </select>
+      </div>
 
-                <div className="trip-date-highlight">
-                  <span>Selected Trip Date</span>
-                  <strong>{formatTripDate(booking.pickup_date)}</strong>
-                  <p>Pickup time: {formatTripTime(booking.pickup_time)}</p>
-                </div>
+      <div className="admin-users-grid">
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => {
+            const phone = cleanPhone(user.phone);
+            const message = `Hello ${user.full_name || ""}, this is regarding your travel account.`;
 
-                <div className="trip-route-box">
-                  <span>Route</span>
-
-                  <strong>{booking.pickup_location || "-"}</strong>
-
-                  <small>to</small>
-
-                  <strong>{booking.drop_location || "-"}</strong>
-                </div>
-
-                <div className="trip-mobile-grid">
-                  <div>
-                    <span>Vehicle</span>
-                    <strong>{booking.vehicle_type || "-"}</strong>
+            return (
+              <div className="admin-user-card" key={user.id}>
+                <div className="admin-user-top">
+                  <div className="admin-user-avatar">
+                    {user.full_name?.charAt(0)?.toUpperCase() || "U"}
                   </div>
 
                   <div>
-                    <span>Passengers</span>
-                    <strong>{booking.passengers || "-"}</strong>
-                  </div>
-
-                  <div>
-                    <span>Driver</span>
-                    <strong>{booking.need_driver || "-"}</strong>
-                  </div>
-
-                  <div>
-                    <span>Return Date</span>
-                    <strong>{formatTripDate(booking.return_date)}</strong>
+                    <h3>{user.full_name || "Customer"}</h3>
+                    <p>{user.email || "-"}</p>
                   </div>
                 </div>
 
-                {canShowCancelButton(booking) ? (
-                  <button
-                    type="button"
-                    className="cancel-trip-btn full-btn"
-                    onClick={() => cancelBooking(booking)}
-                  >
-                    Cancel Booking
-                  </button>
-                ) : (
-                  <div className="booking-finished-box">
-                    {booking.status === "cancelled"
-                      ? "This booking was cancelled"
-                      : "Trip completed"}
+                <div className="admin-user-info">
+                  <div>
+                    <span>Phone</span>
+                    <strong>{user.phone || "Not Added"}</strong>
                   </div>
-                )}
 
-                {isLateCancel(booking) && canShowCancelButton(booking) && (
-                  <div className="late-warning">
-                    Late cancellation — payment not refundable
+                  <div>
+                    <span>Role</span>
+                    <strong>{user.role || "customer"}</strong>
                   </div>
-                )}
+
+                  <div>
+                    <span>Status</span>
+                    <strong className={`status ${user.status || "active"}`}>
+                      {user.status || "active"}
+                    </strong>
+                  </div>
+                </div>
+
+                <div className="admin-user-actions">
+                  {phone && (
+                    <a
+                      className="whatsapp-admin-btn"
+                      href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      WhatsApp
+                    </a>
+                  )}
+
+                  {(user.status || "active") === "blocked" ? (
+                    <button
+                      className="unblock-btn"
+                      onClick={() => updateUserStatus(user.id, "active")}
+                    >
+                      Unblock
+                    </button>
+                  ) : (
+                    <button
+                      className="block-btn"
+                      onClick={() => updateUserStatus(user.id, "blocked")}
+                    >
+                      Block
+                    </button>
+                  )}
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })
         ) : (
-          <div className="empty-dashboard-card">
-            <h3>No trips booked yet</h3>
-
-            <p>
-              Create your first booking and your selected travel date will show
-              here.
-            </p>
-
-            <a href="/booking" className="new-booking-btn">
-              Create Booking
-            </a>
+          <div className="empty-admin-box">
+            <h3>No users found</h3>
+            <p>Try changing search or filters.</p>
           </div>
         )}
       </div>
@@ -205,4 +172,4 @@ const UserTrips = ({ bookings, refreshBookings }) => {
   );
 };
 
-export default UserTrips;
+export default AdminUsers;
