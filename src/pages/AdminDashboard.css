@@ -204,7 +204,7 @@ body {
   border-color: #fecaca;
 }
 
-/* HOME PANELS */
+/* PANELS */
 
 .admin-two-grid {
   display: grid;
@@ -299,7 +299,7 @@ body {
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
-/* TABLE */
+/* TABLE DESKTOP */
 
 .admin-table-card {
   overflow-x: auto;
@@ -531,7 +531,7 @@ body {
 
 @media (max-width: 900px) {
   .admin-page {
-    padding: 16px;
+    padding: 14px;
     padding-bottom: 95px;
   }
 
@@ -567,6 +567,11 @@ body {
     font-size: 30px;
   }
 
+  .admin-table-card {
+    overflow: visible;
+    padding: 14px;
+  }
+
   .booking-table {
     min-width: 100%;
   }
@@ -584,38 +589,59 @@ body {
   }
 
   .booking-table tr {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 12px;
+    border: 1px solid #dbeafe;
+    border-radius: 20px;
+    padding: 14px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
   }
 
   .booking-table td {
-    display: flex;
-    justify-content: space-between;
-    gap: 18px;
-    text-align: right;
-    padding: 13px 10px;
+    display: block;
+    text-align: left;
+    padding: 14px 4px;
     border-top: none;
     border-bottom: 1px solid #f1f5f9;
-  }
-
-  .booking-table td::before {
-    content: attr(data-label);
-    font-weight: 900;
-    color: #0f172a;
-    text-align: left;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .booking-table td:last-child {
     border-bottom: none;
   }
 
-  .admin-action-stack,
-  .booking-table select,
-  .whatsapp-admin-btn {
+  .booking-table td::before {
+    content: attr(data-label);
+    display: block;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    text-align: left;
+  }
+
+  .booking-table td strong,
+  .booking-table td span {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .admin-action-stack {
     width: 100%;
+    min-width: 0;
+  }
+
+  .admin-action-stack select,
+  .whatsapp-admin-btn,
+  .quick-status-buttons button {
+    width: 100%;
+  }
+
+  .quick-status-buttons {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -633,6 +659,25 @@ body {
   .admin-user-card {
     border-radius: 22px;
     padding: 18px;
+  }
+
+  .admin-table-card {
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .booking-table tr {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .booking-table td {
+    padding: 12px 2px;
+    font-size: 13px;
+  }
+
+  .booking-table td::before {
+    font-size: 11px;
   }
 
   .admin-user-actions,
