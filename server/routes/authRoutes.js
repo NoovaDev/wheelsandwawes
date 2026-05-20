@@ -6,11 +6,6 @@ const sendEmail = require("../utils/sendEmail");
 
 const router = express.Router();
 
-/*
-========================================
-REGISTER USER FROM FIREBASE
-========================================
-*/
 router.post("/register", async (req, res) => {
   try {
     const { firebaseToken, full_name, phone } = req.body;
@@ -54,7 +49,7 @@ router.post("/register", async (req, res) => {
 
     const verificationLink =
       await admin.auth().generateEmailVerificationLink(email, {
-        url: "https://wheelsandwawes.com/login",
+        url: "https://wheelsandwawes.com/login?verified=true",
         handleCodeInApp: false,
       });
 
@@ -105,8 +100,7 @@ router.post("/register", async (req, res) => {
     });
 
     res.json({
-      message:
-        "Registration successful. Verification email sent.",
+      message: "Registration successful. Verification email sent.",
     });
   } catch (error) {
     console.log("FIREBASE REGISTER ERROR:", error);
@@ -117,11 +111,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-/*
-========================================
-LOGIN USER FROM FIREBASE
-========================================
-*/
 router.post("/login", async (req, res) => {
   try {
     const { firebaseToken } = req.body;
