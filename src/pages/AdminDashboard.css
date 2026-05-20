@@ -689,3 +689,73 @@ body {
     font-size: 32px;
   }
 }
+/* USERS TABLE */
+
+.admin-users-table-wrapper {
+  width: 100%;
+}
+
+.admin-user-table {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-user-table strong {
+  display: block;
+  color: #0f172a;
+}
+
+.admin-user-table span {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.status.admin {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status.customer {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* MOBILE USER TABLE */
+
+@media (max-width: 900px) {
+  .admin-user-table {
+    align-items: flex-start;
+  }
+
+  .admin-user-avatar {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: 16px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-user-table {
+    gap: 10px;
+  }
+
+  .admin-user-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+
+  .admin-user-table strong {
+    font-size: 14px;
+  }
+
+  .admin-user-table span {
+    font-size: 12px;
+  }
+}
