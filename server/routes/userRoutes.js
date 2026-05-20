@@ -52,7 +52,8 @@ router.get("/me", verifyToken, async (req, res) => {
     console.log("GET USER ME ERROR:", error);
 
     res.status(500).json({
-      message: "Failed to get user dashboard data",
+      message:
+        "Failed to get user dashboard data",
     });
   }
 });
@@ -70,19 +71,26 @@ router.get("/", verifyToken, async (req, res) => {
       });
     }
 
-    const [users] = await db.query(
-      `
+    const [users] = await db.query(`
       SELECT 
-        id,
-        full_name,
-        email,
-        phone,
-        role,
-        status
+        users.id,
+        users.full_name,
+        users.email,
+        users.phone,
+        users.role,
+        users.status,
+
+        COUNT(bookings.id) AS total_bookings
+
       FROM users
-      ORDER BY id DESC
-      `
-    );
+
+      LEFT JOIN bookings
+      ON users.id = bookings.user_id
+
+      GROUP BY users.id
+
+      ORDER BY users.id DESC
+    `);
 
     res.json(users);
   } catch (error) {
@@ -96,11 +104,12 @@ router.get("/", verifyToken, async (req, res) => {
 
 /*
 ========================================
-UPDATE USER STATUS
+UPDATE USER DETAILS
 ========================================
 */
-router.patch("/:id/status", verifyToken, async (req, res) => {
+router.patch("/:id", verifyToken, async (req, res) => {
   try {
+    // ADMIN ONLY
     if (req.user.role !== "admin") {
       return res.status(403).json({
         message: "Admin only",
@@ -108,26 +117,118 @@ router.patch("/:id/status", verifyToken, async (req, res) => {
     }
 
     const { id } = req.params;
-    const { status } = req.body;
 
-    if (!status) {
-      return res.status(400).json({
-        message: "Status is required",
+    const {
+      full_name,
+      email,
+      phone,
+      role,
+    } = req.body;
+
+    // CHECK USER EXISTS
+    const [existingUser] = await db.query(
+      `
+      SELECT id
+      FROM users
+      WHERE id = ?
+      `,
+      [id]
+    );
+
+    if (existingUser.length === 0) {
+      return res.status(404).json({
+        message: "User not found",
       });
     }
 
-    await db.query("UPDATE users SET status = ? WHERE id = ?", [status, id]);
+    // UPDATE USER
+    await db.query(
+      `
+      UPDATE users
+      SET
+        full_name = ?,
+        email = ?,
+        phone = ?,
+        role = ?
+      WHERE id = ?
+      `,
+      [
+        full_name,
+        email,
+        phone,
+        role,
+        id,
+      ]
+    );
 
     res.json({
-      message: "User status updated successfully",
+      message:
+        "User updated successfully",
     });
   } catch (error) {
-    console.log("UPDATE USER STATUS ERROR:", error);
+    console.log(
+      "UPDATE USER ERROR:",
+      error
+    );
 
     res.status(500).json({
-      message: "Failed to update user status",
+      message: "Failed to update user",
     });
   }
 });
+
+/*
+========================================
+UPDATE USER STATUS
+========================================
+*/
+router.patch(
+  "/:id/status",
+  verifyToken,
+  async (req, res) => {
+    try {
+      if (req.user.role !== "admin") {
+        return res.status(403).json({
+          message: "Admin only",
+        });
+      }
+
+      const { id } = req.params;
+
+      const { status } = req.body;
+
+      if (!status) {
+        return res.status(400).json({
+          message:
+            "Status is required",
+        });
+      }
+
+      await db.query(
+        `
+        UPDATE users
+        SET status = ?
+        WHERE id = ?
+        `,
+        [status, id]
+      );
+
+      res.json({
+        message:
+          "User status updated successfully",
+      });
+    } catch (error) {
+      console.log(
+        "UPDATE USER STATUS ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        message:
+          "Failed to update user status",
+      });
+    }
+  }
+);
 
 module.exports = router;
