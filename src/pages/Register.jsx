@@ -13,6 +13,8 @@ const Register = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
+  const [resending, setResending] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -40,11 +42,11 @@ const Register = () => {
         phone: form.phone,
       });
 
+      setRegisteredEmail(form.email);
+
       alert(
         "Account created successfully. Please check your email and verify your account before login."
       );
-
-      window.location.href = "/login";
     } catch (error) {
       console.log("REGISTER ERROR:", error.response?.data || error);
 
@@ -71,6 +73,34 @@ const Register = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const resendVerificationEmail = async () => {
+    const emailToSend = registeredEmail || form.email;
+
+    if (!emailToSend) {
+      alert("Please enter your email first.");
+      return;
+    }
+
+    setResending(true);
+
+    try {
+      await axios.post("/api/auth/resend-verification", {
+        email: emailToSend,
+      });
+
+      alert("Verification email sent again. Please check your inbox or spam folder.");
+    } catch (error) {
+      console.log("RESEND VERIFICATION ERROR:", error.response?.data || error);
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to resend verification email"
+      );
+    } finally {
+      setResending(false);
     }
   };
 
@@ -119,63 +149,91 @@ const Register = () => {
         </div>
 
         <div className="auth-card">
-          <h2>Create Account</h2>
-          <p>Register to book and manage your trips.</p>
+          {!registeredEmail ? (
+            <>
+              <h2>Create Account</h2>
+              <p>Register to book and manage your trips.</p>
 
-          <form onSubmit={registerUser}>
-            <label>Full Name</label>
-            <input
-              name="full_name"
-              placeholder="Enter your full name"
-              value={form.full_name}
-              onChange={handleChange}
-              required
-            />
+              <form onSubmit={registerUser}>
+                <label>Full Name</label>
+                <input
+                  name="full_name"
+                  placeholder="Enter your full name"
+                  value={form.full_name}
+                  onChange={handleChange}
+                  required
+                />
 
-            <label>Email Address</label>
-            <input
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+                <label>Email Address</label>
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
 
-            <label>Phone / WhatsApp Number</label>
-            <input
-              name="phone"
-              placeholder="Enter your phone number"
-              value={form.phone}
-              onChange={handleChange}
-              required
-            />
+                <label>Phone / WhatsApp Number</label>
+                <input
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                />
 
-            <label>Password</label>
-            <input
-              name="password"
-              type="password"
-              placeholder="Create a password"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
+                <label>Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Create a password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
 
-            <button type="submit" disabled={loading}>
-              {loading ? "Creating account..." : "Register"}
-            </button>
-          </form>
+                <button type="submit" disabled={loading}>
+                  {loading ? "Creating account..." : "Register"}
+                </button>
+              </form>
 
-          <div className="auth-bottom">
-            <span>
-              Already have an account? <a href="/login">Login</a>
-            </span>
+              <div className="auth-bottom">
+                <span>
+                  Already have an account? <a href="/login">Login</a>
+                </span>
 
-            <small>
-              After register, check your email inbox or spam folder for the
-              verification link.
-            </small>
-          </div>
+                <small>
+                  After register, check your email inbox or spam folder for the
+                  verification link.
+                </small>
+              </div>
+            </>
+          ) : (
+            <div className="auth-verify-box">
+              <h2>Check Your Email</h2>
+
+              <p>
+                We sent a verification link to:
+                <strong> {registeredEmail}</strong>
+              </p>
+
+              <p>
+                Please verify your email before login. If you cannot find the
+                email, check your spam folder or resend the email.
+              </p>
+
+              <button
+                type="button"
+                onClick={resendVerificationEmail}
+                disabled={resending}
+              >
+                {resending ? "Sending..." : "Resend Verification Email"}
+              </button>
+
+              <a href="/login">Go to Login</a>
+            </div>
+          )}
         </div>
       </div>
     </div>
