@@ -1,10 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
 
-const AdminUsers = ({ users = [], refreshUsers }) => {
-  const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState("all");
+const AdminUsers = ({
+  users = [],
+  refreshUsers,
+}) => {
+  const [editingUser, setEditingUser] =
+    useState(null);
+
+  const [form, setForm] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    role: "customer",
+  });
 
   const getAuthHeader = () => {
     const token = localStorage.getItem("token");
@@ -16,158 +25,262 @@ const AdminUsers = ({ users = [], refreshUsers }) => {
     };
   };
 
-  const updateUserStatus = async (id, status) => {
+  const openEditModal = (user) => {
+    setEditingUser(user);
+
+    setForm({
+      full_name: user.full_name || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      role: user.role || "customer",
+    });
+  };
+
+  const closeModal = () => {
+    setEditingUser(null);
+  };
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const updateCustomer = async () => {
     try {
       await axios.patch(
-        `/api/users/${id}/status`,
-        { status },
+        `/api/users/${editingUser.id}`,
+        form,
         getAuthHeader()
       );
 
+      alert("Customer updated successfully");
+
+      closeModal();
+
       refreshUsers();
     } catch (error) {
-      alert(error.response?.data?.message || "User status update failed");
+      console.log(
+        "UPDATE CUSTOMER ERROR:",
+        error.response?.data || error
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Update failed"
+      );
     }
   };
-
-  const cleanPhone = (phone) => {
-    if (!phone) return "";
-    let number = String(phone).replace(/\D/g, "");
-
-    if (number.startsWith("0")) {
-      number = "94" + number.slice(1);
-    }
-
-    if (!number.startsWith("94")) {
-      number = "94" + number;
-    }
-
-    return number;
-  };
-
-  const filteredUsers = users.filter((user) => {
-    const text = search.toLowerCase();
-    const role = user.role || "customer";
-    const status = user.status || "active";
-
-    const matchSearch =
-      !search ||
-      user.full_name?.toLowerCase().includes(text) ||
-      user.email?.toLowerCase().includes(text) ||
-      user.phone?.toString().includes(search);
-
-    const matchRole = roleFilter === "all" || role === roleFilter;
-    const matchStatus = statusFilter === "all" || status === statusFilter;
-
-    return matchSearch && matchRole && matchStatus;
-  });
 
   return (
     <>
       <div className="admin-header">
         <div>
           <span>User Management</span>
-          <h2>Manage Customers</h2>
-          <p>Search customers, contact them, and control account status.</p>
+
+          <h2>All Customers</h2>
+
+          <p>
+            Manage customer accounts,
+            contact details and roles.
+          </p>
         </div>
       </div>
 
-      <div className="admin-filters advanced">
-        <input
-          placeholder="Search name, email or phone"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      <div className="admin-table-card">
+        {users.length > 0 ? (
+          <div className="admin-users-table-wrapper">
+            <table className="booking-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Trips</th>
+                  <th>WhatsApp</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
 
-        <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
-          <option value="all">All Roles</option>
-          <option value="customer">Customers</option>
-          <option value="admin">Admins</option>
-        </select>
+              <tbody>
+                {users.map((user) => {
+                  const whatsappLink = `https://wa.me/${String(
+                    user.phone || ""
+                  ).replace(/\D/g, "")}`;
 
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="blocked">Blocked</option>
-        </select>
-      </div>
+                  return (
+                    <tr key={user.id}>
+                      <td data-label="Customer">
+                        <div className="admin-user-table">
+                          <div className="admin-user-avatar">
+                            {user.full_name
+                              ?.charAt(0)
+                              ?.toUpperCase() || "U"}
+                          </div>
 
-      <div className="admin-users-grid">
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((user) => {
-            const phone = cleanPhone(user.phone);
-            const message = `Hello ${user.full_name || ""}, this is regarding your travel account.`;
+                          <div>
+                            <strong>
+                              {user.full_name ||
+                                "Customer"}
+                            </strong>
 
-            return (
-              <div className="admin-user-card" key={user.id}>
-                <div className="admin-user-top">
-                  <div className="admin-user-avatar">
-                    {user.full_name?.charAt(0)?.toUpperCase() || "U"}
-                  </div>
+                            <span>
+                              User ID #{user.id}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
 
-                  <div>
-                    <h3>{user.full_name || "Customer"}</h3>
-                    <p>{user.email || "-"}</p>
-                  </div>
-                </div>
+                      <td data-label="Email">
+                        <strong>
+                          {user.email || "-"}
+                        </strong>
+                      </td>
 
-                <div className="admin-user-info">
-                  <div>
-                    <span>Phone</span>
-                    <strong>{user.phone || "Not Added"}</strong>
-                  </div>
+                      <td data-label="Phone">
+                        <strong>
+                          {user.phone || "-"}
+                        </strong>
+                      </td>
 
-                  <div>
-                    <span>Role</span>
-                    <strong>{user.role || "customer"}</strong>
-                  </div>
+                      <td data-label="Role">
+                        <span
+                          className={`status ${
+                            user.role ||
+                            "customer"
+                          }`}
+                        >
+                          {user.role ||
+                            "customer"}
+                        </span>
+                      </td>
 
-                  <div>
-                    <span>Status</span>
-                    <strong className={`status ${user.status || "active"}`}>
-                      {user.status || "active"}
-                    </strong>
-                  </div>
-                </div>
+                      <td data-label="Trips">
+                        <strong>
+                          {user.total_bookings ||
+                            0}
+                        </strong>
+                      </td>
 
-                <div className="admin-user-actions">
-                  {phone && (
-                    <a
-                      className="whatsapp-admin-btn"
-                      href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      WhatsApp
-                    </a>
-                  )}
+                      <td data-label="WhatsApp">
+                        {user.phone ? (
+                          <a
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="whatsapp-admin-btn"
+                          >
+                            WhatsApp
+                          </a>
+                        ) : (
+                          <span>
+                            No Number
+                          </span>
+                        )}
+                      </td>
 
-                  {(user.status || "active") === "blocked" ? (
-                    <button
-                      className="unblock-btn"
-                      onClick={() => updateUserStatus(user.id, "active")}
-                    >
-                      Unblock
-                    </button>
-                  ) : (
-                    <button
-                      className="block-btn"
-                      onClick={() => updateUserStatus(user.id, "blocked")}
-                    >
-                      Block
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })
+                      <td data-label="Manage">
+                        <button
+                          className="admin-main-btn"
+                          onClick={() =>
+                            openEditModal(user)
+                          }
+                        >
+                          Edit User
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="empty-admin-box">
-            <h3>No users found</h3>
-            <p>Try changing search or filters.</p>
+            <h3>No Users Found</h3>
+
+            <p>
+              Registered customers will
+              appear here.
+            </p>
           </div>
         )}
       </div>
+
+      {editingUser && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal">
+            <div className="admin-modal-header">
+              <div>
+                <span>
+                  Customer Management
+                </span>
+
+                <h3>Edit Customer</h3>
+              </div>
+
+              <button onClick={closeModal}>
+                ×
+              </button>
+            </div>
+
+            <div className="admin-modal-grid">
+              <input
+                name="full_name"
+                placeholder="Full Name"
+                value={form.full_name}
+                onChange={handleChange}
+              />
+
+              <input
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+              />
+
+              <input
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={handleChange}
+              />
+
+              <select
+                name="role"
+                value={form.role}
+                onChange={handleChange}
+              >
+                <option value="customer">
+                  Customer
+                </option>
+
+                <option value="admin">
+                  Admin
+                </option>
+              </select>
+            </div>
+
+            <div className="admin-modal-actions">
+              <button
+                className="modal-cancel-btn"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="admin-main-btn"
+                onClick={updateCustomer}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
