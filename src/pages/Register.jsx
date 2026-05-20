@@ -1,9 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import "./Auth.css";
 
@@ -35,9 +32,7 @@ const Register = () => {
         form.password
       );
 
-      await sendEmailVerification(firebaseUser.user);
-
-      const firebaseToken = await firebaseUser.user.getIdToken();
+      const firebaseToken = await firebaseUser.user.getIdToken(true);
 
       await axios.post("/api/auth/register", {
         firebaseToken,
@@ -46,24 +41,40 @@ const Register = () => {
       });
 
       alert(
-        "Account created successfully. Please verify your email before login."
+        "Account created successfully. Please check your email and verify your account before login."
       );
 
       window.location.href = "/login";
     } catch (error) {
       console.log("REGISTER ERROR:", error.response?.data || error);
 
-      alert(
-        error.response?.data?.message ||
-          error.message ||
-          "Registration failed"
-      );
+      const firebaseCode = error.code;
+      const serverMessage =
+        error.response?.data?.message || error.message || "";
+
+      if (
+        firebaseCode === "auth/email-already-in-use" ||
+        serverMessage.includes("already registered")
+      ) {
+        alert("This email is already registered. Please login instead.");
+      } else if (
+        firebaseCode === "auth/too-many-requests" ||
+        serverMessage.includes("TOO_MANY_ATTEMPTS")
+      ) {
+        alert("Too many attempts. Please wait 1 hour and try again.");
+      } else if (firebaseCode === "auth/weak-password") {
+        alert("Password is too weak. Please use at least 6 characters.");
+      } else if (firebaseCode === "auth/invalid-email") {
+        alert("Please enter a valid email address.");
+      } else {
+        alert(serverMessage || "Registration failed");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const whatsappNumber = "947XXXXXXXX"; // change your WhatsApp number
+  const whatsappNumber = "947XXXXXXXX";
 
   return (
     <div className="auth-page">
@@ -160,7 +171,10 @@ const Register = () => {
               Already have an account? <a href="/login">Login</a>
             </span>
 
-            <small>After register, check your email verification link.</small>
+            <small>
+              After register, check your email inbox or spam folder for the
+              verification link.
+            </small>
           </div>
         </div>
       </div>

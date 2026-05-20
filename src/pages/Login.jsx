@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
@@ -11,6 +11,16 @@ const Login = () => {
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("verified") === "true") {
+      alert("Your email has been verified successfully. You can login now.");
+
+      window.history.replaceState({}, "", "/login");
+    }
+  }, []);
 
   const handleChange = (e) => {
     setForm({
@@ -30,12 +40,18 @@ const Login = () => {
         form.password
       );
 
-      if (!firebaseUser.user.emailVerified) {
-        alert("Please verify your email before login.");
+      await firebaseUser.user.reload();
+
+      const refreshedUser = auth.currentUser;
+
+      if (!refreshedUser.emailVerified) {
+        alert(
+          "Please verify your email before login. After verifying your email, refresh this page and try again."
+        );
         return;
       }
 
-      const firebaseToken = await firebaseUser.user.getIdToken();
+      const firebaseToken = await refreshedUser.getIdToken(true);
 
       const res = await axios.post("/api/auth/login", {
         firebaseToken,
@@ -62,7 +78,7 @@ const Login = () => {
     }
   };
 
-  const whatsappNumber = "947XXXXXXXX"; // change your WhatsApp number
+  const whatsappNumber = "947XXXXXXXX";
 
   return (
     <div className="auth-page">

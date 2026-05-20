@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
 
     const verificationLink =
       await admin.auth().generateEmailVerificationLink(email, {
-        url: "https://wheelsandwaves.com/login",
+        url: "https://wheelsandwawes.com/login",
         handleCodeInApp: false,
       });
 
