@@ -12,12 +12,15 @@ body {
 
 /* NAVBAR */
 
+/* NAVBAR */
+
 .lpnav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  z-index: 999;
-  background: rgba(255, 255, 255, 0.86);
+  z-index: 99999;
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(219, 234, 254, 0.9);
@@ -32,6 +35,17 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+/* IMPORTANT PAGE SPACING FIX */
+
+.rent-page,
+.booking-page,
+.dashboard-page,
+.admin-page,
+.user-dashboard,
+.user-page {
+  padding-top: 110px;
 }
 
 /* BRAND */
