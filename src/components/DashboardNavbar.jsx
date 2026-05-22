@@ -6,6 +6,7 @@ import {
   FaChartPie,
   FaListAlt,
   FaUser,
+  FaRoute,
 } from "react-icons/fa";
 import "./DashboardNavbar.css";
 
@@ -41,11 +42,7 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               changeTab("dashboard");
             }}
           >
-            <img
-              src="/logo.png"
-              alt="W&W Travels"
-              className="lpnav-logo-img"
-            />
+            <img src="/logo.png" alt="W&W Travels" className="lpnav-logo-img" />
 
             <div className="lpnav-brand-text">
               <strong>W&W Travels</strong>
@@ -68,7 +65,11 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
             </button>
 
             <a href="/booking" className="lpnav-link-item">
-              <FaCar /> Book Tour
+              <FaRoute /> Book Tour
+            </a>
+
+            <a href="/vehicle-rent" className="lpnav-link-item rent-link">
+              <FaCar /> Rent Vehicle
             </a>
 
             <button
@@ -99,11 +100,7 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
           </div>
 
           <div className="lpnav-right">
-            <button
-              type="button"
-              className="lpnav-login-btn"
-              onClick={logoutUser}
-            >
+            <button type="button" className="lpnav-login-btn" onClick={logoutUser}>
               Logout
             </button>
 
@@ -156,7 +153,11 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
             </button>
 
             <a href="/booking" className="lpnav-mobile-link">
-              <FaCar /> Book Tour
+              <FaRoute /> Book Tour
+            </a>
+
+            <a href="/vehicle-rent" className="lpnav-mobile-link rent-mobile-link">
+              <FaCar /> Rent Vehicle
             </a>
 
             <button

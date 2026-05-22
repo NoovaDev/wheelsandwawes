@@ -379,3 +379,17 @@ body {
     font-size: 10px;
   }
 }
+.rent-link {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.rent-link:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+}
+
+.rent-mobile-link {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
