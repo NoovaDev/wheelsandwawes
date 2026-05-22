@@ -24,6 +24,11 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
     window.location.href = "/dashboard";
   };
 
+  const goToPage = (path) => {
+    setOpen(false);
+    window.location.href = path;
+  };
+
   const logoutUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -64,13 +69,21 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               <FaChartPie /> Dashboard
             </button>
 
-            <a href="/booking" className="lpnav-link-item">
+            <button
+              type="button"
+              className="lpnav-link-item"
+              onClick={() => goToPage("/booking")}
+            >
               <FaRoute /> Book Tour
-            </a>
+            </button>
 
-            <a href="/vehicle-rent" className="lpnav-link-item rent-link">
+            <button
+              type="button"
+              className="lpnav-link-item rent-link"
+              onClick={() => goToPage("/rent")}
+            >
               <FaCar /> Rent Vehicle
-            </a>
+            </button>
 
             <button
               type="button"
@@ -100,7 +113,11 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
           </div>
 
           <div className="lpnav-right">
-            <button type="button" className="lpnav-login-btn" onClick={logoutUser}>
+            <button
+              type="button"
+              className="lpnav-login-btn"
+              onClick={logoutUser}
+            >
               Logout
             </button>
 
@@ -152,13 +169,21 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               <FaChartPie /> Dashboard
             </button>
 
-            <a href="/booking" className="lpnav-mobile-link">
+            <button
+              type="button"
+              onClick={() => goToPage("/booking")}
+              className="lpnav-mobile-link"
+            >
               <FaRoute /> Book Tour
-            </a>
+            </button>
 
-            <a href="/vehicle-rent" className="lpnav-mobile-link rent-mobile-link">
+            <button
+              type="button"
+              onClick={() => goToPage("/rent")}
+              className="lpnav-mobile-link rent-mobile-link"
+            >
               <FaCar /> Rent Vehicle
-            </a>
+            </button>
 
             <button
               type="button"
