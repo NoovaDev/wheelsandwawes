@@ -12,6 +12,8 @@ import BookingForm from "./pages/BookingForm";
 import AdminDashboard from "./pages/AdminDashboard";
 // @ts-ignore
 import UserDashboard from "./pages/UserDashboard";
+// @ts-ignore
+import VehicleRentPage from "./pages/VehicleRentPage";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/booking" element={<BookingForm />} />
+        <Route path="/rent" element={<VehicleRentPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/dashboard" element={<UserDashboard />} />
       </Routes>
