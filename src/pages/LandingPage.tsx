@@ -16,7 +16,6 @@ import {
   FaMapMarkerAlt,
   FaShip,
   FaWater,
-  FaTree,
   FaArrowRight,
   FaStar,
   FaCar,
