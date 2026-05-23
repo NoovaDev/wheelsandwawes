@@ -16,9 +16,9 @@ import {
   FaMapMarkerAlt,
   FaShip,
   FaWater,
+  FaTree,
   FaArrowRight,
   FaStar,
-  FaCar,
 } from "react-icons/fa";
 
 import Navbar from "../components/Navbar";
@@ -28,34 +28,28 @@ import "./LandingPage.css";
 const heroSlides = [
   {
     id: 1,
-    tag: "Trip Planning + Vehicle Rental",
+    tag: "Airport Transfer",
     description:
-      "Plan your Sri Lanka journey with airport transfers, private tours, vehicle rentals, safaris, beach trips, and full island travel support.",
+      "Premium airport pickups, drop-offs, day tours, round trips, safaris, and beach getaways across Sri Lanka.",
     image: "/hero1.jpg",
   },
   {
     id: 2,
-    tag: "Rent a Vehicle in Sri Lanka",
+    tag: "Sri Lanka Tours",
     description:
-      "Choose mini cars, hatchbacks, and sedans for daily travel, airport pickup, private journeys, or comfortable island trips.",
+      "Explore wildlife, beaches, whale watching, turtle breeding points, crocodile watching, and island round trips.",
     image: "/hero2.jpg",
   },
   {
     id: 3,
-    tag: "Complete Sri Lanka Travel Support",
+    tag: "Complete Trip Planning",
     description:
-      "From airport transfers to custom tours and vehicle rental, W&W Travels helps arrange your journey from start to finish.",
+      "From airport transfers to custom tours, we help arrange your Sri Lanka journey from start to finish.",
     image: "/hero3.jpg",
   },
 ];
 
 const services = [
-  {
-    icon: <FaCar />,
-    title: "Vehicle Rental",
-    description:
-      "Mini cars, hatchbacks, and sedans available for simple and comfortable vehicle rental.",
-  },
   {
     icon: <FaPlaneArrival />,
     title: "Airport Pickups",
@@ -99,6 +93,12 @@ const services = [
       "Guided travel support for crocodile watching and unique nature-based experiences.",
   },
   {
+    icon: <FaTree />,
+    title: "Turtle Breeding Points",
+    description:
+      "Visit turtle conservation and breeding points with comfortable private transport.",
+  },
+  {
     icon: <FaUmbrellaBeach />,
     title: "Beach Getaways",
     description:
@@ -109,18 +109,18 @@ const services = [
 const whyChooseUs = [
   {
     icon: <FaUserShield />,
-    title: "Reliable Travel Support",
-    text: "Friendly local support for vehicle rental, airport transfers, and trip planning.",
+    title: "Reliable Drivers",
+    text: "Professional, polite, and experienced chauffeurs with local travel knowledge.",
   },
   {
     icon: <FaCheckCircle />,
     title: "Easy Booking",
-    text: "Simple enquiry process for vehicle rent, airport transfers, tours, and full trip plans.",
+    text: "Simple enquiry process for airport transfers, tours, and full trip plans.",
   },
   {
     icon: <FaShieldAlt />,
     title: "Safe Travel",
-    text: "Clean vehicles, careful drivers, and comfortable travel arrangements.",
+    text: "Clean, well-maintained vehicles and careful drivers for a comfortable journey.",
   },
   {
     icon: <FaGlobeAsia />,
@@ -151,6 +151,26 @@ const destinations = [
     description: "Wildlife safari destination famous for leopards and elephants.",
     image: "/destinations/yala.jpg",
   },
+  {
+    title: "Kandy",
+    description: "Cultural capital with temples, lake views, and hill-country charm.",
+    image: "/destinations/kandy.jpg",
+  },
+  {
+    title: "Galle",
+    description: "Historic coastal city with Dutch Fort, beaches, and cafés.",
+    image: "/destinations/galle.jpg",
+  },
+  {
+    title: "Nuwara Eliya",
+    description: "Tea country destination with cool weather and scenic views.",
+    image: "/destinations/nuwara-eliya.jpg",
+  },
+  {
+    title: "Bentota",
+    description: "Beach getaway destination with river rides and relaxing resorts.",
+    image: "/destinations/bentota.jpg",
+  },
 ];
 
 const LandingPage = () => {
@@ -165,8 +185,8 @@ const LandingPage = () => {
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
-  const feedbackLoopItems =
-    feedbackList.length > 0 ? [...feedbackList, ...feedbackList] : [];
+  const visibleDestinations = destinations.slice(0, 4);
+  const feedbackLoopItems = feedbackList.length > 0 ? [...feedbackList, ...feedbackList] : [];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -271,7 +291,7 @@ const LandingPage = () => {
           id="home"
           className="ww-hero-structure"
           style={{
-            backgroundImage: `linear-gradient(90deg, rgba(6,14,28,0.86) 0%, rgba(6,14,28,0.62) 48%, rgba(6,14,28,0.2) 100%), url(${currentHero.image})`,
+            backgroundImage: `linear-gradient(90deg, rgba(6,14,28,0.84) 0%, rgba(6,14,28,0.62) 48%, rgba(6,14,28,0.18) 100%), url(${currentHero.image})`,
           }}
         >
           <div className="ww-hero-overlay" />
@@ -279,28 +299,23 @@ const LandingPage = () => {
           <div className="ww-shell">
             <div className="ww-hero-center">
               <span className="ww-hero-badge">
-                W&amp;W Travels • Sri Lanka Travel & Vehicle Rental
+                W&amp;W Travels • Sri Lanka Trip Planner
               </span>
 
               <p className="ww-hero-mini">{currentHero.tag}</p>
 
               <h1>
-                Rent Vehicles,
-                <span>Plan Trips and</span>
-                <span>Explore Sri Lanka</span>
+                Airport Transfers,
+                <span>Private Tours and</span>
+                <span>Sri Lanka Adventures</span>
               </h1>
 
               <p className="ww-hero-text">{currentHero.description}</p>
 
               <div className="ww-hero-buttons">
-                <a href="/rent" className="ww-btn-gold">
-                  <FaCar /> Rent Vehicle
-                </a>
-
                 <a href="/login" className="ww-btn-primary">
-                  <FaRoute /> Plan Your Trip
+                  Book Your Trip
                 </a>
-
                 <a href="#services" className="ww-btn-secondary">
                   View Services
                 </a>
@@ -329,13 +344,13 @@ const LandingPage = () => {
               <span>Sri Lankan Destinations</span>
               <h2>Places You Can Explore</h2>
               <p>
-                Explore Sri Lanka with flexible trip planning, airport transfers,
-                and vehicle rental support.
+                Discover beautiful destinations across Sri Lanka with comfortable
+                transport and custom travel planning.
               </p>
             </div>
 
             <div className="ww-destinations-grid">
-              {destinations.map((place) => (
+              {visibleDestinations.map((place) => (
                 <article className="ww-destination-card" key={place.title}>
                   <div className="ww-destination-img">
                     <img src={place.image} alt={place.title} />
@@ -350,65 +365,16 @@ const LandingPage = () => {
             </div>
 
             <div className="ww-destination-more-wrap">
-              <a href="/login" className="ww-see-more-btn ww-see-more-main">
+              <button
+                type="button"
+                className="ww-see-more-btn ww-see-more-main"
+                onClick={() => {
+                  window.location.href = "/login";
+                }}
+              >
                 See More Destinations
                 <FaArrowRight />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section className="ww-section ww-rent-highlight" id="vehicle-rent">
-          <div className="ww-shell">
-            <div className="ww-rent-box">
-              <div className="ww-rent-content">
-                <span>Vehicle Rental</span>
-                <h2>Rent a Vehicle or Plan Your Full Sri Lanka Trip</h2>
-                <p>
-                  W&amp;W Travels helps both local and foreign customers with
-                  simple vehicle rentals and complete Sri Lanka trip planning.
-                  Choose a mini car, hatchback, or sedan for comfortable travel,
-                  or let us arrange your full journey with tours, airport
-                  transfers, safaris, and beach getaways.
-                </p>
-
-                <div className="ww-rent-features">
-                  <div><FaCheckCircle /> Mini Cars, Hatchbacks & Sedans</div>
-                  <div><FaCheckCircle /> Self Drive for Sri Lankan Customers</div>
-                  <div><FaCheckCircle /> Driver Service for Foreign Customers</div>
-                  <div><FaCheckCircle /> Trip Planning + Vehicle Support</div>
-                </div>
-
-                <div className="ww-rent-actions">
-                  <a href="/rent" className="ww-btn-gold">
-                    <FaCar /> Rent a Vehicle
-                  </a>
-
-                  <a href="/login" className="ww-btn-primary">
-                    <FaRoute /> Plan a Trip
-                  </a>
-                </div>
-              </div>
-
-              <div className="ww-rent-cards">
-                <article>
-                  <h3>Mini Cars</h3>
-                  <p>Alto • Nano • Wagon R</p>
-                  <span>Best for city travel and budget trips.</span>
-                </article>
-
-                <article>
-                  <h3>Hatchbacks</h3>
-                  <p>Aqua • Honda Fit • Spacia</p>
-                  <span>Fuel efficient and comfortable for small groups.</span>
-                </article>
-
-                <article>
-                  <h3>Sedans</h3>
-                  <p>Prius • Axio • Insight</p>
-                  <span>Better comfort for airport transfers and long trips.</span>
-                </article>
-              </div>
+              </button>
             </div>
           </div>
         </section>
@@ -422,24 +388,24 @@ const LandingPage = () => {
 
               <div className="ww-about-content">
                 <span>About Us</span>
-                <h2>Your trusted travel and vehicle rental partner in Sri Lanka</h2>
+                <h2>Your trusted travel partner in Sri Lanka</h2>
                 <p>
                   W&amp;W Travels helps travelers arrange smooth, safe, and
-                  memorable journeys across Sri Lanka. We support vehicle
-                  rentals, airport transfers, city tours, day tours, island round
-                  trips, wildlife safaris, whale watching trips, and beach
-                  getaways.
+                  memorable trips across Sri Lanka. We provide airport pickups,
+                  airport drop-offs, city tours, day tours, island round trips,
+                  wildlife safaris, whale watching trips, crocodile watching,
+                  turtle breeding point visits, and beach getaways.
                 </p>
                 <p>
-                  Whether you need a vehicle for daily travel, one airport
-                  transfer, a private tour, or a complete island travel plan, we
-                  focus on comfort, punctuality, and friendly service.
+                  Whether you need one airport transfer, a private tour, or a
+                  complete island travel plan, we focus on comfort, punctuality,
+                  and friendly service.
                 </p>
 
                 <div className="ww-about-points">
                   <div>
                     <FaCheckCircle />
-                    <span>Mini cars, hatchbacks, and sedans for rent</span>
+                    <span>Professional drivers and clean vehicles</span>
                   </div>
                   <div>
                     <FaCheckCircle />
@@ -447,7 +413,7 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <FaCheckCircle />
-                    <span>Islandwide travel planning and vehicle support</span>
+                    <span>Islandwide transport and travel coverage</span>
                   </div>
                 </div>
               </div>
@@ -461,8 +427,8 @@ const LandingPage = () => {
               <span>What We Offer</span>
               <h2>Our Services</h2>
               <p>
-                From vehicle rental to airport transfers, wildlife safaris, and
-                beach getaways, we help you explore Sri Lanka with comfort.
+                From airport transfers to wildlife safaris and beach getaways,
+                we help you explore Sri Lanka with comfort and confidence.
               </p>
             </div>
 
@@ -484,8 +450,8 @@ const LandingPage = () => {
               <span>Why Us</span>
               <h2>Why Choose W&amp;W Travels</h2>
               <p>
-                One website for both vehicle rental and complete Sri Lanka trip
-                planning.
+                We help you travel with confidence by arranging your transport,
+                routes, and memorable Sri Lankan activities.
               </p>
             </div>
 
@@ -507,8 +473,8 @@ const LandingPage = () => {
               <span>Customer Feedback</span>
               <h2>Share Your Travel Experience</h2>
               <p>
-                Your feedback helps us improve our vehicle rental, airport
-                transfers, tours, and Sri Lanka travel services.
+                Your feedback helps us improve our airport transfers, tours, and
+                Sri Lanka travel services.
               </p>
             </div>
 
@@ -567,20 +533,14 @@ const LandingPage = () => {
               <div className="ww-feedback-loop-wrap">
                 <div className="ww-feedback-loop-title">
                   <span>Recent Feedback</span>
-                  <strong>
-                    {feedbackList.length} review
-                    {feedbackList.length === 1 ? "" : "s"}
-                  </strong>
+                  <strong>{feedbackList.length} review{feedbackList.length === 1 ? "" : "s"}</strong>
                 </div>
 
                 {feedbackList.length > 0 ? (
                   <div className="ww-feedback-loop-mask">
                     <div className="ww-feedback-loop-track">
                       {feedbackLoopItems.map((item, loopIndex) => (
-                        <article
-                          className="ww-feedback-card"
-                          key={`${item.id}-${loopIndex}`}
-                        >
+                        <article className="ww-feedback-card" key={`${item.id}-${loopIndex}`}>
                           <div className="ww-feedback-top">
                             <div className="ww-feedback-avatar">
                               {String(item.name || "G").charAt(0).toUpperCase()}
@@ -589,11 +549,11 @@ const LandingPage = () => {
                             <div>
                               <strong>{item.name}</strong>
                               <div className="ww-feedback-stars">
-                                {Array.from({
-                                  length: Number(item.rating) || 5,
-                                }).map((_, index) => (
-                                  <FaStar key={index} />
-                                ))}
+                                {Array.from({ length: Number(item.rating) || 5 }).map(
+                                  (_, index) => (
+                                    <FaStar key={index} />
+                                  )
+                                )}
                               </div>
                             </div>
                           </div>
@@ -617,18 +577,14 @@ const LandingPage = () => {
         <section className="ww-cta-section">
           <div className="ww-shell">
             <div className="ww-cta-box">
-              <h2>Need a Vehicle or Trip Plan?</h2>
+              <h2>Plan Your Sri Lanka Journey Today</h2>
               <p>
-                Rent a vehicle, book an airport transfer, plan a day tour, or
-                arrange a full Sri Lanka journey with W&amp;W Travels.
+                Need an airport pickup, day tour, wildlife safari, whale watching
+                trip, or full island round trip? Contact us and we will help
+                arrange your journey.
               </p>
 
               <div className="ww-cta-action">
-                <a href="/rent" className="ww-cta-gold">
-                  <FaCar />
-                  Rent Vehicle
-                </a>
-
                 <a
                   href="https://wa.me/94701097969"
                   target="_blank"
@@ -650,11 +606,11 @@ const LandingPage = () => {
             <div className="ww-contact-wrap">
               <div className="ww-contact-left">
                 <span>Contact Info</span>
-                <h2>Let’s arrange your vehicle or trip smoothly</h2>
+                <h2>Let’s arrange your next trip smoothly</h2>
                 <p>
-                  Reach out for vehicle rentals, airport transfers, city tours,
-                  day tours, round trips, safaris, whale watching, and beach
-                  getaways.
+                  Reach out for airport transfers, city tours, day tours, round
+                  trips, safaris, whale watching, turtle breeding points, and
+                  beach getaways.
                 </p>
 
                 <div className="ww-contact-list">
@@ -662,21 +618,21 @@ const LandingPage = () => {
                     <strong>
                       <FaPhoneAlt /> Phone
                     </strong>
-                    <span>+94 70 109 7969</span>
+                    <span>+94 77 123 4567</span>
                   </div>
 
                   <div>
                     <strong>
                       <FaEnvelope /> Email
                     </strong>
-                    <span>wwtravelandtour@gmail.com</span>
+                    <span>info@wwtravels.lk</span>
                   </div>
 
                   <div>
                     <strong>
                       <FaMapMarkerAlt /> Location
                     </strong>
-                    <span>Matara, Sri Lanka</span>
+                    <span>Colombo, Sri Lanka</span>
                   </div>
                 </div>
               </div>
@@ -687,7 +643,7 @@ const LandingPage = () => {
                 <input type="text" placeholder="Phone Number" />
                 <textarea
                   rows={6}
-                  placeholder="Tell us about your vehicle rental or travel plans..."
+                  placeholder="Tell us about your travel plans..."
                 />
                 <button type="submit">Send Enquiry</button>
               </form>
