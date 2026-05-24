@@ -19,6 +19,13 @@ import {
   FaTree,
   FaArrowRight,
   FaStar,
+  FaCar,
+  FaUsers,
+  FaCalendarCheck,
+  FaSearchLocation,
+  FaSuitcaseRolling,
+  FaMapMarkedAlt,
+  FaClock,
 } from "react-icons/fa";
 
 import Navbar from "../components/Navbar";
@@ -28,24 +35,102 @@ import "./LandingPage.css";
 const heroSlides = [
   {
     id: 1,
-    tag: "Airport Transfer",
+    tag: "Vehicle Rental + Private Driver",
     description:
-      "Premium airport pickups, drop-offs, day tours, round trips, safaris, and beach getaways across Sri Lanka.",
+      "Book a car, van, SUV, VIP vehicle, or bus with a trusted driver for airport transfers, day tours, and Sri Lanka round trips.",
     image: "/hero1.jpg",
   },
   {
     id: 2,
-    tag: "Sri Lanka Tours",
+    tag: "Airport Transfers",
     description:
-      "Explore wildlife, beaches, whale watching, turtle breeding points, crocodile watching, and island round trips.",
+      "Easy airport pickup and drop-off service from Sri Lanka airports to hotels, beaches, cities, and tourist destinations.",
     image: "/hero2.jpg",
   },
   {
     id: 3,
-    tag: "Complete Trip Planning",
+    tag: "Tours & Travel Transport",
     description:
-      "From airport transfers to custom tours, we help arrange your Sri Lanka journey from start to finish.",
+      "Plan safaris, whale watching, city tours, beach getaways, and island trips with comfortable private transport.",
     image: "/hero3.jpg",
+  },
+];
+
+const quickBookingOptions = [
+  {
+    icon: <FaPlaneArrival />,
+    title: "Airport Transfer",
+    text: "Pickup or drop-off from airport to hotel / destination.",
+  },
+  {
+    icon: <FaCar />,
+    title: "Rent a Vehicle",
+    text: "Choose car, van, SUV, VIP vehicle, or bus for your trip.",
+  },
+  {
+    icon: <FaRoute />,
+    title: "Private Tour",
+    text: "Book city tours, day tours, round trips, and attractions.",
+  },
+];
+
+const vehicleTypes = [
+  {
+    icon: <FaCar />,
+    title: "Cars & Sedans",
+    text: "Best for couples, small families, airport drops, and city trips.",
+    pax: "1 - 4 passengers",
+  },
+  {
+    icon: <FaUsers />,
+    title: "Vans & Mini Vans",
+    text: "Comfortable choice for families, groups, tours, and luggage.",
+    pax: "4 - 14 passengers",
+  },
+  {
+    icon: <FaShieldAlt />,
+    title: "SUV & VIP Vehicles",
+    text: "Premium option for comfortable long-distance travel.",
+    pax: "1 - 5 passengers",
+  },
+  {
+    icon: <FaGlobeAsia />,
+    title: "Buses & Group Travel",
+    text: "Suitable for large groups, company trips, and long island tours.",
+    pax: "10 - 50 passengers",
+  },
+];
+
+const tripTypes = [
+  {
+    icon: <FaPlaneArrival />,
+    title: "Airport Pickups",
+    description: "From airport to hotel, city, beach, or any destination in Sri Lanka.",
+  },
+  {
+    icon: <FaPlaneDeparture />,
+    title: "Airport Drop-offs",
+    description: "On-time return transport from your location to the airport.",
+  },
+  {
+    icon: <FaRoute />,
+    title: "City & Day Tours",
+    description: "Private day tours with flexible routes and local travel support.",
+  },
+  {
+    icon: <FaMapMarkedAlt />,
+    title: "Island Round Trips",
+    description: "Multi-day trips covering beaches, culture, hill country, and nature.",
+  },
+  {
+    icon: <FaPaw />,
+    title: "Wildlife Safaris",
+    description: "Transport support for Yala, Udawalawe, Wilpattu, and nature parks.",
+  },
+  {
+    icon: <FaUmbrellaBeach />,
+    title: "Beach Getaways",
+    description: "Relaxing coastal trips to Mirissa, Galle, Bentota, Arugam Bay, and more.",
   },
 ];
 
@@ -115,7 +200,7 @@ const whyChooseUs = [
   {
     icon: <FaCheckCircle />,
     title: "Easy Booking",
-    text: "Simple enquiry process for airport transfers, tours, and full trip plans.",
+    text: "Simple enquiry process for airport transfers, rental vehicles, tours, and full trip plans.",
   },
   {
     icon: <FaShieldAlt />,
@@ -129,47 +214,48 @@ const whyChooseUs = [
   },
 ];
 
-const destinations = [
+const popularRoutes = [
   {
-    title: "Sigiriya",
-    description: "Ancient rock fortress with beautiful views and history.",
-    image: "/destinations/sigiriya.jpg",
+    title: "Airport to Hotel Transfer",
+    description: "Best for arrival and departure travel with luggage support.",
+    image: "/destinations/colombo.jpg",
+    tag: "Airport Transfer",
   },
   {
-    title: "Ella",
-    description:
-      "Hill country destination with waterfalls, tea fields, and Nine Arch Bridge.",
-    image: "/destinations/ella.jpg",
-  },
-  {
-    title: "Mirissa",
-    description: "Popular beach town for whale watching and relaxing holidays.",
-    image: "/destinations/mirissa.jpg",
-  },
-  {
-    title: "Yala National Park",
-    description: "Wildlife safari destination famous for leopards and elephants.",
-    image: "/destinations/yala.jpg",
-  },
-  {
-    title: "Kandy",
-    description: "Cultural capital with temples, lake views, and hill-country charm.",
+    title: "Private Driver for Sri Lanka Tour",
+    description: "Hire a vehicle with driver for one day or multi-day travel.",
     image: "/destinations/kandy.jpg",
+    tag: "Vehicle Rental",
   },
   {
-    title: "Galle",
-    description: "Historic coastal city with Dutch Fort, beaches, and cafés.",
-    image: "/destinations/galle.jpg",
+    title: "Wildlife Safari Transport",
+    description: "Travel support for Yala, Udawalawe, Wilpattu, and nature trips.",
+    image: "/destinations/yala.jpg",
+    tag: "Safari Trip",
   },
   {
-    title: "Nuwara Eliya",
-    description: "Tea country destination with cool weather and scenic views.",
-    image: "/destinations/nuwara-eliya.jpg",
+    title: "Beach & Whale Watching Trips",
+    description: "Comfortable transport to Mirissa, Galle, Bentota, and south coast.",
+    image: "/destinations/mirissa.jpg",
+    tag: "Beach Getaway",
+  },
+];
+
+const howItWorks = [
+  {
+    icon: <FaSearchLocation />,
+    title: "Tell us your route",
+    text: "Share pickup location, destination, travel date, passengers, and luggage details.",
   },
   {
-    title: "Bentota",
-    description: "Beach getaway destination with river rides and relaxing resorts.",
-    image: "/destinations/bentota.jpg",
+    icon: <FaCar />,
+    title: "Choose vehicle type",
+    text: "Select car, van, SUV, VIP vehicle, or bus depending on your group size.",
+  },
+  {
+    icon: <FaCalendarCheck />,
+    title: "Confirm your trip",
+    text: "We confirm your booking and arrange safe transport with driver support.",
   },
 ];
 
@@ -185,7 +271,6 @@ const LandingPage = () => {
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
-  const visibleDestinations = destinations.slice(0, 4);
   const feedbackLoopItems = feedbackList.length > 0 ? [...feedbackList, ...feedbackList] : [];
 
   useEffect(() => {
@@ -291,90 +376,201 @@ const LandingPage = () => {
           id="home"
           className="ww-hero-structure"
           style={{
-            backgroundImage: `linear-gradient(90deg, rgba(6,14,28,0.84) 0%, rgba(6,14,28,0.62) 48%, rgba(6,14,28,0.18) 100%), url(${currentHero.image})`,
+            backgroundImage: `linear-gradient(90deg, rgba(6,14,28,0.88) 0%, rgba(6,14,28,0.74) 48%, rgba(6,14,28,0.24) 100%), url(${currentHero.image})`,
           }}
         >
           <div className="ww-hero-overlay" />
 
           <div className="ww-shell">
-            <div className="ww-hero-center">
-              <span className="ww-hero-badge">
-                W&amp;W Travels • Sri Lanka Trip Planner
-              </span>
+            <div className="ww-hero-layout">
+              <div className="ww-hero-content">
+                <span className="ww-hero-badge">
+                  W&amp;W Travels • Vehicle Rental &amp; Sri Lanka Tours
+                </span>
 
-              <p className="ww-hero-mini">{currentHero.tag}</p>
+                <p className="ww-hero-mini">{currentHero.tag}</p>
 
-              <h1>
-                Airport Transfers,
-                <span>Private Tours and</span>
-                <span>Sri Lanka Adventures</span>
-              </h1>
+                <h1>
+                  Rent a vehicle with driver for
+                  <span>Sri Lanka travel</span>
+                </h1>
 
-              <p className="ww-hero-text">{currentHero.description}</p>
+                <p className="ww-hero-text">{currentHero.description}</p>
 
-              <div className="ww-hero-buttons">
-                <a href="/login" className="ww-btn-primary">
-                  Book Your Trip
-                </a>
-                <a href="#services" className="ww-btn-secondary">
-                  View Services
-                </a>
+                <div className="ww-hero-buttons">
+                  <a href="/login" className="ww-btn-primary">
+                    Book Your Vehicle
+                    <FaArrowRight />
+                  </a>
+                  <a href="#trip-types" className="ww-btn-secondary">
+                    View Trip Options
+                  </a>
+                </div>
+
+                <div className="ww-hero-trust">
+                  <span><FaCheckCircle /> Airport transfers</span>
+                  <span><FaCheckCircle /> Cars, vans, SUVs &amp; buses</span>
+                  <span><FaCheckCircle /> Private tours islandwide</span>
+                </div>
+
+                <div className="ww-hero-dots">
+                  {heroSlides.map((slide, index) => (
+                    <button
+                      key={slide.id}
+                      type="button"
+                      className={`ww-hero-dot ${
+                        activeSlide === index ? "active" : ""
+                      }`}
+                      onClick={() => setActiveSlide(index)}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
 
-              <div className="ww-hero-dots">
-                {heroSlides.map((slide, index) => (
-                  <button
-                    key={slide.id}
-                    type="button"
-                    className={`ww-hero-dot ${
-                      activeSlide === index ? "active" : ""
-                    }`}
-                    onClick={() => setActiveSlide(index)}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
+              <div className="ww-booking-card">
+                <div className="ww-booking-card-head">
+                  <span>Start here</span>
+                  <h3>What do you need?</h3>
+                  <p>Choose the service type first. Then send your trip details.</p>
+                </div>
+
+                <div className="ww-booking-options">
+                  {quickBookingOptions.map((item) => (
+                    <a href="/login" className="ww-booking-option" key={item.title}>
+                      <div>{item.icon}</div>
+                      <span>{item.title}</span>
+                      <small>{item.text}</small>
+                    </a>
+                  ))}
+                </div>
+
+                <div className="ww-booking-mini-form">
+                  <div>
+                    <FaSearchLocation /> Pickup location
+                  </div>
+                  <div>
+                    <FaMapMarkerAlt /> Drop location / destination
+                  </div>
+                  <div>
+                    <FaCalendarCheck /> Travel date
+                  </div>
+                  <div>
+                    <FaUsers /> Passengers
+                  </div>
+                </div>
+
+                <a href="/login" className="ww-booking-submit">
+                  Continue to Booking
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="destinations" className="ww-section ww-destinations-section">
+        <section id="clear-info" className="ww-clear-info-section">
+          <div className="ww-shell">
+            <div className="ww-clear-info-card">
+              <div>
+                <span className="ww-section-eyebrow">What is this website?</span>
+                <h2>Book private transport for your Sri Lanka trip</h2>
+                <p>
+                  This website is for customers who need a vehicle with driver,
+                  airport transfer, day tour, safari transport, beach trip, or
+                  full island round trip. You can choose your service, vehicle
+                  type, pickup place, destination, date, and passenger count.
+                </p>
+              </div>
+
+              <div className="ww-clear-info-points">
+                <div><FaCar /> Vehicle rental with driver</div>
+                <div><FaPlaneArrival /> Airport pickup and drop-off</div>
+                <div><FaSuitcaseRolling /> Tourist trip transport</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="vehicle-types" className="ww-section ww-vehicle-section">
           <div className="ww-shell">
             <div className="ww-title-block">
-              <span>Sri Lankan Destinations</span>
-              <h2>Places You Can Explore</h2>
+              <span>Choose Your Vehicle</span>
+              <h2>Vehicle options for every trip</h2>
               <p>
-                Discover beautiful destinations across Sri Lanka with comfortable
-                transport and custom travel planning.
+                First select the type of vehicle you need. Then choose your pickup,
+                drop location, date, and travel plan.
               </p>
             </div>
 
-            <div className="ww-destinations-grid">
-              {visibleDestinations.map((place) => (
-                <article className="ww-destination-card" key={place.title}>
-                  <div className="ww-destination-img">
-                    <img src={place.image} alt={place.title} />
-                  </div>
-
-                  <div className="ww-destination-content">
-                    <h3>{place.title}</h3>
-                    <p>{place.description}</p>
+            <div className="ww-vehicle-grid">
+              {vehicleTypes.map((vehicle) => (
+                <article className="ww-vehicle-card" key={vehicle.title}>
+                  <div className="ww-vehicle-icon">{vehicle.icon}</div>
+                  <div>
+                    <h3>{vehicle.title}</h3>
+                    <p>{vehicle.text}</p>
+                    <span>{vehicle.pax}</span>
                   </div>
                 </article>
               ))}
             </div>
+          </div>
+        </section>
 
-            <div className="ww-destination-more-wrap">
-              <button
-                type="button"
-                className="ww-see-more-btn ww-see-more-main"
-                onClick={() => {
-                  window.location.href = "/login";
-                }}
-              >
-                See More Destinations
-                <FaArrowRight />
-              </button>
+        <section id="trip-types" className="ww-section ww-trip-section">
+          <div className="ww-shell">
+            <div className="ww-title-block">
+              <span>Trip Options</span>
+              <h2>What can customers book?</h2>
+              <p>
+                Customers can clearly understand that this is not only a destination
+                website. It is a transport booking website for rental vehicles,
+                airport transfers, private tours, and travel activities.
+              </p>
+            </div>
+
+            <div className="ww-trip-grid">
+              {tripTypes.map((trip) => (
+                <article className="ww-trip-card" key={trip.title}>
+                  <div className="ww-trip-icon">{trip.icon}</div>
+                  <h3>{trip.title}</h3>
+                  <p>{trip.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="popular-routes" className="ww-section ww-routes-section">
+          <div className="ww-shell">
+            <div className="ww-title-row">
+              <div>
+                <span className="ww-section-eyebrow">Popular bookings</span>
+                <h2>Common travel requests</h2>
+                <p>
+                  These examples help customers quickly understand what they can book.
+                </p>
+              </div>
+
+              <a href="/login" className="ww-small-link">
+                Start Booking <FaArrowRight />
+              </a>
+            </div>
+
+            <div className="ww-routes-grid">
+              {popularRoutes.map((route) => (
+                <article className="ww-route-card" key={route.title}>
+                  <div className="ww-route-img">
+                    <img src={route.image} alt={route.title} />
+                    <span>{route.tag}</span>
+                  </div>
+
+                  <div className="ww-route-content">
+                    <h3>{route.title}</h3>
+                    <p>{route.description}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -388,24 +584,29 @@ const LandingPage = () => {
 
               <div className="ww-about-content">
                 <span>About Us</span>
-                <h2>Your trusted travel partner in Sri Lanka</h2>
+                <h2>Your trusted vehicle rental and travel partner in Sri Lanka</h2>
                 <p>
-                  W&amp;W Travels helps travelers arrange smooth, safe, and
-                  memorable trips across Sri Lanka. We provide airport pickups,
-                  airport drop-offs, city tours, day tours, island round trips,
-                  wildlife safaris, whale watching trips, crocodile watching,
-                  turtle breeding point visits, and beach getaways.
+                  W&amp;W Travels helps local and foreign travelers arrange smooth,
+                  safe, and memorable trips across Sri Lanka. We provide rental
+                  vehicles with driver, airport pickups, airport drop-offs, city
+                  tours, day tours, island round trips, wildlife safaris, whale
+                  watching trips, crocodile watching, turtle breeding point visits,
+                  and beach getaways.
                 </p>
                 <p>
-                  Whether you need one airport transfer, a private tour, or a
-                  complete island travel plan, we focus on comfort, punctuality,
-                  and friendly service.
+                  Whether you need one airport transfer, a private vehicle, a day
+                  tour, or a complete island travel plan, we focus on comfort,
+                  punctuality, and friendly service.
                 </p>
 
                 <div className="ww-about-points">
                   <div>
                     <FaCheckCircle />
                     <span>Professional drivers and clean vehicles</span>
+                  </div>
+                  <div>
+                    <FaCheckCircle />
+                    <span>Cars, vans, SUVs, VIP vehicles, and buses</span>
                   </div>
                   <div>
                     <FaCheckCircle />
@@ -438,6 +639,29 @@ const LandingPage = () => {
                   <div className="ww-service-icon">{service.icon}</div>
                   <h3>{service.title}</h3>
                   <p>{service.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="ww-section ww-process-section" id="how-it-works">
+          <div className="ww-shell">
+            <div className="ww-title-block">
+              <span>Simple Process</span>
+              <h2>How booking works</h2>
+              <p>
+                A clear booking flow helps customers understand the website without confusion.
+              </p>
+            </div>
+
+            <div className="ww-process-grid">
+              {howItWorks.map((item, index) => (
+                <article className="ww-process-card" key={item.title}>
+                  <strong>0{index + 1}</strong>
+                  <div>{item.icon}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
                 </article>
               ))}
             </div>
@@ -577,11 +801,11 @@ const LandingPage = () => {
         <section className="ww-cta-section">
           <div className="ww-shell">
             <div className="ww-cta-box">
-              <h2>Plan Your Sri Lanka Journey Today</h2>
+              <span><FaClock /> Quick response</span>
+              <h2>Need a vehicle for your Sri Lanka trip?</h2>
               <p>
-                Need an airport pickup, day tour, wildlife safari, whale watching
-                trip, or full island round trip? Contact us and we will help
-                arrange your journey.
+                Book airport pickup, vehicle rental with driver, private tour,
+                safari transport, whale watching travel, or a full island round trip.
               </p>
 
               <div className="ww-cta-action">
@@ -595,7 +819,9 @@ const LandingPage = () => {
                   Contact on WhatsApp
                 </a>
 
-                <small>We typically reply within 15 minutes.</small>
+                <a href="/login" className="ww-cta-booking">
+                  Book Online
+                </a>
               </div>
             </div>
           </div>
@@ -608,9 +834,9 @@ const LandingPage = () => {
                 <span>Contact Info</span>
                 <h2>Let’s arrange your next trip smoothly</h2>
                 <p>
-                  Reach out for airport transfers, city tours, day tours, round
-                  trips, safaris, whale watching, turtle breeding points, and
-                  beach getaways.
+                  Reach out for vehicle rental, airport transfers, city tours,
+                  day tours, round trips, safaris, whale watching, turtle breeding
+                  points, and beach getaways.
                 </p>
 
                 <div className="ww-contact-list">
@@ -618,7 +844,7 @@ const LandingPage = () => {
                     <strong>
                       <FaPhoneAlt /> Phone
                     </strong>
-                    <span>+94 77 123 4567</span>
+                    <span>+94 70 109 7969</span>
                   </div>
 
                   <div>
@@ -632,7 +858,7 @@ const LandingPage = () => {
                     <strong>
                       <FaMapMarkerAlt /> Location
                     </strong>
-                    <span>Colombo, Sri Lanka</span>
+                    <span>Matara, Sri Lanka</span>
                   </div>
                 </div>
               </div>
@@ -643,7 +869,7 @@ const LandingPage = () => {
                 <input type="text" placeholder="Phone Number" />
                 <textarea
                   rows={6}
-                  placeholder="Tell us about your travel plans..."
+                  placeholder="Tell us your pickup location, destination, date, passengers, and vehicle type..."
                 />
                 <button type="submit">Send Enquiry</button>
               </form>
