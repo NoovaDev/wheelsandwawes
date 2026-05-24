@@ -1048,3 +1048,53 @@ textarea {
     text-align: center;
   }
 }
+.ww-available-msg {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: fadeUp 0.25s ease;
+}
+
+.ww-available-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ww-available-msg strong {
+  display: block;
+  color: #166534;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.ww-available-msg p {
+  margin: 0;
+  color: #15803d;
+  font-size: 14px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
