@@ -25,37 +25,37 @@ import "./LandingPage.css";
 const heroSlides = [
   {
     id: 1,
-    tag: "Private vehicle booking",
-    title: "Book airport transfers, private tours and vehicles in Sri Lanka",
+    tag: "Vehicle rental in Sri Lanka",
+    title: "Rent a private vehicle with driver for your Sri Lanka trip",
     description:
-      "W&W Travels helps local and foreign travelers arrange reliable vehicles with drivers for airport transfers, day tours, safaris, beach trips and island round trips.",
+      "Book cars, vans, SUVs, VIP vehicles and buses for airport transfers, hotel pickups, city rides, round trips and private tours.",
     image: "/hero1.jpg",
   },
   {
     id: 2,
-    tag: "Sri Lanka tours",
-    title: "Choose your route. We arrange the vehicle and travel support",
+    tag: "Airport transfer service",
+    title: "Airport pickups and drop-offs to any destination",
     description:
-      "Tell us your pickup, destination, travel date and passenger count. We help you choose the right vehicle and plan a smooth trip.",
+      "Tell us your pickup point, destination, date and passengers. We help arrange the right vehicle for a smooth journey.",
     image: "/hero2.jpg",
   },
   {
     id: 3,
-    tag: "Airport to anywhere",
-    title: "From airport pickups to beaches, safaris and hill country",
+    tag: "Tours with private transport",
+    title: "Need a tour? We provide the vehicle and travel support",
     description:
-      "Plan Colombo airport transfers, Mirissa whale watching, Yala safaris, Kandy and Ella tours, turtle points and custom Sri Lanka journeys.",
+      "Plan beach trips, safaris, whale watching, hill country routes and island round trips with comfortable private transport.",
     image: "/hero3.jpg",
   },
 ];
 
 const serviceTypes = [
-  "Airport pickup",
-  "Airport drop-off",
+  "Airport transfers",
+  "Private vehicle rental",
   "Vehicle with driver",
-  "City / day tour",
-  "Island round trip",
-  "Safari / beach trip",
+  "Cars, vans & SUVs",
+  "City and day tours",
+  "Island round trips",
 ];
 
 const services = [
@@ -278,29 +278,35 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section className="ww-search-section" aria-label="Booking enquiry">
+        <section className="ww-search-section" aria-label="Vehicle booking enquiry">
           <div className="ww-shell">
             <div className="ww-search-card">
               <div className="ww-search-field">
-                <span>Where from?</span>
-                <strong>Airport / pickup location</strong>
+                <span>Pickup location</span>
+                <strong>Airport, hotel or city</strong>
               </div>
+
               <div className="ww-search-field">
-                <span>Where to?</span>
-                <strong>Hotel / destination</strong>
+                <span>Drop-off / destination</span>
+                <strong>Where do you want to go?</strong>
               </div>
+
               <div className="ww-search-field">
-                <span>Travel date</span>
-                <strong>Choose pickup date</strong>
+                <span>Pickup date</span>
+                <strong>Choose travel date</strong>
               </div>
+
               <div className="ww-search-field">
-                <span>Passengers</span>
-                <strong>Select vehicle type</strong>
+                <span>Vehicle type</span>
+                <strong>Car, van, SUV or bus</strong>
               </div>
-              <a href="/login" className="ww-search-btn">Search trip</a>
+
+              <a href="/login" className="ww-search-btn">
+                Check availability
+              </a>
             </div>
 
-            <div className="ww-service-pills">
+            <div className="ww-service-pills" aria-label="Popular vehicle services">
               {serviceTypes.map((item) => (
                 <span key={item}>{item}</span>
               ))}
