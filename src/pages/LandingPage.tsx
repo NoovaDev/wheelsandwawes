@@ -286,56 +286,88 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section className="ww-search-section" aria-label="Vehicle booking enquiry">
-          <div className="ww-shell">
-            <div className="ww-search-card">
-              <div className="ww-search-field">
-                <span>Pickup location</span>
-                <strong>Airport, hotel or city</strong>
-              </div>
+       <section
+  className="ww-search-section"
+  aria-label="Vehicle booking enquiry"
+>
+  <div className="ww-shell">
 
-              <div className="ww-search-field">
-                <span>Drop-off / destination</span>
-                <strong>Where do you want to go?</strong>
-              </div>
+    <div className="ww-search-card">
 
-              <div className="ww-search-field">
-                <span>Pickup date</span>
-                <strong>Choose travel date</strong>
-              </div>
+      <div className="ww-search-field">
+        <label>Pickup location</label>
 
-              <div className="ww-search-field">
-                <span>Vehicle type</span>
-                <strong>Car, van, SUV or bus</strong>
-              </div>
+        <input
+          type="text"
+          placeholder="Airport, hotel or city"
+        />
+      </div>
 
-              <button
-                type="button"
-                className="ww-search-btn"
-                onClick={handleCheckAvailability}
-              >
-                Check availability
-              </button>
-            </div>
+      <div className="ww-search-field">
+        <label>Destination</label>
 
-            {availabilityMsg && (
-              <div className="ww-available-msg" role="status">
-                <div className="ww-available-icon">✓</div>
+        <input
+          type="text"
+          placeholder="Where do you want to go?"
+        />
+      </div>
 
-                <div>
-                  <strong>Vehicle available</strong>
-                  <p>You can continue booking now.</p>
-                </div>
-              </div>
-            )}
+      <div className="ww-search-field">
+        <label>Pickup date</label>
 
-            <div className="ww-service-pills" aria-label="Popular vehicle services">
-              {serviceTypes.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
-            </div>
-          </div>
-        </section>
+        <input type="date" />
+      </div>
+
+      <div className="ww-search-field">
+        <label>Vehicle type</label>
+
+        <select>
+          <option>Car</option>
+          <option>Van</option>
+          <option>SUV</option>
+          <option>Bus</option>
+        </select>
+      </div>
+
+      <button
+        type="button"
+        className="ww-search-btn"
+        onClick={handleCheckAvailability}
+      >
+        Check availability
+      </button>
+
+    </div>
+
+    {availabilityMsg && (
+      <div className="ww-available-msg">
+
+        <div className="ww-available-icon">
+          ✓
+        </div>
+
+        <div>
+          <strong>Vehicle available</strong>
+
+          <p>
+            You can continue booking now.
+          </p>
+        </div>
+
+      </div>
+    )}
+
+    <div
+      className="ww-service-pills"
+      aria-label="Popular vehicle services"
+    >
+      {serviceTypes.map((item) => (
+        <span key={item}>{item}</span>
+      ))}
+    </div>
+
+  </div>
+</section>
 
         <section id="services" className="ww-section">
           <div className="ww-shell">
