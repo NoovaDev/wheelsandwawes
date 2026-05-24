@@ -385,14 +385,14 @@ const LandingPage = () => {
             <div className="ww-hero-layout">
               <div className="ww-hero-content">
                 <span className="ww-hero-badge">
-                  W&amp;W Travels • Vehicle Rental &amp; Sri Lanka Tours
+                  W&amp;W Travels • Vehicle Booking, Airport Transfers &amp; Tours
                 </span>
 
                 <p className="ww-hero-mini">{currentHero.tag}</p>
 
                 <h1>
-                  Rent a vehicle with driver for
-                  <span>Sri Lanka travel</span>
+                  Book vehicles, airport transfers
+                  <span>and private tours in Sri Lanka</span>
                 </h1>
 
                 <p className="ww-hero-text">{currentHero.description}</p>
@@ -432,7 +432,7 @@ const LandingPage = () => {
                 <div className="ww-booking-card-head">
                   <span>Start here</span>
                   <h3>What do you need?</h3>
-                  <p>Choose the service type first. Then send your trip details.</p>
+                  <p>Select what you need first. Then add pickup, destination, date, and passengers.</p>
                 </div>
 
                 <div className="ww-booking-options">
@@ -521,11 +521,11 @@ const LandingPage = () => {
           <div className="ww-shell">
             <div className="ww-title-block">
               <span>Trip Options</span>
-              <h2>What can customers book?</h2>
+              <h2>Pick the trip type you need</h2>
               <p>
-                Customers can clearly understand that this is not only a destination
-                website. It is a transport booking website for rental vehicles,
-                airport transfers, private tours, and travel activities.
+                This section makes the service clear: customers can book a rental
+                vehicle with driver, airport transfer, private tour, safari transport,
+                or full travel route.
               </p>
             </div>
 

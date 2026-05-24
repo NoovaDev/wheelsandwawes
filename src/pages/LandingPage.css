@@ -1,18 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --bg: #f5f7fb;
+  --bg: #f7f9fc;
   --surface: #ffffff;
-  --surface-soft: #eef4ff;
+  --surface-soft: #f1f5f9;
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
-  --primary-soft: #eaf1ff;
+  --primary-soft: #eff6ff;
   --text: #0f172a;
   --text-soft: #64748b;
-  --line: #dbe6f4;
+  --line: #e2e8f0;
   --success: #16a34a;
   --shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
-  --shadow-hover: 0 24px 58px rgba(37, 99, 235, 0.15);
+  --shadow-hover: 0 24px 58px rgba(15, 23, 42, 0.12);
 }
 
 * {
@@ -71,7 +71,7 @@ select {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top right, rgba(37, 99, 235, 0.22), transparent 26%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.13), transparent 26%),
     radial-gradient(circle at center left, rgba(255, 255, 255, 0.12), transparent 28%);
 }
 
@@ -264,7 +264,7 @@ select {
   padding: 14px;
   border-radius: 18px;
   border: 1px solid var(--line);
-  background: #f8fbff;
+  background: #f8fafc;
   color: var(--text);
   transition: 0.3s ease;
 }
@@ -273,7 +273,7 @@ select {
   border-color: rgba(37, 99, 235, 0.4);
   background: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.09);
 }
 
 .ww-booking-option div {
@@ -307,7 +307,7 @@ select {
 
 .ww-booking-mini-form div {
   padding: 13px;
-  border: 1px solid #dbeafe;
+  border: 1px solid var(--line);
   border-radius: 15px;
   background: #ffffff;
   color: var(--text-soft);
@@ -414,8 +414,8 @@ select {
   gap: 12px;
   border-radius: 18px;
   padding: 16px;
-  background: #f8fbff;
-  border: 1px solid #dbeafe;
+  background: #f8fafc;
+  border: 1px solid var(--line);
   color: var(--text);
   font-weight: 600;
 }
@@ -428,9 +428,7 @@ select {
 /* VEHICLES */
 
 .ww-vehicle-section {
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
-    var(--bg);
+  background: var(--surface);
 }
 
 .ww-vehicle-grid {
@@ -459,8 +457,8 @@ select {
   width: 58px;
   height: 58px;
   border-radius: 20px;
-  background: linear-gradient(135deg, var(--primary), #60a5fa);
-  color: white;
+  background: var(--primary-soft);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -555,8 +553,9 @@ select {
   min-height: 48px;
   padding: 12px 20px;
   border-radius: 999px;
-  background: var(--primary);
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--primary);
+  border: 1px solid rgba(37, 99, 235, 0.2);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -607,8 +606,8 @@ select {
   bottom: 14px;
   padding: 8px 12px;
   border-radius: 999px;
-  background: #ffffff;
-  color: var(--primary-dark);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
   font-size: 12px;
   font-weight: 700;
 }
@@ -752,9 +751,7 @@ select {
 /* FEEDBACK */
 
 .ww-feedback-section {
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
-    linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
 }
 
 .ww-feedback-single {
@@ -803,8 +800,8 @@ select {
   width: 100%;
   padding: 15px 18px;
   border-radius: 18px;
-  border: 1px solid #dbeafe;
-  background: #f8fbff;
+  border: 1px solid var(--line);
+  background: #f8fafc;
   outline: none;
 }
 
@@ -951,7 +948,7 @@ select {
   min-height: 220px;
   border: 1px dashed #bfdbfe;
   border-radius: 28px;
-  background: #f8fbff;
+  background: #f8fafc;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -970,7 +967,7 @@ select {
 
 .ww-cta-section {
   padding: 92px 0;
-  background: linear-gradient(135deg, #0f172a, #1e40af, #2563eb);
+  background: linear-gradient(135deg, #0f172a, #172554);
 }
 
 .ww-cta-box {
@@ -1047,7 +1044,7 @@ select {
 
 .ww-contact-left {
   padding: 44px 36px;
-  background: linear-gradient(135deg, #0f172a, #1d4ed8, #2563eb);
+  background: linear-gradient(135deg, #0f172a, #172554);
   color: white;
 }
 
@@ -1116,6 +1113,176 @@ select {
   display: grid;
   gap: 16px;
   background: white;
+}
+
+
+/* CLEAN BLUE BALANCE + MOBILE READABILITY */
+.ww-booking-card,
+.ww-clear-info-card,
+.ww-vehicle-card,
+.ww-trip-card,
+.ww-route-card,
+.ww-service-card,
+.ww-why-card,
+.ww-process-card,
+.ww-feedback-card,
+.ww-contact-wrap {
+  box-shadow: var(--shadow);
+}
+
+.ww-vehicle-icon,
+.ww-trip-icon,
+.ww-service-icon,
+.ww-why-icon,
+.ww-process-card > div,
+.ww-booking-option div {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.ww-btn-primary,
+.ww-booking-submit,
+.ww-cta-booking,
+.ww-contact-form button,
+.ww-feedback-form button {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #ffffff;
+}
+
+.ww-trip-section,
+.ww-routes-section,
+.ww-vehicle-section {
+  background: #ffffff;
+}
+
+.ww-light,
+.ww-process-section,
+.ww-feedback-section {
+  background: #f8fafc;
+}
+
+.ww-title-block span,
+.ww-section-eyebrow,
+.ww-booking-card-head span,
+.ww-about-content span {
+  color: var(--primary-dark);
+}
+
+.ww-hero-content h1,
+.ww-title-block h2,
+.ww-title-row h2,
+.ww-about-content h2,
+.ww-clear-info-card h2,
+.ww-cta-box h2 {
+  font-weight: 650;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .ww-shell {
+    width: 92%;
+  }
+
+  .ww-hero-layout {
+    padding: 96px 0 48px;
+  }
+
+  .ww-hero-content h1 {
+    font-size: 40px;
+    line-height: 1.08;
+  }
+
+  .ww-hero-text,
+  .ww-title-block p,
+  .ww-title-row p,
+  .ww-clear-info-card p,
+  .ww-about-content p,
+  .ww-cta-box p {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .ww-booking-card,
+  .ww-clear-info-card,
+  .ww-trip-card,
+  .ww-service-card,
+  .ww-why-card,
+  .ww-feedback-card,
+  .ww-process-card,
+  .ww-vehicle-card,
+  .ww-contact-form,
+  .ww-contact-left,
+  .ww-cta-box {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .ww-booking-option {
+    padding: 16px;
+    grid-template-columns: 52px 1fr;
+  }
+
+  .ww-booking-option div,
+  .ww-vehicle-icon,
+  .ww-trip-icon,
+  .ww-service-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .ww-booking-mini-form div,
+  .ww-feedback-form input,
+  .ww-feedback-form textarea,
+  .ww-feedback-form select,
+  .ww-contact-form input,
+  .ww-contact-form textarea {
+    min-height: 52px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ww-shell {
+    width: 94%;
+  }
+
+  .ww-hero-content h1 {
+    font-size: 36px;
+  }
+
+  .ww-title-block h2,
+  .ww-title-row h2,
+  .ww-about-content h2,
+  .ww-cta-box h2,
+  .ww-clear-info-card h2 {
+    font-size: 30px;
+    line-height: 1.15;
+  }
+
+  .ww-vehicle-card h3,
+  .ww-trip-card h3,
+  .ww-service-card h3,
+  .ww-why-card h3,
+  .ww-process-card h3,
+  .ww-route-content h3 {
+    font-size: 20px;
+  }
+
+  .ww-vehicle-card p,
+  .ww-trip-card p,
+  .ww-service-card p,
+  .ww-why-card p,
+  .ww-process-card p,
+  .ww-route-content p {
+    font-size: 15px;
+  }
+
+  .ww-route-img {
+    height: 230px;
+  }
 }
 
 /* RESPONSIVE */
