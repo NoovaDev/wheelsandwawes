@@ -19,6 +19,7 @@ import {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import LocationSearch from "../components/LocationSearch";
 import "./LandingPage.css";
 
 const heroSlides = [
@@ -159,6 +160,11 @@ const LandingPage = () => {
   });
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
+
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropLocation, setDropLocation] = useState("");
+  const [pickupDate, setPickupDate] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
   const [availabilityMsg, setAvailabilityMsg] = useState(false);
 
   const currentHero = heroSlides[activeSlide];
@@ -286,88 +292,84 @@ const LandingPage = () => {
           </div>
         </section>
 
-       <section
-  className="ww-search-section"
-  aria-label="Vehicle booking enquiry"
->
-  <div className="ww-shell">
+        <section
+          className="ww-search-section"
+          aria-label="Vehicle booking enquiry"
+        >
+          <div className="ww-shell">
+            <div className="ww-search-card">
+              <div className="ww-search-field">
+                <label>Pickup location</label>
+                <LocationSearch
+                  placeholder="Airport, hotel or city"
+                  value={pickupLocation}
+                  onChange={setPickupLocation}
+                />
+              </div>
 
-    <div className="ww-search-card">
+              <div className="ww-search-field">
+                <label>Destination</label>
+                <LocationSearch
+                  placeholder="Where do you want to go?"
+                  value={dropLocation}
+                  onChange={setDropLocation}
+                />
+              </div>
 
-      <div className="ww-search-field">
-        <label>Pickup location</label>
+              <div className="ww-search-field">
+                <label>Pickup date</label>
+                <input
+                  type="date"
+                  value={pickupDate}
+                  onChange={(e) => setPickupDate(e.target.value)}
+                />
+              </div>
 
-        <input
-          type="text"
-          placeholder="Airport, hotel or city"
-        />
-      </div>
+              <div className="ww-search-field">
+                <label>Vehicle type</label>
+                <select
+                  value={vehicleType}
+                  onChange={(e) => setVehicleType(e.target.value)}
+                >
+                  <option value="">Select vehicle</option>
+                  <option value="Car">Car</option>
+                  <option value="Van">Van</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Bus">Bus</option>
+                  <option value="VIP Vehicle">VIP Vehicle</option>
+                </select>
+              </div>
 
-      <div className="ww-search-field">
-        <label>Destination</label>
+              <button
+                type="button"
+                className="ww-search-btn"
+                onClick={handleCheckAvailability}
+              >
+                Check availability
+              </button>
+            </div>
 
-        <input
-          type="text"
-          placeholder="Where do you want to go?"
-        />
-      </div>
+            {availabilityMsg && (
+              <div className="ww-available-msg">
+                <div className="ww-available-icon">✓</div>
 
-      <div className="ww-search-field">
-        <label>Pickup date</label>
+                <div>
+                  <strong>Vehicle available</strong>
+                  <p>You can continue booking now.</p>
+                </div>
+              </div>
+            )}
 
-        <input type="date" />
-      </div>
-
-      <div className="ww-search-field">
-        <label>Vehicle type</label>
-
-        <select>
-          <option>Car</option>
-          <option>Van</option>
-          <option>SUV</option>
-          <option>Bus</option>
-        </select>
-      </div>
-
-      <button
-        type="button"
-        className="ww-search-btn"
-        onClick={handleCheckAvailability}
-      >
-        Check availability
-      </button>
-
-    </div>
-
-    {availabilityMsg && (
-      <div className="ww-available-msg">
-
-        <div className="ww-available-icon">
-          ✓
-        </div>
-
-        <div>
-          <strong>Vehicle available</strong>
-
-          <p>
-            You can continue booking now.
-          </p>
-        </div>
-
-      </div>
-    )}
-
-    <div
-      className="ww-service-pills"
-      aria-label="Popular vehicle services"
-    >
-      {serviceTypes.map((item) => (
-        <span key={item}>{item}</span>
-      ))}
-    </div>
-
-  </div>
-</section>
+            <div
+              className="ww-service-pills"
+              aria-label="Popular vehicle services"
+            >
+              {serviceTypes.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section id="services" className="ww-section">
           <div className="ww-shell">
