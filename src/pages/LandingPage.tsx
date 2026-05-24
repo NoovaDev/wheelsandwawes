@@ -14,7 +14,6 @@ import {
   FaShieldAlt,
   FaStar,
   FaUmbrellaBeach,
-  
   FaWhatsapp,
 } from "react-icons/fa";
 
@@ -160,6 +159,7 @@ const LandingPage = () => {
   });
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [availabilityMsg, setAvailabilityMsg] = useState(false);
 
   const currentHero = heroSlides[activeSlide];
   const feedbackLoopItems = useMemo(
@@ -240,7 +240,13 @@ const LandingPage = () => {
     }
   };
 
-  
+  const handleCheckAvailability = () => {
+    setAvailabilityMsg(true);
+
+    window.setTimeout(() => {
+      window.location.href = "/login";
+    }, 1200);
+  };
 
   return (
     <>
@@ -303,10 +309,25 @@ const LandingPage = () => {
                 <strong>Car, van, SUV or bus</strong>
               </div>
 
-              <a href="/login" className="ww-search-btn">
+              <button
+                type="button"
+                className="ww-search-btn"
+                onClick={handleCheckAvailability}
+              >
                 Check availability
-              </a>
+              </button>
             </div>
+
+            {availabilityMsg && (
+              <div className="ww-available-msg" role="status">
+                <div className="ww-available-icon">✓</div>
+
+                <div>
+                  <strong>Vehicle available</strong>
+                  <p>You can continue booking now.</p>
+                </div>
+              </div>
+            )}
 
             <div className="ww-service-pills" aria-label="Popular vehicle services">
               {serviceTypes.map((item) => (
