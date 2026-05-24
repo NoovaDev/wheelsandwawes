@@ -59,9 +59,13 @@ const UserDashboard = () => {
           setActiveTab={setActiveTab}
         />
 
-        <div className="user-dashboard-page">
-          <h2>Loading dashboard...</h2>
-        </div>
+        <main className="user-dashboard-page">
+          <section className="dashboard-loading-card">
+            <div className="loading-ring"></div>
+            <h2>Loading your dashboard</h2>
+            <p>Please wait while we prepare your booking details.</p>
+          </section>
+        </main>
       </>
     );
   }
@@ -74,9 +78,13 @@ const UserDashboard = () => {
         setActiveTab={setActiveTab}
       />
 
-      <div className="user-dashboard-page">
+      <main className="user-dashboard-page">
         {activeTab === "dashboard" && (
-          <DashboardHome bookings={bookings} setActiveTab={setActiveTab} />
+          <DashboardHome
+            bookings={bookings}
+            user={user}
+            setActiveTab={setActiveTab}
+          />
         )}
 
         {activeTab === "trips" && (
@@ -86,7 +94,7 @@ const UserDashboard = () => {
         {activeTab === "profile" && (
           <UserProfile user={user} totalBookings={bookings.length} />
         )}
-      </div>
+      </main>
     </>
   );
 };
