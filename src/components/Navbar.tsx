@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  FaBars,
-  FaTimes,
-  FaHome,
-  FaMapMarkedAlt,
-  FaConciergeBell,
-  FaInfoCircle,
-  FaCheckCircle,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronRight, FaWhatsapp } from "react-icons/fa";
 import "./Navbar.css";
+
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "Vehicles", href: "#vehicle-types" },
+  { label: "Trip Options", href: "#trip-types" },
+  { label: "Popular Routes", href: "#popular-routes" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,51 +21,36 @@ const Navbar = () => {
     <>
       <header className="lpnav">
         <div className="lpnav-shell">
-          <div className="lpnav-left">
-            <Link to="/" className="lpnav-brand" onClick={closeMenu}>
-              <img src="/logo.png" alt="W&W Travels" className="lpnav-logo-img" />
-              <div className="lpnav-brand-text">
-                <strong>W&amp;W Travels</strong>
-                <span>Sri Lanka Tours</span>
-              </div>
-            </Link>
-          </div>
+          <Link to="/" className="lpnav-brand" onClick={closeMenu}>
+            <img src="/logo.png" alt="W&W Travels" className="lpnav-logo-img" />
+            <div className="lpnav-brand-text">
+              <strong>W&amp;W Travels</strong>
+              <span>Private Transport • Sri Lanka</span>
+            </div>
+          </Link>
 
-          <nav className="lpnav-links">
-            <a href="#home" className="lpnav-link-item">
-              <FaHome />
-              <span>Home</span>
-            </a>
-
-            <a href="#destinations" className="lpnav-link-item">
-              <FaMapMarkedAlt />
-              <span>Destinations</span>
-            </a>
-
-            <a href="#services" className="lpnav-link-item">
-              <FaConciergeBell />
-              <span>Services</span>
-            </a>
-
-            <a href="#about" className="lpnav-link-item">
-              <FaInfoCircle />
-              <span>About</span>
-            </a>
-
-            <a href="#why-choose-us" className="lpnav-link-item">
-              <FaCheckCircle />
-              <span>Why Choose Us</span>
-            </a>
-
-            <a href="#contact" className="lpnav-link-item">
-              <FaEnvelope />
-              <span>Contact</span>
-            </a>
+          <nav className="lpnav-links" aria-label="Main navigation">
+            {navLinks.map((item) => (
+              <a href={item.href} className="lpnav-link-item" key={item.label}>
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <div className="lpnav-right">
+            <a
+              href="https://wa.me/94701097969"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lpnav-whatsapp"
+              aria-label="Contact W&W Travels on WhatsApp"
+            >
+              <FaWhatsapp />
+            </a>
+
             <Link to="/login" className="lpnav-login-btn">
-              Login
+              Book Now
+              <FaChevronRight />
             </Link>
 
             <button
@@ -80,14 +65,20 @@ const Navbar = () => {
         </div>
       </header>
 
-      <div className={`lpnav-mobile-overlay ${menuOpen ? "show" : ""}`}>
-        <div className={`lpnav-mobile-panel ${menuOpen ? "show" : ""}`}>
+      <div
+        className={`lpnav-mobile-overlay ${menuOpen ? "show" : ""}`}
+        onClick={closeMenu}
+      >
+        <aside
+          className={`lpnav-mobile-panel ${menuOpen ? "show" : ""}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="lpnav-mobile-top">
             <div className="lpnav-mobile-brand">
               <img src="/logo.png" alt="W&W Travels" className="lpnav-mobile-logo" />
               <div>
                 <strong>W&amp;W Travels</strong>
-                <span>Sri Lanka Tours</span>
+                <span>Vehicle Booking &amp; Tours</span>
               </div>
             </div>
 
@@ -101,50 +92,39 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="lpnav-mobile-links">
-            <a href="#home" className="lpnav-mobile-link" onClick={closeMenu}>
-              <FaHome />
-              <span>Home</span>
-            </a>
-
-            <a
-              href="#destinations"
-              className="lpnav-mobile-link"
-              onClick={closeMenu}
-            >
-              <FaMapMarkedAlt />
-              <span>Destinations</span>
-            </a>
-
-            <a href="#services" className="lpnav-mobile-link" onClick={closeMenu}>
-              <FaConciergeBell />
-              <span>Services</span>
-            </a>
-
-            <a href="#about" className="lpnav-mobile-link" onClick={closeMenu}>
-              <FaInfoCircle />
-              <span>About</span>
-            </a>
-
-            <a
-              href="#why-choose-us"
-              className="lpnav-mobile-link"
-              onClick={closeMenu}
-            >
-              <FaCheckCircle />
-              <span>Why Choose Us</span>
-            </a>
-
-            <a href="#contact" className="lpnav-mobile-link" onClick={closeMenu}>
-              <FaEnvelope />
-              <span>Contact</span>
-            </a>
+          <div className="lpnav-mobile-note">
+            Book airport transfers, private vehicles, tours, safaris, and beach trips across Sri Lanka.
           </div>
 
-          <Link to="/login" className="lpnav-mobile-login-btn" onClick={closeMenu}>
-            Sign In
-          </Link>
-        </div>
+          <nav className="lpnav-mobile-links" aria-label="Mobile navigation">
+            {navLinks.map((item) => (
+              <a
+                href={item.href}
+                className="lpnav-mobile-link"
+                onClick={closeMenu}
+                key={item.label}
+              >
+                <span>{item.label}</span>
+                <FaChevronRight />
+              </a>
+            ))}
+          </nav>
+
+          <div className="lpnav-mobile-actions">
+            <Link to="/login" className="lpnav-mobile-login-btn" onClick={closeMenu}>
+              Start Booking
+            </Link>
+            <a
+              href="https://wa.me/94701097969"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lpnav-mobile-whatsapp"
+              onClick={closeMenu}
+            >
+              WhatsApp Us
+            </a>
+          </div>
+        </aside>
       </div>
     </>
   );
