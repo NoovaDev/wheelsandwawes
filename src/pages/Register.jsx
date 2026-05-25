@@ -1,17 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { allCountries } from "country-telephone-data";
 import { auth } from "../firebase";
 import "./Auth.css";
 
-const countryCodes = [
-  { code: "+94", label: "Sri Lanka +94", min: 9, max: 9 },
-  { code: "+91", label: "India +91", min: 10, max: 10 },
-  { code: "+880", label: "Bangladesh +880", min: 10, max: 10 },
-  { code: "+971", label: "UAE +971", min: 8, max: 9 },
-  { code: "+44", label: "UK +44", min: 10, max: 10 },
-  { code: "+1", label: "USA/Canada +1", min: 10, max: 10 },
-];
+const countryCodes = allCountries.map((country) => ({
+  name: country.name,
+  code: `+${country.dialCode}`,
+  iso2: country.iso2,
+}));
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -25,10 +23,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [resending, setResending] = useState(false);
-
-  const selectedCountry = countryCodes.find(
-    (item) => item.code === form.countryCode
-  );
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -48,13 +42,8 @@ const Register = () => {
       return false;
     }
 
-    if (
-      selectedCountry &&
-      (phone.length < selectedCountry.min || phone.length > selectedCountry.max)
-    ) {
-      alert(
-        `Please enter a valid phone number for ${selectedCountry.label}. Required length: ${selectedCountry.min} digits.`
-      );
+    if (phone.length < 6 || phone.length > 15) {
+      alert("Please enter a valid phone number.");
       return false;
     }
 
@@ -165,8 +154,8 @@ const Register = () => {
               <span>Track all your previous and upcoming trips.</span>
             </div>
             <div>
-              <strong>Phone validation</strong>
-              <span>Save your WhatsApp number with country code.</span>
+              <strong>International phone support</strong>
+              <span>Save your WhatsApp number with any country code.</span>
             </div>
           </div>
 
@@ -216,9 +205,12 @@ const Register = () => {
                     onChange={handleChange}
                     required
                   >
-                    {countryCodes.map((item) => (
-                      <option key={item.code} value={item.code}>
-                        {item.label}
+                    {countryCodes.map((item, index) => (
+                      <option
+                        key={`${item.iso2}-${item.code}-${index}`}
+                        value={item.code}
+                      >
+                        {item.name} {item.code}
                       </option>
                     ))}
                   </select>
@@ -234,7 +226,7 @@ const Register = () => {
                 </div>
 
                 <small className="phone-help">
-                  Do not add 0 before number. Example Sri Lanka: +94 701097969
+                  Do not add 0 before number. Example: +94 701097969
                 </small>
 
                 <label>Password</label>
@@ -269,9 +261,7 @@ const Register = () => {
                 We sent a verification link to:
                 <strong> {registeredEmail}</strong>
               </p>
-              <p>
-                Please verify your email before login. Check spam folder also.
-              </p>
+              <p>Please verify your email before login.</p>
 
               <button
                 type="button"
