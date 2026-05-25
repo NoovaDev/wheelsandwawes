@@ -5,28 +5,19 @@ import { auth } from "../firebase";
 import "./Auth.css";
 
 const Login = () => {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-
     if (params.get("verified") === "true") {
       alert("Your email has been verified successfully. You can login now.");
-
       window.history.replaceState({}, "", "/login");
     }
   }, []);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const loginUser = async (e) => {
@@ -36,61 +27,46 @@ const Login = () => {
     try {
       const firebaseUser = await signInWithEmailAndPassword(
         auth,
-        form.email,
+        form.email.trim(),
         form.password
       );
 
       await firebaseUser.user.reload();
-
       const refreshedUser = auth.currentUser;
 
-      if (!refreshedUser.emailVerified) {
-        alert(
-          "Please verify your email before login. After verifying your email, refresh this page and try again."
-        );
+      if (!refreshedUser?.emailVerified) {
+        alert("Please verify your email before login.");
         return;
       }
 
       const firebaseToken = await refreshedUser.getIdToken(true);
 
-      const res = await axios.post("/api/auth/login", {
-        firebaseToken,
-      });
+      const res = await axios.post("/api/auth/login", { firebaseToken });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      if (res.data.user.role === "admin") {
-        window.location.href = "/admin";
-      } else {
-        window.location.href = "/dashboard";
-      }
+      window.location.href =
+        res.data.user.role === "admin" ? "/admin" : "/dashboard";
     } catch (error) {
       console.log("LOGIN ERROR:", error.response?.data || error);
-
-      alert(
-        error.response?.data?.message ||
-          error.message ||
-          "Login failed"
-      );
+      alert(error.response?.data?.message || error.message || "Login failed");
     } finally {
       setLoading(false);
     }
   };
 
-  const whatsappNumber = "947XXXXXXXX";
+  const whatsappNumber = "94701097969";
 
   return (
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-left">
           <span className="auth-badge">Fast & Secure Booking</span>
-
           <h1>Welcome back to your travel dashboard</h1>
-
           <p>
             Login to manage your bookings, check trip status, and plan your next
-            journey with ease.
+            Sri Lanka journey with ease.
           </p>
 
           <div className="auth-features">
@@ -98,12 +74,10 @@ const Login = () => {
               <strong>Manage bookings</strong>
               <span>View pending, confirmed, and completed trips.</span>
             </div>
-
             <div>
               <strong>Quick support</strong>
               <span>Contact us through WhatsApp for urgent bookings.</span>
             </div>
-
             <div>
               <strong>Secure login</strong>
               <span>Email verification protects customer accounts.</span>
@@ -156,7 +130,6 @@ const Login = () => {
             <span>
               Don’t have an account? <a href="/register">Register</a>
             </span>
-
             <small>Please verify your email before login.</small>
           </div>
         </div>
