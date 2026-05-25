@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { FaEnvelope, FaLock, FaWhatsapp } from "react-icons/fa";
 import { auth } from "../firebase";
 import "./Auth.css";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
     if (params.get("verified") === "true") {
       alert("Your email has been verified successfully. You can login now.");
       window.history.replaceState({}, "", "/login");
@@ -17,11 +23,15 @@ const Login = () => {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const loginUser = async (e) => {
     e.preventDefault();
+
     setLoading(true);
 
     try {
@@ -32,6 +42,7 @@ const Login = () => {
       );
 
       await firebaseUser.user.reload();
+
       const refreshedUser = auth.currentUser;
 
       if (!refreshedUser?.emailVerified) {
@@ -41,7 +52,9 @@ const Login = () => {
 
       const firebaseToken = await refreshedUser.getIdToken(true);
 
-      const res = await axios.post("/api/auth/login", { firebaseToken });
+      const res = await axios.post("/api/auth/login", {
+        firebaseToken,
+      });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -50,7 +63,12 @@ const Login = () => {
         res.data.user.role === "admin" ? "/admin" : "/dashboard";
     } catch (error) {
       console.log("LOGIN ERROR:", error.response?.data || error);
-      alert(error.response?.data?.message || error.message || "Login failed");
+
+      alert(
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed"
+      );
     } finally {
       setLoading(false);
     }
@@ -60,27 +78,48 @@ const Login = () => {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-left">
-          <span className="auth-badge">Fast & Secure Booking</span>
-          <h1>Welcome back to your travel dashboard</h1>
+      <div className="auth-overlay"></div>
+
+      <div className="auth-container booking-style">
+
+        <div className="auth-left booking-left">
+
+          <div className="auth-brand">
+            <img src="/logo.png" alt="W&W Travels" />
+
+            <div>
+              <strong>W&W Travels</strong>
+              <span>Sri Lanka Vehicle Booking</span>
+            </div>
+          </div>
+
+          <span className="auth-badge">
+            Trusted Sri Lanka Transport Service
+          </span>
+
+          <h1>
+            Manage your bookings easily and travel across Sri Lanka comfortably
+          </h1>
+
           <p>
-            Login to manage your bookings, check trip status, and plan your next
-            Sri Lanka journey with ease.
+            Airport transfers, private vehicles, tours, and travel support
+            across Sri Lanka with modern online booking experience.
           </p>
 
-          <div className="auth-features">
+          <div className="booking-mini-card">
             <div>
-              <strong>Manage bookings</strong>
-              <span>View pending, confirmed, and completed trips.</span>
+              <span>Airport pickup</span>
+              <strong>Bandaranaike Airport</strong>
             </div>
+
             <div>
-              <strong>Quick support</strong>
-              <span>Contact us through WhatsApp for urgent bookings.</span>
+              <span>Destination</span>
+              <strong>Anywhere in Sri Lanka</strong>
             </div>
+
             <div>
-              <strong>Secure login</strong>
-              <span>Email verification protects customer accounts.</span>
+              <span>Vehicle</span>
+              <strong>Car • Van • SUV</strong>
             </div>
           </div>
 
@@ -92,47 +131,70 @@ const Login = () => {
             target="_blank"
             rel="noreferrer"
           >
+            <FaWhatsapp />
             Quick Booking via WhatsApp
           </a>
+
         </div>
 
-        <div className="auth-card">
-          <h2>Login</h2>
-          <p>Enter your details to continue.</p>
+        <div className="auth-card booking-card">
+
+          <div className="auth-card-top">
+            <h2>Login</h2>
+            <p>Access your bookings and dashboard</p>
+          </div>
 
           <form onSubmit={loginUser}>
+
             <label>Email Address</label>
-            <input
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+
+            <div className="auth-input-box">
+              <FaEnvelope />
+
+              <input
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
             <label>Password</label>
-            <input
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
+
+            <div className="auth-input-box">
+              <FaLock />
+
+              <input
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                value={form.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
             <button type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
+
           </form>
 
           <div className="auth-bottom">
             <span>
-              Don’t have an account? <a href="/register">Register</a>
+              Don’t have an account?
+              <a href="/register"> Register</a>
             </span>
-            <small>Please verify your email before login.</small>
+
+            <small>
+              Please verify your email before login.
+            </small>
           </div>
+
         </div>
+
       </div>
     </div>
   );
