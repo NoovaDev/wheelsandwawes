@@ -29,7 +29,7 @@ const heroSlides = [
     title: "Rent a private vehicle with driver for your Sri Lanka trip",
     description:
       "Book cars, vans, SUVs, VIP vehicles and buses for airport transfers, hotel pickups, city rides, round trips and private tours.",
-    image: "/hero1.jpg",
+    image: "/hero1.webp",
   },
   {
     id: 2,
