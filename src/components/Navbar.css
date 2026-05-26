@@ -222,7 +222,7 @@ a {
 ========================= */
 
 .lpnav-login-btn {
-  min-width: 118px;
+  min-width: 122px;
 
   height: 44px;
 
@@ -230,13 +230,9 @@ a {
 
   border-radius: 999px;
 
-  background: linear-gradient(
-    135deg,
-    #3b82f6,
-    #2563eb
-  );
+  background: #2563eb;
 
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid #2563eb;
 
   color: #ffffff;
 
@@ -252,16 +248,17 @@ a {
   white-space: nowrap;
 
   box-shadow:
-    0 10px 24px rgba(37,99,235,0.30);
+    0 10px 24px rgba(37,99,235,0.28);
 
-  transition: all 0.25s ease;
+  transition: 0.25s ease;
 }
 
 .lpnav-login-btn:hover {
-  transform: translateY(-2px);
+  background: #1d4ed8;
 
-  box-shadow:
-    0 14px 30px rgba(37,99,235,0.38);
+  border-color: #1d4ed8;
+
+  transform: translateY(-2px);
 }
 
 /* =========================
@@ -480,11 +477,9 @@ a {
 
   border-radius: 16px;
 
-  background: linear-gradient(
-    135deg,
-    #3b82f6,
-    #2563eb
-  );
+  background: #2563eb;
+
+  border: 1px solid #2563eb;
 
   color: #ffffff;
 
@@ -549,7 +544,6 @@ a {
     gap: 8px;
   }
 
-  /* HIDE WHATSAPP TOP BUTTON */
   .lpnav-help-link {
     display: none;
   }
