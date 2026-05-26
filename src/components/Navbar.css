@@ -20,7 +20,10 @@ a {
   text-decoration: none;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
+
 .lpnav {
   position: sticky;
   top: 0;
@@ -32,20 +35,26 @@ a {
 
 .lpnav-shell {
   width: min(94%, 1180px);
+
   height: 74px;
+
   margin: 0 auto;
+
   padding: 0 18px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 18px;
 
   background: rgba(10, 18, 35, 0.62);
+
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
   border: 1px solid rgba(255, 255, 255, 0.1);
+
   border-radius: 24px;
 
   box-shadow:
@@ -53,191 +62,280 @@ a {
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* BRAND */
+/* =========================
+   BRAND
+========================= */
+
 .lpnav-brand {
   display: flex;
   align-items: center;
   gap: 12px;
+
   min-width: 190px;
+
   flex-shrink: 0;
 }
 
 .lpnav-logo-img {
   width: 46px;
   height: 46px;
+
   object-fit: contain;
+
   border-radius: 14px;
+
   background: rgba(255, 255, 255, 0.96);
+
   padding: 4px;
 }
 
 .lpnav-brand-text {
   display: flex;
   flex-direction: column;
+
   line-height: 1.1;
 }
 
 .lpnav-brand-text strong {
   color: #ffffff;
+
   font-size: 17px;
   font-weight: 800;
 }
 
 .lpnav-brand-text span {
   margin-top: 4px;
+
   color: #93c5fd;
+
   font-size: 11px;
   font-weight: 600;
 }
 
-/* NAV LINKS */
+/* =========================
+   NAV LINKS
+========================= */
+
 .lpnav-links {
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 4px;
 
   padding: 6px 10px;
+
   border-radius: 999px;
 
   background: rgba(255, 255, 255, 0.08);
+
   border: 1px solid rgba(255, 255, 255, 0.08);
 
   flex: 1;
+
   max-width: 590px;
 }
 
 .lpnav-link-item {
   color: #e2e8f0;
+
   padding: 10px 13px;
+
   border-radius: 999px;
+
   font-size: 13px;
   font-weight: 700;
+
   white-space: nowrap;
+
   transition: 0.25s ease;
 }
 
 .lpnav-link-item:hover {
   background: rgba(255, 255, 255, 0.14);
+
   color: #ffffff;
 }
 
-/* RIGHT SIDE */
+/* =========================
+   RIGHT SIDE
+========================= */
+
 .lpnav-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
   gap: 10px;
+
   min-width: 250px;
+
   flex-shrink: 0;
 }
 
-/* WHATSAPP BUTTON */
+/* =========================
+   WHATSAPP BUTTON
+========================= */
+
 .lpnav-help-link {
   min-width: 122px;
+
   height: 44px;
+
   padding: 0 18px;
 
   border-radius: 999px;
+
   background: #22c55e;
+
   border: 1px solid #22c55e;
+
   color: #ffffff;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
 
   font-size: 13px;
   font-weight: 800;
+
   white-space: nowrap;
 
-  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.28);
+  box-shadow:
+    0 10px 24px rgba(34, 197, 94, 0.28);
+
   transition: 0.25s ease;
 }
 
 .lpnav-help-link:hover {
   background: #16a34a;
+
   border-color: #16a34a;
+
   transform: translateY(-2px);
 }
 
-/* BOOK BUTTON */
+/* =========================
+   BOOK NOW BUTTON
+========================= */
+
 .lpnav-login-btn {
   min-width: 118px;
+
   height: 44px;
-  padding: 0 20px;
+
+  padding: 0 18px;
 
   border-radius: 999px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
+
+  border: 1px solid rgba(255,255,255,0.12);
+
   color: #ffffff;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  gap: 8px;
+
   font-size: 13px;
   font-weight: 800;
+
   white-space: nowrap;
 
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.32);
-  transition: 0.25s ease;
+  box-shadow:
+    0 10px 24px rgba(37,99,235,0.30);
+
+  transition: all 0.25s ease;
 }
 
 .lpnav-login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.38);
+
+  box-shadow:
+    0 14px 30px rgba(37,99,235,0.38);
 }
 
-/* MOBILE TOGGLE */
+/* =========================
+   MOBILE TOGGLE
+========================= */
+
 .lpnav-mobile-toggle {
   display: none;
+
   width: 42px;
   height: 42px;
 
   border: 1px solid rgba(255, 255, 255, 0.12);
+
   border-radius: 14px;
 
   background: rgba(255, 255, 255, 0.1);
+
   color: #ffffff;
 
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
   font-size: 18px;
 }
 
-/* MOBILE MENU */
+/* =========================
+   MOBILE MENU
+========================= */
+
 .lpnav-mobile-overlay {
   position: fixed;
+
   inset: 0;
+
   z-index: 1200;
 
   background: rgba(2, 6, 23, 0.72);
 
   opacity: 0;
+
   pointer-events: none;
+
   transition: 0.25s ease;
 }
 
 .lpnav-mobile-overlay.show {
   opacity: 1;
+
   pointer-events: auto;
 }
 
 .lpnav-mobile-panel {
   position: absolute;
+
   top: 0;
   right: 0;
 
   width: min(88vw, 380px);
+
   height: 100%;
+
   padding: 20px;
 
-  background: linear-gradient(180deg, #071838, #0f2f65);
+  background: linear-gradient(
+    180deg,
+    #071838,
+    #0f2f65
+  );
 
   transform: translateX(100%);
+
   transition: transform 0.3s ease;
 
   display: flex;
@@ -252,35 +350,46 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
   gap: 12px;
 }
 
 .lpnav-mobile-brand {
   display: flex;
   align-items: center;
+
   gap: 12px;
 }
 
 .lpnav-mobile-logo {
   width: 50px;
   height: 50px;
+
   object-fit: contain;
+
   border-radius: 14px;
+
   background: rgba(255, 255, 255, 0.95);
+
   padding: 4px;
 }
 
 .lpnav-mobile-brand strong {
   display: block;
+
   color: #ffffff;
+
   font-size: 16px;
   font-weight: 800;
 }
 
 .lpnav-mobile-brand span {
   display: block;
+
   margin-top: 4px;
+
   color: #bfdbfe;
+
   font-size: 12px;
 }
 
@@ -289,58 +398,75 @@ a {
   height: 42px;
 
   border: none;
+
   border-radius: 14px;
 
   background: rgba(255, 255, 255, 0.1);
+
   color: #ffffff;
 
   display: grid;
   place-items: center;
+
   cursor: pointer;
+
   font-size: 18px;
 }
 
 .lpnav-mobile-note {
   margin: 20px 0;
+
   padding: 15px;
+
   border-radius: 18px;
 
   background: rgba(255, 255, 255, 0.08);
+
   color: #dbeafe;
 
   line-height: 1.6;
+
   font-size: 13px;
 }
 
 .lpnav-mobile-links {
   display: grid;
+
   gap: 10px;
 }
 
 .lpnav-mobile-link {
   padding: 15px;
+
   border-radius: 16px;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
+
   background: rgba(255, 255, 255, 0.06);
 
   color: #ffffff;
+
   font-size: 14px;
   font-weight: 700;
 }
 
 .lpnav-mobile-whatsapp {
   margin-top: 18px;
+
   min-height: 50px;
 
   border-radius: 16px;
+
   background: #22c55e;
+
   border: 1px solid #22c55e;
+
   color: #ffffff;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
 
   font-size: 14px;
@@ -349,10 +475,17 @@ a {
 
 .lpnav-mobile-login-btn {
   margin-top: 12px;
+
   min-height: 52px;
 
   border-radius: 16px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
+
   color: #ffffff;
 
   display: flex;
@@ -363,8 +496,12 @@ a {
   font-weight: 800;
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width: 1120px) {
+
   .lpnav-brand {
     min-width: 170px;
   }
@@ -375,23 +512,28 @@ a {
 
   .lpnav-link-item {
     padding: 10px 10px;
+
     font-size: 12px;
   }
 }
 
 @media (max-width: 960px) {
+
   .lpnav {
     padding: 12px 0;
   }
 
   .lpnav-shell {
     height: 68px;
+
     padding: 0 14px;
+
     gap: 10px;
   }
 
   .lpnav-brand {
     min-width: 0;
+
     flex: 1;
   }
 
@@ -401,33 +543,44 @@ a {
 
   .lpnav-right {
     min-width: auto;
+
     flex-shrink: 0;
+
     gap: 8px;
   }
 
+  /* HIDE WHATSAPP TOP BUTTON */
   .lpnav-help-link {
     display: none;
   }
 
   .lpnav-login-btn {
     min-width: 110px;
+
     height: 40px;
+
     padding: 0 15px;
+
     font-size: 12px;
   }
 
   .lpnav-mobile-toggle {
     display: inline-flex;
+
     width: 40px;
     height: 40px;
   }
 }
 
 @media (max-width: 540px) {
+
   .lpnav-shell {
     width: 94%;
+
     height: 64px;
+
     padding: 0 10px;
+
     border-radius: 20px;
   }
 
@@ -454,8 +607,11 @@ a {
 
   .lpnav-login-btn {
     min-width: 100px;
+
     height: 38px;
+
     padding: 0 12px;
+
     font-size: 11px;
   }
 
@@ -470,9 +626,12 @@ a {
 }
 
 @media (max-width: 390px) {
+
   .lpnav-login-btn {
     min-width: 94px;
+
     padding: 0 10px;
+
     font-size: 10.5px;
   }
 
