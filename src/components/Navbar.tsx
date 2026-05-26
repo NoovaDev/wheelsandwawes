@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa";
 import "./Navbar.css";
 
 const navLinks = [
@@ -38,9 +38,16 @@ const Navbar = () => {
           </nav>
 
           <div className="lpnav-right">
-            <a href="https://wa.me/94701097969" target="_blank" rel="noopener noreferrer" className="lpnav-help-link">
+            <a
+              href="https://wa.me/94701097969"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lpnav-help-link"
+            >
+              <FaWhatsapp />
               WhatsApp
             </a>
+
             <Link to="/login" className="lpnav-login-btn">
               Book Now
             </Link>
@@ -57,8 +64,14 @@ const Navbar = () => {
         </div>
       </header>
 
-      <div className={`lpnav-mobile-overlay ${menuOpen ? "show" : ""}`} onClick={closeMenu}>
-        <aside className={`lpnav-mobile-panel ${menuOpen ? "show" : ""}`} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`lpnav-mobile-overlay ${menuOpen ? "show" : ""}`}
+        onClick={closeMenu}
+      >
+        <aside
+          className={`lpnav-mobile-panel ${menuOpen ? "show" : ""}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="lpnav-mobile-top">
             <div className="lpnav-mobile-brand">
               <img src="/logo.png" alt="W&W Travels" className="lpnav-mobile-logo" />
@@ -79,16 +92,31 @@ const Navbar = () => {
           </div>
 
           <div className="lpnav-mobile-note">
-            Book a private vehicle with driver for airport transfers, city tours, safaris, beach trips and island round trips.
+            Book private vehicles, airport transfers, island tours, safaris and beach trips across Sri Lanka.
           </div>
 
           <div className="lpnav-mobile-links">
             {navLinks.map((link) => (
-              <a href={link.href} className="lpnav-mobile-link" key={link.label} onClick={closeMenu}>
+              <a
+                href={link.href}
+                className="lpnav-mobile-link"
+                key={link.label}
+                onClick={closeMenu}
+              >
                 {link.label}
               </a>
             ))}
           </div>
+
+          <a
+            href="https://wa.me/94701097969"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lpnav-mobile-whatsapp"
+          >
+            <FaWhatsapp />
+            Chat on WhatsApp
+          </a>
 
           <Link to="/login" className="lpnav-mobile-login-btn" onClick={closeMenu}>
             Start Booking

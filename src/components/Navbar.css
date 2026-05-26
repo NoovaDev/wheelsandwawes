@@ -20,39 +20,54 @@ a {
   text-decoration: none;
 }
 
+/* NAVBAR */
 .lpnav {
   position: sticky;
   top: 0;
   z-index: 900;
   width: 100%;
-  background: #ffffff;
-  border-bottom: 1px solid #dbeafe;
+  padding: 14px 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 24, 56, 0.94),
+    rgba(7, 24, 56, 0.78)
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   font-family: "Poppins", sans-serif;
 }
 
 .lpnav-shell {
   width: min(94%, 1220px);
-  min-height: 74px;
+  min-height: 64px;
   margin: 0 auto;
+  padding: 8px 12px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 45px rgba(2, 8, 23, 0.22);
 }
 
 .lpnav-brand {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   min-width: 0;
 }
 
 .lpnav-logo-img {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  border-radius: 12px;
-  background: #f8fbff;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 4px;
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.24);
 }
 
 .lpnav-brand-text {
@@ -61,15 +76,15 @@ a {
 }
 
 .lpnav-brand-text strong {
-  color: #0f172a;
+  color: #ffffff;
   font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
 }
 
 .lpnav-brand-text span {
-  margin-top: 4px;
-  color: #64748b;
+  margin-top: 5px;
+  color: #bfdbfe;
   font-size: 12px;
   font-weight: 500;
 }
@@ -82,18 +97,19 @@ a {
 }
 
 .lpnav-link-item {
-  color: #334155;
-  padding: 9px 11px;
-  border-radius: 8px;
+  color: #dbeafe;
+  padding: 10px 12px;
+  border-radius: 999px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
-  transition: 0.2s ease;
+  transition: 0.25s ease;
 }
 
 .lpnav-link-item:hover {
-  background: #eff6ff;
-  color: #2563eb;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .lpnav-right {
@@ -104,52 +120,67 @@ a {
 }
 
 .lpnav-help-link {
-  color: #2563eb;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.32);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: 13px;
-  font-weight: 600;
-  padding: 10px 6px;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.lpnav-help-link:hover {
+  background: #22c55e;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .lpnav-login-btn {
-  min-height: 42px;
-  padding: 0 18px;
-  border-radius: 8px;
-  background: #2563eb;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 700;
-  border: 1px solid #2563eb;
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
-  transition: 0.2s ease;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+  transition: 0.25s ease;
 }
 
 .lpnav-login-btn:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(56, 189, 248, 0.35);
 }
 
 .lpnav-mobile-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
-  border: 1px solid #dbeafe;
-  border-radius: 10px;
-  background: #f8fbff;
-  color: #2563eb;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 18px;
 }
 
+/* MOBILE MENU */
 .lpnav-mobile-overlay {
   position: fixed;
   inset: 0;
   z-index: 1200;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(2, 6, 23, 0.68);
   opacity: 0;
   pointer-events: none;
   transition: 0.25s ease;
@@ -164,11 +195,11 @@ a {
   position: absolute;
   top: 0;
   right: 0;
-  width: min(88vw, 380px);
+  width: min(88vw, 390px);
   height: 100%;
-  background: #ffffff;
+  background: linear-gradient(180deg, #071838, #0f2f65);
   padding: 20px;
-  box-shadow: -20px 0 45px rgba(15, 23, 42, 0.2);
+  box-shadow: -24px 0 55px rgba(2, 8, 23, 0.35);
   transform: translateX(100%);
   transition: transform 0.28s ease;
   display: flex;
@@ -193,24 +224,25 @@ a {
 }
 
 .lpnav-mobile-logo {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
-  border-radius: 12px;
-  background: #f8fbff;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 4px;
 }
 
 .lpnav-mobile-brand strong {
   display: block;
-  color: #0f172a;
+  color: #ffffff;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .lpnav-mobile-brand span {
   display: block;
-  margin-top: 3px;
-  color: #64748b;
+  margin-top: 4px;
+  color: #bfdbfe;
   font-size: 12px;
   font-weight: 500;
 }
@@ -219,9 +251,9 @@ a {
   width: 42px;
   height: 42px;
   border: 0;
-  border-radius: 10px;
-  background: #eff6ff;
-  color: #2563eb;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -229,64 +261,86 @@ a {
 }
 
 .lpnav-mobile-note {
-  margin: 18px 0;
-  padding: 14px;
-  border-radius: 12px;
-  background: #eff6ff;
-  color: #1e40af;
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #dbeafe;
   line-height: 1.6;
   font-size: 13px;
   font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .lpnav-mobile-links {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .lpnav-mobile-link {
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #dbeafe;
-  background: #ffffff;
-  color: #334155;
+  padding: 15px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
+  transition: 0.25s ease;
 }
 
 .lpnav-mobile-link:hover {
-  border-color: #2563eb;
-  color: #2563eb;
-  background: #f8fbff;
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.38);
+}
+
+.lpnav-mobile-whatsapp {
+  margin-top: 18px;
+  min-height: 50px;
+  border-radius: 16px;
+  background: rgba(34, 197, 94, 0.18);
+  color: #ffffff;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 800;
 }
 
 .lpnav-mobile-login-btn {
-  margin-top: auto;
+  margin-top: 12px;
   min-height: 52px;
-  border-radius: 10px;
-  background: #2563eb;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-@media (max-width: 1080px) {
+/* RESPONSIVE */
+@media (max-width: 1120px) {
   .lpnav-shell {
     gap: 12px;
   }
 
   .lpnav-link-item {
-    padding: 8px 8px;
+    padding: 9px 9px;
     font-size: 12.5px;
   }
 }
 
-@media (max-width: 920px) {
+@media (max-width: 960px) {
+  .lpnav {
+    padding: 10px 0;
+  }
+
   .lpnav-shell {
-    min-height: 68px;
+    min-height: 62px;
+    grid-template-columns: 1fr auto;
   }
 
   .lpnav-links,
@@ -301,13 +355,20 @@ a {
 }
 
 @media (max-width: 540px) {
+  .lpnav {
+    padding: 8px 0;
+  }
+
   .lpnav-shell {
     width: 94%;
+    padding: 7px 9px;
+    border-radius: 18px;
   }
 
   .lpnav-logo-img {
     width: 44px;
     height: 44px;
+    border-radius: 14px;
   }
 
   .lpnav-brand-text strong {
@@ -315,10 +376,11 @@ a {
   }
 
   .lpnav-brand-text span {
-    max-width: 190px;
+    max-width: 185px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 11px;
   }
 
   .lpnav-mobile-panel {
