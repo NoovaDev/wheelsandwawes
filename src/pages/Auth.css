@@ -3,21 +3,44 @@
 }
 
 .auth-page {
-  min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    #003b95 0%,
-    #0057b8 35%,
-    #006ce4 65%,
-    #0a84ff 100%
-  );
-  background-attachment: fixed;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #003b95 0%, #0057b8 35%, #006ce4 65%, #0a84ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  padding: 76px 16px 24px;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+}
+
+.auth-top-nav {
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-back-btn,
+.auth-nav-actions a {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.auth-nav-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .auth-overlay {
@@ -27,9 +50,9 @@
 .auth-container,
 .booking-style {
   width: 100%;
-  max-width: 1020px;
+  max-width: 1000px;
   display: grid;
-  grid-template-columns: 1fr 390px;
+  grid-template-columns: 1fr 380px;
   gap: 28px;
   align-items: center;
 }
@@ -37,19 +60,18 @@
 .auth-left,
 .booking-left {
   color: #ffffff;
-  padding: 16px 0;
 }
 
 .auth-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .auth-brand img {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
@@ -61,67 +83,65 @@
 }
 
 .auth-brand span {
-  color: rgba(255,255,255,0.86);
+  color: rgba(255, 255, 255, 0.86);
   font-size: 13px;
 }
 
 .auth-badge {
   display: inline-flex;
   align-items: center;
-  background: rgba(255,255,255,0.16);
+  background: rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  padding: 8px 15px;
+  padding: 8px 14px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  margin-bottom: 18px;
-  backdrop-filter: blur(8px);
+  margin-bottom: 16px;
 }
 
 .auth-left h1,
 .booking-left h1 {
   color: #ffffff;
-  font-size: clamp(32px, 4vw, 54px);
-  line-height: 1.05;
-  margin: 0 0 18px;
-  letter-spacing: -1.4px;
-  max-width: 590px;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.06;
+  margin: 0 0 16px;
+  letter-spacing: -1.2px;
+  max-width: 560px;
   font-weight: 800;
 }
 
 .auth-left p,
 .booking-left p {
-  color: rgba(255,255,255,0.88);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 15px;
-  line-height: 1.7;
-  max-width: 520px;
-  margin: 0 0 24px;
+  line-height: 1.65;
+  max-width: 500px;
+  margin: 0 0 22px;
 }
 
 .booking-mini-card {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.14);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 18px;
-  padding: 16px;
+  padding: 15px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
-  max-width: 540px;
+  gap: 12px;
+  margin-bottom: 22px;
+  max-width: 520px;
 }
 
 .booking-mini-card span {
   display: block;
-  color: rgba(255,255,255,0.74);
+  color: rgba(255, 255, 255, 0.74);
   font-size: 11px;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .booking-mini-card strong {
   color: #ffffff;
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .whatsapp-btn {
@@ -136,79 +156,71 @@
   font-size: 14px;
   font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 14px 32px rgba(34,197,94,0.25);
-  transition: 0.25s ease;
-}
-
-.whatsapp-btn:hover {
-  transform: translateY(-2px);
-  background: #16a34a;
+  box-shadow: 0 14px 32px rgba(34, 197, 94, 0.25);
 }
 
 .auth-card,
 .booking-card {
   width: 100%;
-  background: rgba(255,255,255,0.97);
-  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.98);
   border-radius: 24px;
-  padding: 26px;
-  box-shadow: 0 24px 56px rgba(15,23,42,0.18);
+  padding: 24px;
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.18);
 }
 
 .auth-card-top {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .auth-card h2,
 .auth-card-top h2 {
   color: #0f172a;
-  font-size: 32px;
-  margin: 0 0 8px;
+  font-size: 30px;
+  margin: 0 0 6px;
   font-weight: 800;
 }
 
 .auth-card p,
 .auth-card-top p {
   color: #64748b;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .auth-card form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
 }
 
 .auth-card label {
   color: #0f172a;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .auth-input-box {
-  height: 50px;
+  height: 48px;
   display: flex;
   align-items: center;
   gap: 10px;
   border: 1px solid #dbe4f0;
-  border-radius: 14px;
+  border-radius: 13px;
   background: #f8fafc;
-  padding: 0 14px;
-  transition: 0.25s ease;
+  padding: 0 13px;
 }
 
 .auth-input-box:focus-within {
   border-color: #006ce4;
   background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(0,108,228,0.12);
+  box-shadow: 0 0 0 4px rgba(0, 108, 228, 0.12);
 }
 
 .auth-input-box svg {
   color: #64748b;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .auth-card input,
@@ -217,9 +229,9 @@
   border: 1px solid #dbe4f0;
   background: #f8fafc;
   color: #0f172a;
-  padding: 13px 14px;
-  border-radius: 14px;
-  font-size: 14px;
+  padding: 12px 13px;
+  border-radius: 13px;
+  font-size: 13px;
   outline: none;
 }
 
@@ -230,39 +242,26 @@
   padding: 0 !important;
 }
 
-.auth-card input:focus,
-.auth-card select:focus {
-  border-color: #006ce4;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(0,108,228,0.12);
-}
-
 .phone-row {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 9px;
+  grid-template-columns: 145px 1fr;
+  gap: 8px;
 }
 
 .phone-row select {
-  height: 50px;
+  height: 48px;
 }
 
 .auth-card button {
-  margin-top: 10px;
-  height: 50px;
+  margin-top: 8px;
+  height: 48px;
   border: none;
-  border-radius: 14px;
+  border-radius: 13px;
   background: #0071c2;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.auth-card button:hover {
-  background: #005fa3;
-  transform: translateY(-2px);
 }
 
 .auth-card button:disabled {
@@ -271,15 +270,15 @@
 }
 
 .auth-bottom {
-  margin-top: 16px;
+  margin-top: 14px;
   text-align: center;
 }
 
 .auth-bottom span {
   display: block;
   color: #475569;
-  margin-bottom: 7px;
-  font-size: 14px;
+  margin-bottom: 6px;
+  font-size: 13px;
 }
 
 .auth-bottom a,
@@ -292,8 +291,8 @@
 .auth-bottom small,
 .phone-help {
   color: #64748b;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.4;
 }
 
 .auth-verify-box {
@@ -307,81 +306,26 @@
 /* TABLET */
 @media (max-width: 950px) {
   .auth-page {
-    padding: 22px 16px;
     align-items: flex-start;
+    padding: 72px 16px 22px;
   }
 
   .auth-container,
   .booking-style {
     grid-template-columns: 1fr;
-    max-width: 560px;
-    gap: 20px;
-  }
-
-  .auth-left,
-  .booking-left {
-    text-align: left;
-    padding: 10px 0 0;
+    max-width: 540px;
+    gap: 18px;
   }
 
   .auth-left h1,
   .booking-left h1 {
-    font-size: 38px;
+    font-size: 36px;
   }
 
   .booking-mini-card {
     grid-template-columns: 1fr;
   }
-
-  .auth-card,
-  .booking-card {
-    padding: 24px 20px;
-  }
 }
-
-
-
-.auth-top-nav {
-  position: fixed;
-  top: 18px;
-  left: 18px;
-  right: 18px;
-  z-index: 20;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.auth-back-btn,
-.auth-nav-actions a {
-  background: rgba(255,255,255,0.16);
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.22);
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.auth-nav-actions {
-  display: flex;
-  gap: 8px;
-}
-
-@media (max-width: 520px) {
-  .auth-top-nav {
-    position: static;
-    padding: 12px;
-  }
-
-  .auth-back-btn,
-  .auth-nav-actions a {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-}
-
 
 /* MOBILE */
 @media (max-width: 520px) {
@@ -389,13 +333,27 @@
     min-height: 100dvh;
     padding: 0;
     align-items: stretch;
-    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  .auth-top-nav {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 10px 12px 0;
+  }
+
+  .auth-back-btn,
+  .auth-nav-actions a {
+    font-size: 11px;
+    padding: 7px 9px;
   }
 
   .auth-container,
   .booking-style {
-    min-height: 100dvh;
     max-width: 100%;
+    min-height: calc(100dvh - 44px);
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 0;
@@ -403,21 +361,21 @@
 
   .auth-left,
   .booking-left {
-    padding: 18px 16px 46px;
+    padding: 16px 14px 42px;
   }
 
   .auth-brand {
-    margin-bottom: 12px;
-    gap: 9px;
+    margin-bottom: 10px;
+    gap: 8px;
   }
 
   .auth-brand img {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
 
   .auth-brand strong {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .auth-brand span {
@@ -427,22 +385,22 @@
   .auth-badge {
     font-size: 9px;
     padding: 5px 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .auth-left h1,
   .booking-left h1 {
-    font-size: 23px;
+    font-size: 22px;
     line-height: 1.08;
-    letter-spacing: -0.6px;
-    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
   }
 
   .auth-left p,
   .booking-left p {
     font-size: 12px;
     line-height: 1.45;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .booking-mini-card {
@@ -451,38 +409,37 @@
 
   .whatsapp-btn {
     width: 100%;
-    height: 42px;
-    padding: 0 14px;
+    height: 40px;
+    padding: 0 12px;
     font-size: 12px;
-    border-radius: 999px;
   }
 
   .auth-card,
   .booking-card {
-    border-radius: 24px 24px 0 0;
-    margin-top: -28px;
-    padding: 18px 14px;
+    border-radius: 22px 22px 0 0;
+    margin-top: -26px;
+    padding: 16px 13px;
     min-height: auto;
     box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.14);
   }
 
   .auth-card-top {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .auth-card h2,
   .auth-card-top h2 {
-    font-size: 24px;
-    margin-bottom: 5px;
+    font-size: 23px;
+    margin-bottom: 4px;
   }
 
   .auth-card p,
   .auth-card-top p {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .auth-card form {
-    gap: 7px;
+    gap: 6px;
   }
 
   .auth-card label {
@@ -491,43 +448,75 @@
 
   .auth-input-box,
   .phone-row select {
-    height: 42px;
-    border-radius: 12px;
+    height: 40px;
+    border-radius: 11px;
   }
 
   .auth-card input,
   .auth-card select {
     font-size: 12px;
-    padding: 10px 11px;
-    border-radius: 12px;
+    padding: 9px 10px;
+    border-radius: 11px;
   }
 
   .auth-input-box svg {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .phone-row {
     grid-template-columns: 1fr;
-    gap: 7px;
+    gap: 6px;
   }
 
   .auth-card button {
-    height: 44px;
+    height: 42px;
     font-size: 13px;
-    border-radius: 12px;
-    margin-top: 7px;
+    border-radius: 11px;
+    margin-top: 6px;
   }
 
   .auth-bottom {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
   .auth-bottom span {
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
 
   .auth-bottom small {
     font-size: 10px;
+  }
+}
+
+/* VERY SMALL MOBILE */
+@media (max-width: 380px) {
+  .auth-left,
+  .booking-left {
+    padding: 14px 12px 36px;
+  }
+
+  .auth-left h1,
+  .booking-left h1 {
+    font-size: 20px;
+  }
+
+  .auth-left p,
+  .booking-left p {
+    font-size: 11px;
+  }
+
+  .auth-card,
+  .booking-card {
+    padding: 14px 12px;
+  }
+
+  .auth-input-box,
+  .phone-row select {
+    height: 38px;
+  }
+
+  .auth-card button {
+    height: 40px;
   }
 }
