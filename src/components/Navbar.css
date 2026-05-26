@@ -79,7 +79,6 @@ a {
   color: #ffffff;
   font-size: 16px;
   font-weight: 800;
-  letter-spacing: -0.3px;
 }
 
 .lpnav-brand-text span {
@@ -109,7 +108,6 @@ a {
 .lpnav-link-item:hover {
   background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
-  transform: translateY(-1px);
 }
 
 .lpnav-right {
@@ -131,13 +129,6 @@ a {
   gap: 7px;
   font-size: 13px;
   font-weight: 700;
-  transition: 0.25s ease;
-}
-
-.lpnav-help-link:hover {
-  background: #22c55e;
-  color: #ffffff;
-  transform: translateY(-1px);
 }
 
 .lpnav-login-btn {
@@ -153,12 +144,6 @@ a {
   font-weight: 800;
   border: 1px solid rgba(255, 255, 255, 0.24);
   box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
-  transition: 0.25s ease;
-}
-
-.lpnav-login-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(56, 189, 248, 0.35);
 }
 
 .lpnav-mobile-toggle {
@@ -199,7 +184,6 @@ a {
   height: 100%;
   background: linear-gradient(180deg, #071838, #0f2f65);
   padding: 20px;
-  box-shadow: -24px 0 55px rgba(2, 8, 23, 0.35);
   transform: translateX(100%);
   transition: transform 0.28s ease;
   display: flex;
@@ -244,7 +228,6 @@ a {
   margin-top: 4px;
   color: #bfdbfe;
   font-size: 12px;
-  font-weight: 500;
 }
 
 .lpnav-mobile-close {
@@ -269,7 +252,6 @@ a {
   line-height: 1.6;
   font-size: 13px;
   font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .lpnav-mobile-links {
@@ -285,12 +267,6 @@ a {
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
-  transition: 0.25s ease;
-}
-
-.lpnav-mobile-link:hover {
-  background: rgba(56, 189, 248, 0.18);
-  border-color: rgba(56, 189, 248, 0.38);
 }
 
 .lpnav-mobile-whatsapp {
@@ -328,8 +304,8 @@ a {
   }
 
   .lpnav-link-item {
-    padding: 9px 9px;
-    font-size: 12.5px;
+    padding: 9px 8px;
+    font-size: 12px;
   }
 }
 
@@ -340,17 +316,50 @@ a {
 
   .lpnav-shell {
     min-height: 62px;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
   }
 
-  .lpnav-links,
-  .lpnav-login-btn,
-  .lpnav-help-link {
+  .lpnav-links {
     display: none;
+  }
+
+  .lpnav-right {
+    gap: 8px;
+  }
+
+  .lpnav-help-link {
+    display: inline-flex;
+    min-height: 40px;
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+    font-size: 17px;
+  }
+
+  .lpnav-help-link svg {
+    margin: 0;
+  }
+
+  .lpnav-help-link {
+    font-size: 0;
+  }
+
+  .lpnav-help-link svg {
+    font-size: 18px;
+  }
+
+  .lpnav-login-btn {
+    display: inline-flex;
+    min-height: 40px;
+    padding: 0 15px;
+    font-size: 13px;
   }
 
   .lpnav-mobile-toggle {
     display: inline-flex;
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -361,29 +370,63 @@ a {
 
   .lpnav-shell {
     width: 94%;
-    padding: 7px 9px;
+    padding: 7px 8px;
     border-radius: 18px;
+    gap: 7px;
   }
 
   .lpnav-logo-img {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 14px;
   }
 
+  .lpnav-brand {
+    gap: 8px;
+  }
+
   .lpnav-brand-text strong {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .lpnav-brand-text span {
-    max-width: 185px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 11px;
+    display: none;
+  }
+
+  .lpnav-login-btn {
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .lpnav-help-link {
+    width: 38px;
+    height: 38px;
+    min-height: 38px;
+  }
+
+  .lpnav-mobile-toggle {
+    width: 38px;
+    height: 38px;
   }
 
   .lpnav-mobile-panel {
     width: 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .lpnav-login-btn {
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .lpnav-logo-img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .lpnav-brand-text strong {
+    font-size: 13px;
   }
 }
