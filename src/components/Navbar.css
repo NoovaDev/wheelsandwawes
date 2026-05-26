@@ -20,154 +20,254 @@ a {
   text-decoration: none;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
+
 .lpnav {
   position: sticky;
   top: 0;
-  z-index: 900;
+  z-index: 1000;
   width: 100%;
-  padding: 14px 0;
-  background: linear-gradient(
-    180deg,
-    rgba(7, 24, 56, 0.94),
-    rgba(7, 24, 56, 0.78)
-  );
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  font-family: "Poppins", sans-serif;
+  padding: 18px 0;
+  background: transparent;
 }
 
 .lpnav-shell {
-  width: min(94%, 1220px);
-  min-height: 64px;
+  width: min(94%, 1180px);
+  min-height: 74px;
   margin: 0 auto;
-  padding: 8px 12px;
+
+  padding: 0 18px;
+
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 20px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 18px 45px rgba(2, 8, 23, 0.22);
+
+  gap: 18px;
+
+  background: rgba(10, 18, 35, 0.58);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* =========================
+   BRAND
+========================= */
+
 .lpnav-brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 12px;
   min-width: 0;
 }
 
 .lpnav-logo-img {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
-  border-radius: 16px;
-  background: #ffffff;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.92);
+
   padding: 4px;
-  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.24);
 }
 
 .lpnav-brand-text {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   line-height: 1.1;
 }
 
 .lpnav-brand-text strong {
   color: #ffffff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
 }
 
 .lpnav-brand-text span {
-  margin-top: 5px;
-  color: #bfdbfe;
-  font-size: 12px;
+  margin-top: 4px;
+  color: #93c5fd;
+  font-size: 11px;
   font-weight: 500;
 }
 
+/* =========================
+   NAV LINKS
+========================= */
+
 .lpnav-links {
   justify-self: center;
+
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+
+  background: rgba(255,255,255,0.06);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  padding: 6px;
+
+  border-radius: 999px;
 }
 
 .lpnav-link-item {
-  color: #dbeafe;
-  padding: 10px 12px;
+  color: #e2e8f0;
+
+  padding: 11px 16px;
+
   border-radius: 999px;
+
   font-size: 13px;
   font-weight: 600;
-  white-space: nowrap;
+
   transition: 0.25s ease;
 }
 
 .lpnav-link-item:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255,255,255,0.1);
   color: #ffffff;
 }
 
+/* =========================
+   RIGHT SIDE
+========================= */
+
 .lpnav-right {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 10px;
 }
 
+/* =========================
+   WHATSAPP BUTTON
+========================= */
+
 .lpnav-help-link {
-  min-height: 42px;
-  padding: 0 14px;
+  min-height: 44px;
+
+  padding: 0 16px;
+
   border-radius: 999px;
-  color: #ffffff;
-  background: rgba(34, 197, 94, 0.16);
-  border: 1px solid rgba(34, 197, 94, 0.32);
+
+  background: rgba(34,197,94,0.14);
+
+  border: 1px solid rgba(34,197,94,0.24);
+
+  color: #dcfce7;
+
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
+
+  gap: 8px;
+
   font-size: 13px;
   font-weight: 700;
+
+  white-space: nowrap;
+
+  transition: 0.25s ease;
 }
+
+.lpnav-help-link:hover {
+  background: #22c55e;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   BOOK BUTTON
+========================= */
 
 .lpnav-login-btn {
   min-height: 44px;
+
   padding: 0 20px;
+
   border-radius: 999px;
-  background: linear-gradient(135deg, #38bdf8, #2563eb);
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
+
   color: #ffffff;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 800;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+
+  white-space: nowrap;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 10px 24px rgba(37,99,235,0.28);
+
+  transition: 0.25s ease;
 }
+
+.lpnav-login-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   MOBILE MENU BUTTON
+========================= */
 
 .lpnav-mobile-toggle {
   display: none;
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(255,255,255,0.1);
+
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.12);
+
+  background: rgba(255,255,255,0.08);
+
   color: #ffffff;
+
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
   font-size: 18px;
 }
 
-/* MOBILE MENU */
+/* =========================
+   MOBILE MENU
+========================= */
+
 .lpnav-mobile-overlay {
   position: fixed;
   inset: 0;
+
   z-index: 1200;
-  background: rgba(2, 6, 23, 0.68);
+
+  background: rgba(2, 6, 23, 0.7);
+
   opacity: 0;
   pointer-events: none;
+
   transition: 0.25s ease;
 }
 
@@ -178,14 +278,24 @@ a {
 
 .lpnav-mobile-panel {
   position: absolute;
+
   top: 0;
   right: 0;
-  width: min(88vw, 390px);
+
+  width: min(88vw, 380px);
   height: 100%;
-  background: linear-gradient(180deg, #071838, #0f2f65);
+
+  background: linear-gradient(
+    180deg,
+    #071838,
+    #0f2f65
+  );
+
   padding: 20px;
+
   transform: translateX(100%);
-  transition: transform 0.28s ease;
+  transition: transform 0.3s ease;
+
   display: flex;
   flex-direction: column;
 }
@@ -198,6 +308,7 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
   gap: 12px;
 }
 
@@ -208,50 +319,71 @@ a {
 }
 
 .lpnav-mobile-logo {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
+
   object-fit: contain;
-  border-radius: 16px;
-  background: #ffffff;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.95);
+
   padding: 4px;
 }
 
 .lpnav-mobile-brand strong {
   display: block;
+
   color: #ffffff;
+
   font-size: 16px;
   font-weight: 800;
 }
 
 .lpnav-mobile-brand span {
   display: block;
+
   margin-top: 4px;
+
   color: #bfdbfe;
+
   font-size: 12px;
 }
 
 .lpnav-mobile-close {
   width: 42px;
   height: 42px;
-  border: 0;
+
+  border: none;
+
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.12);
+
+  background: rgba(255,255,255,0.08);
+
   color: #ffffff;
+
   display: grid;
   place-items: center;
+
   cursor: pointer;
+
   font-size: 18px;
 }
 
 .lpnav-mobile-note {
   margin: 20px 0;
+
   padding: 15px;
+
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.1);
+
+  background: rgba(255,255,255,0.08);
+
   color: #dbeafe;
+
   line-height: 1.6;
+
   font-size: 13px;
-  font-weight: 500;
 }
 
 .lpnav-mobile-links {
@@ -261,87 +393,101 @@ a {
 
 .lpnav-mobile-link {
   padding: 15px;
+
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255,255,255,0.1);
+
+  background: rgba(255,255,255,0.06);
+
   color: #ffffff;
+
   font-size: 14px;
   font-weight: 700;
 }
 
 .lpnav-mobile-whatsapp {
   margin-top: 18px;
+
   min-height: 50px;
+
   border-radius: 16px;
-  background: rgba(34, 197, 94, 0.18);
+
+  background: rgba(34,197,94,0.16);
+
+  border: 1px solid rgba(34,197,94,0.26);
+
   color: #ffffff;
-  border: 1px solid rgba(34, 197, 94, 0.35);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+
+  gap: 8px;
+
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .lpnav-mobile-login-btn {
   margin-top: 12px;
+
   min-height: 52px;
+
   border-radius: 16px;
-  background: linear-gradient(135deg, #38bdf8, #2563eb);
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
+
   color: #ffffff;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width: 1120px) {
-  .lpnav-shell {
-    gap: 12px;
+  .lpnav-links {
+    gap: 2px;
   }
 
   .lpnav-link-item {
-    padding: 9px 8px;
+    padding: 10px 12px;
     font-size: 12px;
   }
 }
 
 @media (max-width: 960px) {
-  .lpnav {
-    padding: 10px 0;
-  }
-
   .lpnav-shell {
-    min-height: 62px;
     grid-template-columns: auto 1fr auto;
     gap: 10px;
+    padding: 0 12px;
   }
 
   .lpnav-links {
     display: none;
   }
 
-  .lpnav-right {
-    gap: 8px;
+  .lpnav-mobile-toggle {
+    display: inline-flex;
   }
 
   .lpnav-help-link {
-    display: inline-flex;
     min-height: 40px;
     width: 40px;
+
     padding: 0;
-    justify-content: center;
-    font-size: 17px;
-  }
 
-  .lpnav-help-link svg {
-    margin: 0;
-  }
-
-  .lpnav-help-link {
     font-size: 0;
   }
 
@@ -350,39 +496,38 @@ a {
   }
 
   .lpnav-login-btn {
-    display: inline-flex;
     min-height: 40px;
-    padding: 0 15px;
-    font-size: 13px;
-  }
 
-  .lpnav-mobile-toggle {
-    display: inline-flex;
-    width: 40px;
-    height: 40px;
+    padding: 0 14px;
+
+    font-size: 12px;
   }
 }
 
 @media (max-width: 540px) {
   .lpnav {
-    padding: 8px 0;
+    padding: 12px 0;
   }
 
   .lpnav-shell {
     width: 94%;
-    padding: 7px 8px;
-    border-radius: 18px;
-    gap: 7px;
-  }
 
-  .lpnav-logo-img {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
+    min-height: 66px;
+
+    padding: 0 10px;
+
+    border-radius: 20px;
+
+    gap: 8px;
   }
 
   .lpnav-brand {
     gap: 8px;
+  }
+
+  .lpnav-logo-img {
+    width: 40px;
+    height: 40px;
   }
 
   .lpnav-brand-text strong {
@@ -393,16 +538,22 @@ a {
     display: none;
   }
 
-  .lpnav-login-btn {
-    min-height: 38px;
-    padding: 0 12px;
-    font-size: 12px;
+  .lpnav-right {
+    gap: 6px;
   }
 
   .lpnav-help-link {
     width: 38px;
     height: 38px;
     min-height: 38px;
+  }
+
+  .lpnav-login-btn {
+    min-height: 38px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
   }
 
   .lpnav-mobile-toggle {
@@ -418,12 +569,12 @@ a {
 @media (max-width: 390px) {
   .lpnav-login-btn {
     padding: 0 10px;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .lpnav-logo-img {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
 
   .lpnav-brand-text strong {
