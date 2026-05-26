@@ -1,37 +1,35 @@
-import React, { useMemo } from "react";
+const DashboardHome = ({ bookings, setActiveTab, user }) => {
+  const totalBookings = bookings.length;
 
-const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
-  // Memoize counts so they don't recalculate unless the bookings array changes
-  const stats = useMemo(() => {
-    const total = bookings.length;
-    let pending = 0;
-    let confirmed = 0;
-    let completed = 0;
+  const pendingBookings = bookings.filter(
+    (b) => !b.status || b.status === "pending"
+  ).length;
 
-    bookings.forEach((b) => {
-      if (!b.status || b.status === "pending") pending++;
-      else if (b.status === "confirmed") confirmed++;
-      else if (b.status === "completed") completed++;
-    });
+  const confirmedBookings = bookings.filter(
+    (b) => b.status === "confirmed"
+  ).length;
 
-    return { total, pending, confirmed, completed };
-  }, [bookings]);
+  const completedBookings = bookings.filter(
+    (b) => b.status === "completed"
+  ).length;
 
-  // Safely grab the most recent booking entry
   const latestBooking = bookings[0];
 
-  const firstName = user?.full_name?.trim().split(" ")[0] || "Customer";
+  const firstName = user?.full_name?.split(" ")[0] || "Customer";
 
   const getHeroMessage = () => {
-    if (stats.pending > 0) {
+    if (pendingBookings > 0) {
       return "You have a booking waiting for confirmation. Our team will review it soon.";
     }
-    if (stats.confirmed > 0) {
+
+    if (confirmedBookings > 0) {
       return "Your confirmed trip is ready. Please check your trip details before pickup.";
     }
-    if (stats.completed > 0) {
+
+    if (completedBookings > 0) {
       return "Thanks for travelling with us. You can plan your next journey anytime.";
     }
+
     return "Book your first Sri Lanka travel service and manage everything from your dashboard.";
   };
 
@@ -46,12 +44,15 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
     if (status === "confirmed") {
       return "Your booking is approved. Our team will share driver and trip details before pickup.";
     }
+
     if (status === "completed") {
       return "Your trip is completed. Thank you for choosing our travel service.";
     }
+
     if (status === "cancelled") {
       return "This booking was cancelled. You can create a new booking anytime.";
     }
+
     return "Your request was received. Our team will check availability and confirm soon.";
   };
 
@@ -60,12 +61,15 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
       <section className="app-hero">
         <div className="hero-content">
           <span className="hero-badge">Customer Dashboard</span>
+
           <h1>Hello {firstName}, manage your travel bookings here</h1>
+
           <p>{getHeroMessage()}</p>
 
           {latestBooking && (
             <div className="hero-status-box">
               <div className="mini-icon status-icon"></div>
+
               <div>
                 <strong>{getStatusTitle(latestBooking.status)}</strong>
                 <span>{latestBooking.trip_type || "Travel Booking"}</span>
@@ -87,6 +91,7 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
               <h3>{getStatusTitle(latestBooking.status)}</h3>
               <p>{getStatusMessage(latestBooking.status)}</p>
             </div>
+
             <span className={`status ${latestBooking.status || "pending"}`}>
               {latestBooking.status || "pending"}
             </span>
@@ -135,28 +140,28 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
         <div className="app-stat-card">
           <div className="stat-icon total-icon"></div>
           <span>Total Bookings</span>
-          <h3>{stats.total}</h3>
+          <h3>{totalBookings}</h3>
           <p>All travel requests</p>
         </div>
 
         <div className="app-stat-card">
           <div className="stat-icon pending-icon"></div>
           <span>Pending</span>
-          <h3>{stats.pending}</h3>
+          <h3>{pendingBookings}</h3>
           <p>Waiting for approval</p>
         </div>
 
         <div className="app-stat-card">
           <div className="stat-icon confirmed-icon"></div>
           <span>Confirmed</span>
-          <h3>{stats.confirmed}</h3>
+          <h3>{confirmedBookings}</h3>
           <p>Ready to travel</p>
         </div>
 
         <div className="app-stat-card">
           <div className="stat-icon completed-icon"></div>
           <span>Completed</span>
-          <h3>{stats.completed}</h3>
+          <h3>{completedBookings}</h3>
           <p>Finished journeys</p>
         </div>
       </section>
@@ -195,6 +200,7 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
             <h2>Latest Booking</h2>
             <p>Your most recent trip request.</p>
           </div>
+
           <button
             type="button"
             onClick={() => setActiveTab("trips")}
@@ -211,6 +217,7 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
                 <span>Trip Type</span>
                 <h3>{latestBooking.trip_type || "Vehicle Booking"}</h3>
               </div>
+
               <strong className={`status ${latestBooking.status || "pending"}`}>
                 {latestBooking.status || "pending"}
               </strong>
@@ -226,10 +233,12 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
                 <span>Date</span>
                 <strong>{latestBooking.pickup_date || "-"}</strong>
               </div>
+
               <div>
                 <span>Time</span>
-                <strong>{latestBooking.pickup_time ? String(latestBooking.pickup_time).slice(0, 5) : "-"}</strong>
+                <strong>{latestBooking.pickup_time || "-"}</strong>
               </div>
+
               <div>
                 <span>Vehicle</span>
                 <strong>{latestBooking.vehicle_type || "-"}</strong>
@@ -239,8 +248,11 @@ const DashboardHome = ({ bookings = [], setActiveTab, user }) => {
         ) : (
           <div className="empty-app-card">
             <div className="empty-state-icon"></div>
+
             <h3>Ready to plan your first trip?</h3>
+
             <p>Create your first booking and track your trip status from here.</p>
+
             <a href="/booking" className="primary-app-btn">
               Create Booking
             </a>

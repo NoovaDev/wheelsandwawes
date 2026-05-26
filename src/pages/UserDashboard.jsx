@@ -1,149 +1,101 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import DashboardNavbar from "../components/DashboardNavbar";
 import DashboardHome from "./user/DashboardHome";
 import UserTrips from "./user/UserTrips";
 import UserProfile from "./user/UserProfile";
+import "./UserDashboard.css";
 
 const UserDashboard = () => {
-  const [activeTab, setActiveTab] = useState("home");
-  const [user, setUser] = useState(null);
   const [bookings, setBookings] = useState([]);
+  const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Fetch complete dataset for the logged-in customer
-  const fetchDashboardData = useCallback(async () => {
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
+  const getUserData = async () => {
     try {
-      setLoading(true);
       const token = localStorage.getItem("token");
 
       if (!token) {
-        window.location.href = "/login";
+        logoutUser();
         return;
       }
 
-      const headers = { Authorization: `Bearer ${token}` };
-      
-      // Crucial Fix: Ensuring explicit leading forward slashes to hit root proxies
-      const [userRes, bookingsRes] = await Promise.all([
-        axios.get("/api/user/profile", { headers }),
-        axios.get("/api/bookings/my-bookings", { headers }),
-      ]);
-
-      setUser(userRes.data);
-      
-      const sortedBookings = (bookingsRes.data || []).sort((a, b) => {
-        return new Date(b.created_at || b.id) - new Date(a.created_at || a.id);
+      const res = await axios.get("/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      setBookings(sortedBookings);
-      setError(null);
-    } catch (err) {
-      console.error("Dashboard data fetch failed:", err);
-      setError("Failed to load dashboard data. Please try again.");
-      if (err.response?.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+
+      setUser(res.data.user);
+      setBookings(res.data.bookings || []);
+    } catch (error) {
+      console.log("USER DASHBOARD ERROR:", error.response?.data || error);
+
+      if (error.response?.status === 401) {
+        logoutUser();
       }
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    fetchDashboardData();
-  }, [fetchDashboardData]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
+    getUserData();
+  }, []);
 
   if (loading) {
     return (
-      <div className="dashboard-loading-container">
-        <div className="dashboard-spinner"></div>
-        <p>Loading your travel dashboard...</p>
-      </div>
-    );
-  }
+      <>
+        <DashboardNavbar
+          user={user}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
 
-  if (error) {
-    return (
-      <div className="dashboard-error-container">
-        <h3>Something went wrong</h3>
-        <p>{error}</p>
-        <button onClick={fetchDashboardData} className="primary-app-btn">
-          Retry Loading
-        </button>
-      </div>
+        <main className="user-dashboard-page">
+          <section className="dashboard-loading-card">
+            <div className="loading-ring"></div>
+            <h2>Loading your dashboard</h2>
+            <p>Please wait while we prepare your booking details.</p>
+          </section>
+        </main>
+      </>
     );
   }
 
   return (
-    <div className="dashboard-layout">
-      {/* Sidebar Navigation */}
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-brand">
-          <h2>Sri Lanka Travel</h2>
-        </div>
-        <nav className="sidebar-nav">
-          <button
-            type="button"
-            className={`nav-item ${activeTab === "home" ? "active" : ""}`}
-            onClick={() => setActiveTab("home")}
-          >
-            Dashboard Home
-          </button>
-          <button
-            type="button"
-            className={`nav-item ${activeTab === "trips" ? "active" : ""}`}
-            onClick={() => setActiveTab("trips")}
-          >
-            My Trips
-          </button>
-          <button
-            type="button"
-            className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
-            onClick={() => setActiveTab("profile")}
-          >
-            My Profile
-          </button>
-        </nav>
-        <div className="sidebar-footer">
-          <button onClick={handleLogout} className="logout-btn">
-            Log Out
-          </button>
-        </div>
-      </aside>
+    <>
+      <DashboardNavbar
+        user={user}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
-      {/* Main Panel Content Area */}
-      <main className="dashboard-main-content">
-        <header className="dashboard-top-bar">
-          <span className="welcome-text">
-            Welcome back, <strong>{user?.full_name || "Customer"}</strong>
-          </span>
-        </header>
+      <main className="user-dashboard-page">
+        {activeTab === "dashboard" && (
+          <DashboardHome
+            bookings={bookings}
+            user={user}
+            setActiveTab={setActiveTab}
+          />
+        )}
 
-        <div className="dashboard-page-container">
-          {activeTab === "home" && (
-            <DashboardHome
-              bookings={bookings}
-              setActiveTab={setActiveTab}
-              user={user}
-            />
-          )}
-          {activeTab === "trips" && (
-            <UserTrips
-              bookings={bookings}
-              refreshBookings={fetchDashboardData}
-            />
-          )}
-          {activeTab === "profile" && (
-            <UserProfile user={user} totalBookings={bookings.length} />
-          )}
-        </div>
+        {activeTab === "trips" && (
+          <UserTrips bookings={bookings} refreshBookings={getUserData} />
+        )}
+
+        {activeTab === "profile" && (
+          <UserProfile user={user} totalBookings={bookings.length} />
+        )}
       </main>
-    </div>
+    </>
   );
 };
 
