@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import DashboardHome from "./DashboardHome";
-import UserTrips from "./UserTrips";
-import UserProfile from "./UserProfile";
+import DashboardHome from "./user/DashboardHome";
+import UserTrips from "./user/UserTrips";
+import UserProfile from "./user/UserProfile";
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -22,7 +22,6 @@ const UserDashboard = () => {
         return;
       }
 
-      // Replace these endpoints with your actual backend routes if they differ
       const headers = { Authorization: `Bearer ${token}` };
       const [userRes, bookingsRes] = await Promise.all([
         axios.get("/api/user/profile", { headers }),
