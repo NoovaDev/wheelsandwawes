@@ -2,6 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import DashboardNavbar from "../components/DashboardNavbar";
 import LocationSearch from "../components/LocationSearch";
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaLocationArrow,
+  FaMapMarkerAlt,
+  FaPlaneDeparture,
+  FaRoute,
+  FaUndoAlt,
+} from "react-icons/fa";
 import "./BookingForm.css";
 
 const airports = [
@@ -14,12 +23,24 @@ const airports = [
 
 const vehicleGroups = {
   mini: ["Wagon R - 1-2 Pax", "Alto - 1-2 Pax", "Nano - 1-2 Pax"],
-  hatchback: ["Toyota Aqua - 1-3 Pax", "Honda Fit - 1-3 Pax", "Suzuki Spacia - 1-3 Pax"],
-  sedan: ["Toyota Prius - 1-4 Pax", "Toyota Axio - 1-4 Pax", "Honda Insight - 1-4 Pax"],
+  hatchback: [
+    "Toyota Aqua - 1-3 Pax",
+    "Honda Fit - 1-3 Pax",
+    "Suzuki Spacia - 1-3 Pax",
+  ],
+  sedan: [
+    "Toyota Prius - 1-4 Pax",
+    "Toyota Axio - 1-4 Pax",
+    "Honda Insight - 1-4 Pax",
+  ],
   minivan: ["Suzuki Every - 1-5 Pax", "Glory Mini Van - 1-5 Pax"],
   van: ["Toyota KDH - 1-14 Pax", "Nissan E25 - 1-14 Pax"],
   suv: ["Honda Vezel - 1-5 Pax", "DFSK Glory SUV - 1-5 Pax"],
-  vip: ["Toyota Voxy - 1-5 Pax", "Toyota Vellfire - 1-5 Pax", "Toyota GDH H300 - 1-5 Pax"],
+  vip: [
+    "Toyota Voxy - 1-5 Pax",
+    "Toyota Vellfire - 1-5 Pax",
+    "Toyota GDH H300 - 1-5 Pax",
+  ],
   bus: ["Toyota Coaster - 10-30 Pax", "Mitsubishi Fuso - 30-50 Pax"],
 };
 
@@ -38,6 +59,7 @@ const services = [
 const BookingForm = () => {
   const savedUser = JSON.parse(localStorage.getItem("user"));
   const [vehicleCategory, setVehicleCategory] = useState("");
+  const [hasReturnTrip, setHasReturnTrip] = useState(false);
 
   const [form, setForm] = useState({
     full_name: savedUser?.full_name || "",
@@ -73,6 +95,19 @@ const BookingForm = () => {
 
   const updateForm = (name, value) => {
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const clearReturnTrip = () => {
+    setHasReturnTrip(false);
+    setForm((prev) => ({
+      ...prev,
+      return_date: "",
+      return_time: "",
+    }));
+  };
+
+  const enableReturnTrip = () => {
+    setHasReturnTrip(true);
   };
 
   const handleChange = (e) => {
@@ -124,6 +159,8 @@ const BookingForm = () => {
       return_time: "",
     }));
 
+    setHasReturnTrip(false);
+
     setDetails({
       airport_name: "",
       flight_number: "",
@@ -169,6 +206,8 @@ const BookingForm = () => {
 
     const finalForm = {
       ...form,
+      return_date: hasReturnTrip ? form.return_date : "",
+      return_time: hasReturnTrip ? form.return_time : "",
       need_driver: finalNeedDriver,
       message: `
 Customer Message:
@@ -176,6 +215,13 @@ ${form.message || "No extra message"}
 
 Selected Service:
 ${form.trip_type}
+
+Trip Time:
+Pickup Date: ${form.pickup_date || "-"}
+Pickup Time: ${form.pickup_time || "-"}
+Return Trip: ${hasReturnTrip ? "Yes" : "No"}
+Return Date: ${hasReturnTrip ? form.return_date || "-" : "No return trip"}
+Return Time: ${hasReturnTrip ? form.return_time || "-" : "No return trip"}
 
 Service Details:
 Airport: ${details.airport_name || "-"}
@@ -332,6 +378,7 @@ Driver Option: ${finalNeedDriver || "-"}
                   required
                 >
                   <option value="">What service do you need?</option>
+
                   {services.map((service) => (
                     <option key={service}>{service}</option>
                   ))}
@@ -361,6 +408,7 @@ Driver Option: ${finalNeedDriver || "-"}
                         required
                       >
                         <option value="">Select Airport</option>
+
                         {airports.map((airport) => (
                           <option key={airport}>{airport}</option>
                         ))}
@@ -414,40 +462,15 @@ Driver Option: ${finalNeedDriver || "-"}
                     </>
                   )}
 
-                  {form.trip_type === "Wildlife Safaris" && (
+                  {[
+                    "Wildlife Safaris",
+                    "Whale Watching",
+                    "Crocodile Watching",
+                    "Turtle Breeding Points",
+                  ].includes(form.trip_type) && (
                     <input
                       name="activity_location"
-                      placeholder="Safari park. Example: Yala, Udawalawe, Wilpattu"
-                      value={details.activity_location}
-                      onChange={handleDetailsChange}
-                      required
-                    />
-                  )}
-
-                  {form.trip_type === "Whale Watching" && (
-                    <input
-                      name="activity_location"
-                      placeholder="Whale watching area. Example: Mirissa, Trincomalee"
-                      value={details.activity_location}
-                      onChange={handleDetailsChange}
-                      required
-                    />
-                  )}
-
-                  {form.trip_type === "Crocodile Watching" && (
-                    <input
-                      name="activity_location"
-                      placeholder="Crocodile watching location / area"
-                      value={details.activity_location}
-                      onChange={handleDetailsChange}
-                      required
-                    />
-                  )}
-
-                  {form.trip_type === "Turtle Breeding Points" && (
-                    <input
-                      name="activity_location"
-                      placeholder="Turtle point location. Example: Kosgoda, Hikkaduwa"
+                      placeholder="Activity location / area"
                       value={details.activity_location}
                       onChange={handleDetailsChange}
                       required
@@ -470,7 +493,9 @@ Driver Option: ${finalNeedDriver || "-"}
                         onChange={handleDetailsChange}
                         required
                       >
-                        <option value="">Need hotel/accommodation support?</option>
+                        <option value="">
+                          Need hotel/accommodation support?
+                        </option>
                         <option value="yes">Yes, help me find hotel</option>
                         <option value="no">No, transport only</option>
                       </select>
@@ -488,64 +513,177 @@ Driver Option: ${finalNeedDriver || "-"}
             )}
 
             {form.trip_type && (
-              <div className="form-section">
-                <h3>4. Pickup, Drop-off & Time</h3>
-
-                <p className="form-help">{getLocationHelp()}</p>
-
-                <div className="form-grid">
-                  <LocationSearch
-                    placeholder={
-                      form.trip_type === "Airport Pickups"
-                        ? "Airport pickup selected above"
-                        : "Pickup location / hotel"
-                    }
-                    value={form.pickup_location}
-                    readOnly={form.trip_type === "Airport Pickups"}
-                    onChange={(value) => updateForm("pickup_location", value)}
-                  />
-
-                  <LocationSearch
-                    placeholder={
-                      form.trip_type === "Airport Drop-offs"
-                        ? "Airport drop-off selected above"
-                        : "Drop-off / destination"
-                    }
-                    value={form.drop_location}
-                    readOnly={form.trip_type === "Airport Drop-offs"}
-                    onChange={(value) => updateForm("drop_location", value)}
-                  />
-
-                  <input
-                    name="pickup_date"
-                    type="date"
-                    value={form.pickup_date}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <input
-                    name="pickup_time"
-                    type="time"
-                    value={form.pickup_time}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <input
-                    name="return_date"
-                    type="date"
-                    value={form.return_date}
-                    onChange={handleChange}
-                  />
-
-                  <input
-                    name="return_time"
-                    type="time"
-                    value={form.return_time}
-                    onChange={handleChange}
-                  />
+              <div className="form-section travel-time-section">
+                <div className="section-title-row">
+                  <div>
+                    <h3>4. Pickup, Drop-off & Time</h3>
+                    <p>{getLocationHelp()}</p>
+                  </div>
                 </div>
+
+                <div className="location-card-grid">
+                  <div className="location-card">
+                    <div className="field-icon">
+                      <FaMapMarkerAlt />
+                    </div>
+
+                    <div className="field-content">
+                      <label>Pickup Location</label>
+
+                      <LocationSearch
+                        placeholder={
+                          form.trip_type === "Airport Pickups"
+                            ? "Airport pickup selected above"
+                            : "Pickup location / hotel"
+                        }
+                        value={form.pickup_location}
+                        readOnly={form.trip_type === "Airport Pickups"}
+                        onChange={(value) =>
+                          updateForm("pickup_location", value)
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="location-card">
+                    <div className="field-icon">
+                      <FaLocationArrow />
+                    </div>
+
+                    <div className="field-content">
+                      <label>Drop-off Location</label>
+
+                      <LocationSearch
+                        placeholder={
+                          form.trip_type === "Airport Drop-offs"
+                            ? "Airport drop-off selected above"
+                            : "Drop-off / destination"
+                        }
+                        value={form.drop_location}
+                        readOnly={form.trip_type === "Airport Drop-offs"}
+                        onChange={(value) => updateForm("drop_location", value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="trip-date-panel">
+                  <div className="trip-date-card main-date-card">
+                    <div className="trip-date-icon">
+                      <FaCalendarAlt />
+                    </div>
+
+                    <div>
+                      <label>Pickup Date</label>
+
+                      <input
+                        name="pickup_date"
+                        type="date"
+                        value={form.pickup_date}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="trip-date-card">
+                    <div className="trip-date-icon">
+                      <FaClock />
+                    </div>
+
+                    <div>
+                      <label>Pickup Time</label>
+
+                      <input
+                        name="pickup_time"
+                        type="time"
+                        value={form.pickup_time}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="return-choice-card">
+                  <div>
+                    <span className="return-icon">
+                      <FaUndoAlt />
+                    </span>
+
+                    <div>
+                      <strong>Do you need a return trip?</strong>
+                      <p>
+                        Select yes only if you want us to arrange return travel.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="return-toggle">
+                    <button
+                      type="button"
+                      className={!hasReturnTrip ? "active" : ""}
+                      onClick={clearReturnTrip}
+                    >
+                      No Return
+                    </button>
+
+                    <button
+                      type="button"
+                      className={hasReturnTrip ? "active" : ""}
+                      onClick={enableReturnTrip}
+                    >
+                      Add Return
+                    </button>
+                  </div>
+                </div>
+
+                {hasReturnTrip && (
+                  <div className="trip-date-panel return-date-panel">
+                    <div className="trip-date-card">
+                      <div className="trip-date-icon">
+                        <FaCalendarAlt />
+                      </div>
+
+                      <div>
+                        <label>Return Date</label>
+
+                        <input
+                          name="return_date"
+                          type="date"
+                          value={form.return_date}
+                          onChange={handleChange}
+                          required={hasReturnTrip}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="trip-date-card">
+                      <div className="trip-date-icon">
+                        <FaClock />
+                      </div>
+
+                      <div>
+                        <label>Return Time</label>
+
+                        <input
+                          name="return_time"
+                          type="time"
+                          value={form.return_time}
+                          onChange={handleChange}
+                          required={hasReturnTrip}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {!hasReturnTrip && (
+                  <div className="no-return-note">
+                    Return date and time will stay empty because this is a
+                    one-way trip.
+                  </div>
+                )}
               </div>
             )}
 
@@ -555,7 +693,6 @@ Driver Option: ${finalNeedDriver || "-"}
 
                 <p className="form-help">
                   Select a vehicle based on passenger count and comfort level.
-                  For buses or large groups, choose the bus category.
                 </p>
 
                 <div className="form-grid">
@@ -586,6 +723,7 @@ Driver Option: ${finalNeedDriver || "-"}
                       required
                     >
                       <option value="">Select Vehicle</option>
+
                       {vehicleGroups[vehicleCategory].map((vehicle) => (
                         <option key={vehicle}>{vehicle}</option>
                       ))}
@@ -620,13 +758,6 @@ Driver Option: ${finalNeedDriver || "-"}
                     )}
                   </select>
                 </div>
-
-                {form.nationality === "foreigner" && (
-                  <p className="form-help driver-rule">
-                    Driver option is automatically selected because foreign
-                    customers can book vehicles with driver only.
-                  </p>
-                )}
               </div>
             )}
 
