@@ -13,7 +13,7 @@ const UserProfile = ({ user, totalBookings }) => {
       <div className="mobile-page-title">
         <span>Account Center</span>
         <h2>My Profile</h2>
-        <p>View your account, contact details, and booking activity.</p>
+        <p>Manage your travel account and booking activity.</p>
       </div>
 
       <section className="profile-app-card">
@@ -47,10 +47,10 @@ const UserProfile = ({ user, totalBookings }) => {
         </div>
 
         <div className="profile-note">
-          <strong>Important Travel Tip</strong>
+          <strong>Travel Support</strong>
           <p>
-            Keep your phone number updated. Our team may use it to confirm
-            pickup time, driver details, and urgent trip updates.
+            Keep your phone number updated so our team can confirm pickup time,
+            driver details, and urgent travel updates.
           </p>
         </div>
       </section>

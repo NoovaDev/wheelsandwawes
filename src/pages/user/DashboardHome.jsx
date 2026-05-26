@@ -14,152 +14,62 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
   ).length;
 
   const latestBooking = bookings[0];
-
   const firstName = user?.full_name?.split(" ")[0] || "Customer";
-
-  const getHeroMessage = () => {
-    if (pendingBookings > 0) {
-      return "You have a booking waiting for confirmation. Our team will review it soon.";
-    }
-
-    if (confirmedBookings > 0) {
-      return "Your confirmed trip is ready. Please check your trip details before pickup.";
-    }
-
-    if (completedBookings > 0) {
-      return "Thanks for travelling with us. You can plan your next journey anytime.";
-    }
-
-    return "Book your first Sri Lanka travel service and manage everything from your dashboard.";
-  };
-
-  const getStatusTitle = (status) => {
-    if (status === "confirmed") return "Booking Confirmed";
-    if (status === "completed") return "Trip Completed";
-    if (status === "cancelled") return "Booking Cancelled";
-    return "Waiting For Confirmation";
-  };
-
-  const getStatusMessage = (status) => {
-    if (status === "confirmed") {
-      return "Your booking is approved. Our team will share driver and trip details before pickup.";
-    }
-
-    if (status === "completed") {
-      return "Your trip is completed. Thank you for choosing our travel service.";
-    }
-
-    if (status === "cancelled") {
-      return "This booking was cancelled. You can create a new booking anytime.";
-    }
-
-    return "Your request was received. Our team will check availability and confirm soon.";
-  };
 
   return (
     <>
-      <section className="app-hero">
-        <div className="hero-content">
-          <span className="hero-badge">Customer Dashboard</span>
-
-          <h1>Hello {firstName}, manage your travel bookings here</h1>
-
-          <p>{getHeroMessage()}</p>
-
-          {latestBooking && (
-            <div className="hero-status-box">
-              <div className="mini-icon status-icon"></div>
-
-              <div>
-                <strong>{getStatusTitle(latestBooking.status)}</strong>
-                <span>{latestBooking.trip_type || "Travel Booking"}</span>
-              </div>
-            </div>
-          )}
+      <section className="booking-style-hero">
+        <div>
+          <span className="hero-badge">W&W Travels Customer Area</span>
+          <h1>Welcome back, {firstName}</h1>
+          <p>
+            Manage your Sri Lanka tours, vehicle bookings, pickup details, and
+            travel status from one clean dashboard.
+          </p>
         </div>
 
-        <a href="/booking" className="primary-app-btn">
-          New Booking
-        </a>
-      </section>
+        <div className="hero-booking-box">
+          <span>Plan your next trip</span>
+          <h3>Where are you going next?</h3>
 
-      {latestBooking && (
-        <section className="dashboard-guide-card">
-          <div className="guide-top">
+          <div className="hero-search-row">
             <div>
-              <span className="guide-label">Booking Progress</span>
-              <h3>{getStatusTitle(latestBooking.status)}</h3>
-              <p>{getStatusMessage(latestBooking.status)}</p>
+              <small>Service</small>
+              <strong>{latestBooking?.trip_type || "Airport / Tour / Rent"}</strong>
             </div>
 
-            <span className={`status ${latestBooking.status || "pending"}`}>
-              {latestBooking.status || "pending"}
-            </span>
+            <div>
+              <small>Status</small>
+              <strong>{latestBooking?.status || "Ready to book"}</strong>
+            </div>
+
+            <a href="/booking" className="primary-app-btn">
+              New Booking
+            </a>
           </div>
-
-          <div className="guide-steps">
-            <div className="guide-step active">
-              <div className="guide-dot"></div>
-              <div>
-                <strong>Request Received</strong>
-                <p>Your booking request was submitted successfully.</p>
-              </div>
-            </div>
-
-            <div
-              className={`guide-step ${
-                latestBooking.status === "confirmed" ||
-                latestBooking.status === "completed"
-                  ? "active"
-                  : ""
-              }`}
-            >
-              <div className="guide-dot"></div>
-              <div>
-                <strong>Booking Confirmation</strong>
-                <p>Our team will confirm your booking after checking availability.</p>
-              </div>
-            </div>
-
-            <div
-              className={`guide-step ${
-                latestBooking.status === "completed" ? "active" : ""
-              }`}
-            >
-              <div className="guide-dot"></div>
-              <div>
-                <strong>Trip Completed</strong>
-                <p>Your travel service is completed successfully.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <section className="stats-app-grid">
         <div className="app-stat-card">
-          <div className="stat-icon total-icon"></div>
           <span>Total Bookings</span>
           <h3>{totalBookings}</h3>
           <p>All travel requests</p>
         </div>
 
         <div className="app-stat-card">
-          <div className="stat-icon pending-icon"></div>
           <span>Pending</span>
           <h3>{pendingBookings}</h3>
           <p>Waiting for approval</p>
         </div>
 
         <div className="app-stat-card">
-          <div className="stat-icon confirmed-icon"></div>
           <span>Confirmed</span>
           <h3>{confirmedBookings}</h3>
           <p>Ready to travel</p>
         </div>
 
         <div className="app-stat-card">
-          <div className="stat-icon completed-icon"></div>
           <span>Completed</span>
           <h3>{completedBookings}</h3>
           <p>Finished journeys</p>
@@ -172,15 +82,13 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
           className="quick-action-card"
           onClick={() => setActiveTab("trips")}
         >
-          <div className="quick-icon trips-icon"></div>
           <strong>My Trips</strong>
-          <p>View booking history and trip status.</p>
+          <p>Check booking dates, route, vehicle, and status.</p>
         </button>
 
         <a href="/booking" className="quick-action-card">
-          <div className="quick-icon booking-icon"></div>
           <strong>Book New Tour</strong>
-          <p>Create a new vehicle or travel booking.</p>
+          <p>Create a new airport transfer, tour, or vehicle booking.</p>
         </a>
 
         <button
@@ -188,9 +96,8 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
           className="quick-action-card"
           onClick={() => setActiveTab("profile")}
         >
-          <div className="quick-icon profile-icon"></div>
-          <strong>Profile</strong>
-          <p>View your account and contact details.</p>
+          <strong>My Profile</strong>
+          <p>View your account and contact information.</p>
         </button>
       </section>
 
@@ -198,7 +105,7 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
         <div className="app-section-title">
           <div>
             <h2>Latest Booking</h2>
-            <p>Your most recent trip request.</p>
+            <p>Your most recent travel request.</p>
           </div>
 
           <button
@@ -211,7 +118,7 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
         </div>
 
         {latestBooking ? (
-          <div className="latest-app-card">
+          <div className="latest-app-card booking-card-style">
             <div className="latest-card-top">
               <div>
                 <span>Trip Type</span>
@@ -224,7 +131,7 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
             </div>
 
             <p className="latest-route">
-              {latestBooking.pickup_location || "-"} to{" "}
+              {latestBooking.pickup_location || "-"} →{" "}
               {latestBooking.drop_location || "-"}
             </p>
 
@@ -247,11 +154,8 @@ const DashboardHome = ({ bookings, setActiveTab, user }) => {
           </div>
         ) : (
           <div className="empty-app-card">
-            <div className="empty-state-icon"></div>
-
             <h3>Ready to plan your first trip?</h3>
-
-            <p>Create your first booking and track your trip status from here.</p>
+            <p>Create your first booking and track everything here.</p>
 
             <a href="/booking" className="primary-app-btn">
               Create Booking
