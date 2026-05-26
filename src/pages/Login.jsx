@@ -78,6 +78,20 @@ const Login = () => {
 
   return (
     <div className="auth-page">
+
+      <div className="auth-top-nav">
+  <a href="/" className="auth-back-btn">
+    ← Back to Home
+  </a>
+
+  <div className="auth-nav-actions">
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  </div>
+</div>
+
+
+
       <div className="auth-overlay"></div>
 
       <div className="auth-container booking-style">
