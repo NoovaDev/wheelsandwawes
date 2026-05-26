@@ -341,57 +341,64 @@
 
 /* MOBILE */
 @media (max-width: 520px) {
+
   .auth-page {
     padding: 0;
     align-items: flex-start;
+    min-height: 100dvh;
   }
 
   .auth-container,
   .booking-style {
     gap: 0;
     max-width: 100%;
+    min-height: 100dvh;
   }
 
   .auth-left,
   .booking-left {
-    padding: 24px 16px 78px;
+    padding: 22px 16px 72px;
   }
 
   .auth-brand {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+    gap: 10px;
   }
 
   .auth-brand img {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
   }
 
   .auth-brand strong {
-    font-size: 19px;
+    font-size: 18px;
   }
 
   .auth-brand span {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .auth-badge {
-    font-size: 11px;
-    padding: 7px 13px;
-    margin-bottom: 16px;
+    font-size: 10px;
+    padding: 6px 12px;
+    margin-bottom: 14px;
   }
 
   .auth-left h1,
   .booking-left h1 {
-    font-size: 28px;
-    line-height: 1.1;
-    letter-spacing: -0.8px;
-    margin-bottom: 14px;
+    font-size: 26px;
+    line-height: 1.12;
+    letter-spacing: -0.7px;
+    margin-bottom: 12px;
+    max-width: 100%;
   }
 
   .auth-left p,
   .booking-left p {
     font-size: 13px;
     line-height: 1.6;
+    margin-bottom: 18px;
+    max-width: 100%;
   }
 
   .booking-mini-card {
@@ -400,40 +407,82 @@
 
   .whatsapp-btn {
     width: 100%;
-    padding: 13px 16px;
+    padding: 12px 15px;
     font-size: 13px;
+    border-radius: 14px;
   }
 
   .auth-card,
   .booking-card {
     border-radius: 24px 24px 0 0;
-    margin-top: -42px;
-    padding: 22px 16px;
-    min-height: calc(100vh - 235px);
+    margin-top: -34px;
+    padding: 20px 15px;
+    min-height: auto;
+    width: 100%;
+    box-shadow: 0 -10px 30px rgba(15,23,42,0.12);
+  }
+
+  .auth-card-top {
+    margin-bottom: 16px;
   }
 
   .auth-card h2,
   .auth-card-top h2 {
-    font-size: 26px;
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .auth-card p,
+  .auth-card-top p {
+    font-size: 12px;
+  }
+
+  .auth-card form {
+    gap: 8px;
+  }
+
+  .auth-card label {
+    font-size: 12px;
   }
 
   .phone-row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .auth-input-box,
   .phone-row select {
-    height: 48px;
+    height: 46px;
+    border-radius: 12px;
   }
 
   .auth-card input,
   .auth-card select {
     font-size: 13px;
-    padding: 12px 13px;
+    padding: 11px 12px;
+    border-radius: 12px;
+  }
+
+  .auth-input-box svg {
+    font-size: 14px;
   }
 
   .auth-card button {
-    height: 48px;
+    height: 46px;
     font-size: 14px;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+
+  .auth-bottom {
+    margin-top: 14px;
+  }
+
+  .auth-bottom span {
+    font-size: 13px;
+  }
+
+  .auth-bottom small {
+    font-size: 11px;
   }
 }
