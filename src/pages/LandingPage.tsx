@@ -37,7 +37,7 @@ const heroSlides = [
     title: "Airport pickups and drop-offs to any destination",
     description:
       "Tell us your pickup point, destination, date and passengers. We help arrange the right vehicle for a smooth journey.",
-    image: "/hero2.jpg",
+    image: "/hero2.webp",
   },
   {
     id: 3,
@@ -45,7 +45,7 @@ const heroSlides = [
     title: "Need a tour? We provide the vehicle and travel support",
     description:
       "Plan beach trips, safaris, whale watching, hill country routes and island round trips with comfortable private transport.",
-    image: "/hero3.jpg",
+    image: "/hero3.webp",
   },
 ];
 
