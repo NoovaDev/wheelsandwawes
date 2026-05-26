@@ -7,7 +7,10 @@ import {
   FaListAlt,
   FaUser,
   FaRoute,
+  FaSignOutAlt,
+  FaPlaneDeparture,
 } from "react-icons/fa";
+
 import "./DashboardNavbar.css";
 
 const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
@@ -39,6 +42,9 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
     <>
       <nav className="lpnav">
         <div className="lpnav-shell">
+
+          {/* BRAND */}
+
           <button
             type="button"
             className="lpnav-brand"
@@ -47,15 +53,24 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               changeTab("dashboard");
             }}
           >
-            <img src="/logo.png" alt="W&W Travels" className="lpnav-logo-img" />
+            <div className="lpnav-logo-wrapper">
+              <img
+                src="/logo.png"
+                alt="W&W Travels"
+                className="lpnav-logo-img"
+              />
+            </div>
 
             <div className="lpnav-brand-text">
               <strong>W&W Travels</strong>
-              <span>User Dashboard</span>
+              <span>Premium Travel Dashboard</span>
             </div>
           </button>
 
+          {/* CENTER NAV */}
+
           <div className="lpnav-links">
+
             <button
               type="button"
               className={`lpnav-link-item ${
@@ -66,7 +81,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
                 changeTab("dashboard");
               }}
             >
-              <FaChartPie /> Dashboard
+              <FaChartPie />
+              Dashboard
             </button>
 
             <button
@@ -74,7 +90,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               className="lpnav-link-item"
               onClick={() => goToPage("/booking")}
             >
-              <FaRoute /> Book Tour
+              <FaPlaneDeparture />
+              Book Tour
             </button>
 
             <button
@@ -82,7 +99,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               className="lpnav-link-item rent-link"
               onClick={() => goToPage("/rent")}
             >
-              <FaCar /> Rent Vehicle
+              <FaCar />
+              Rent Vehicle
             </button>
 
             <button
@@ -95,7 +113,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
                 changeTab("trips");
               }}
             >
-              <FaListAlt /> My Trips
+              <FaListAlt />
+              My Trips
             </button>
 
             <button
@@ -108,17 +127,35 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
                 changeTab("profile");
               }}
             >
-              <FaUser /> Profile
+              <FaUser />
+              Profile
             </button>
           </div>
 
+          {/* RIGHT SIDE */}
+
           <div className="lpnav-right">
+
+            <div className="lpnav-user-info">
+              <span>
+                {user?.full_name?.charAt(0)?.toUpperCase() || "U"}
+              </span>
+
+              <div>
+                <strong>{user?.full_name || "Customer"}</strong>
+
+                <small>
+                  {user?.role || "Traveler"}
+                </small>
+              </div>
+            </div>
+
             <button
               type="button"
               className="lpnav-login-btn"
               onClick={logoutUser}
             >
-              Logout
+              <FaSignOutAlt />
             </button>
 
             <button
@@ -132,9 +169,13 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
         </div>
       </nav>
 
+      {/* MOBILE MENU */}
+
       <div className={`lpnav-mobile-overlay ${open ? "show" : ""}`}>
         <div className={`lpnav-mobile-panel ${open ? "show" : ""}`}>
+
           <div className="lpnav-mobile-top">
+
             <div className="lpnav-mobile-brand">
               <img
                 src="/logo.png"
@@ -143,8 +184,13 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               />
 
               <div>
-                <strong>{user?.full_name || "User"}</strong>
-                <span>{user?.email || "Dashboard"}</span>
+                <strong>
+                  {user?.full_name || "User"}
+                </strong>
+
+                <span>
+                  {user?.email || "Dashboard"}
+                </span>
               </div>
             </div>
 
@@ -158,15 +204,19 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
           </div>
 
           <div className="lpnav-mobile-links">
+
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 changeTab("dashboard");
               }}
-              className="lpnav-mobile-link"
+              className={`lpnav-mobile-link ${
+                activeTab === "dashboard" ? "active-mobile-link" : ""
+              }`}
             >
-              <FaChartPie /> Dashboard
+              <FaChartPie />
+              Dashboard
             </button>
 
             <button
@@ -174,7 +224,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               onClick={() => goToPage("/booking")}
               className="lpnav-mobile-link"
             >
-              <FaRoute /> Book Tour
+              <FaPlaneDeparture />
+              Book Tour
             </button>
 
             <button
@@ -182,7 +233,8 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
               onClick={() => goToPage("/rent")}
               className="lpnav-mobile-link rent-mobile-link"
             >
-              <FaCar /> Rent Vehicle
+              <FaCar />
+              Rent Vehicle
             </button>
 
             <button
@@ -191,9 +243,12 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
                 e.preventDefault();
                 changeTab("trips");
               }}
-              className="lpnav-mobile-link"
+              className={`lpnav-mobile-link ${
+                activeTab === "trips" ? "active-mobile-link" : ""
+              }`}
             >
-              <FaListAlt /> My Trips
+              <FaRoute />
+              My Trips
             </button>
 
             <button
@@ -202,9 +257,12 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
                 e.preventDefault();
                 changeTab("profile");
               }}
-              className="lpnav-mobile-link"
+              className={`lpnav-mobile-link ${
+                activeTab === "profile" ? "active-mobile-link" : ""
+              }`}
             >
-              <FaUser /> Profile
+              <FaUser />
+              Profile
             </button>
           </div>
 
@@ -213,6 +271,7 @@ const DashboardNavbar = ({ user, activeTab = "dashboard", setActiveTab }) => {
             className="lpnav-mobile-login-btn"
             onClick={logoutUser}
           >
+            <FaSignOutAlt />
             Logout
           </button>
         </div>
