@@ -263,8 +263,8 @@ const LandingPage = () => {
           id="home"
           className="ww-hero"
           style={{
-            backgroundImage: `linear-gradient(90deg, rgba(15,23,42,0.82) 0%, rgba(37,99,235,0.68) 48%, rgba(15,23,42,0.2) 100%), url(${currentHero.image})`,
-          }}
+  backgroundImage: `url(${currentHero.image})`,
+}}
         >
           <div className="ww-shell ww-hero-shell">
             <div className="ww-hero-copy">
