@@ -30,7 +30,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 16px;
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(22px);
@@ -61,6 +61,7 @@ body {
   background: transparent;
   cursor: pointer;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .lpnav-logo-img {
@@ -98,24 +99,27 @@ body {
 .lpnav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
   padding: 8px;
   border-radius: 999px;
   background: rgba(248, 250, 252, 0.9);
   border: 1px solid #dbeafe;
+  flex: 1;
+  max-width: 760px;
 }
 
 .lpnav-link-item {
   border: none;
   background: transparent;
   color: #334155;
-  padding: 12px 18px;
+  padding: 12px 16px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
@@ -134,7 +138,7 @@ body {
   box-shadow: 0 14px 24px rgba(37, 99, 235, 0.22);
 }
 
-/* SPECIAL RENT BUTTON */
+/* RENT BUTTON */
 
 .rent-link {
   background: #eff6ff;
@@ -151,14 +155,67 @@ body {
 .lpnav-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex-shrink: 0;
 }
+
+/* USER INFO */
+
+.lpnav-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  min-width: 145px;
+}
+
+.lpnav-user-info span {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.lpnav-user-info div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.lpnav-user-info strong {
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lpnav-user-info small {
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 3px;
+  text-transform: capitalize;
+}
+
+/* LOGOUT BUTTON */
 
 .lpnav-login-btn {
   min-height: 48px;
   border: none;
   border-radius: 16px;
-  padding: 12px 22px;
+  padding: 12px 18px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #ffffff;
   font-size: 14px;
@@ -333,46 +390,61 @@ body {
 
 /* TABLET */
 
-@media (max-width: 1100px) {
+@media (max-width: 1250px) {
+  .lpnav-shell {
+    width: 96%;
+    gap: 10px;
+  }
+
   .lpnav-links {
-    gap: 5px;
+    gap: 4px;
   }
 
   .lpnav-link-item {
-    padding: 11px 14px;
+    padding: 10px 12px;
     font-size: 13px;
+  }
+
+  .lpnav-user-info {
+    min-width: auto;
+    padding: 8px 10px;
+  }
+
+  .lpnav-user-info strong {
+    max-width: 70px;
   }
 }
 
 /* MOBILE */
 
-@media (max-width: 900px) {
-  .lpnav {
-    top: 12px;
-  }
-
-  .lpnav-shell {
-    min-height: 74px;
-    border-radius: 24px;
-  }
-
+@media (max-width: 1050px) {
   .lpnav-links,
-  .lpnav-login-btn {
+  .lpnav-login-btn,
+  .lpnav-user-info {
     display: none;
   }
 
   .lpnav-mobile-toggle {
     display: flex;
   }
+
+  .lpnav-shell {
+    min-height: 74px;
+  }
 }
 
 /* SMALL MOBILE */
 
 @media (max-width: 640px) {
+  .lpnav {
+    top: 12px;
+  }
+
   .lpnav-shell {
     width: 95%;
     min-height: 70px;
     padding: 10px 12px;
+    border-radius: 22px;
   }
 
   .lpnav-logo-img {
@@ -407,7 +479,6 @@ body {
 @media (max-width: 420px) {
   .lpnav-shell {
     gap: 10px;
-    border-radius: 22px;
   }
 
   .lpnav-brand {
