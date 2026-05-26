@@ -23,6 +23,8 @@ const UserDashboard = () => {
       }
 
       const headers = { Authorization: `Bearer ${token}` };
+      
+      // Crucial Fix: Ensuring explicit leading forward slashes to hit root proxies
       const [userRes, bookingsRes] = await Promise.all([
         axios.get("/api/user/profile", { headers }),
         axios.get("/api/bookings/my-bookings", { headers }),
@@ -30,7 +32,6 @@ const UserDashboard = () => {
 
       setUser(userRes.data);
       
-      // Ensure bookings come sorted with the newest trip first
       const sortedBookings = (bookingsRes.data || []).sort((a, b) => {
         return new Date(b.created_at || b.id) - new Date(a.created_at || a.id);
       });
