@@ -83,11 +83,6 @@ const Login = () => {
   <a href="/" className="auth-back-btn">
     ← Back to Home
   </a>
-
-  <div className="auth-nav-actions">
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-  </div>
 </div>
 
 

@@ -1,4 +1,6 @@
-const UserProfile = ({ user, totalBookings }) => {
+import React from "react";
+
+const UserProfile = ({ user, totalBookings = 0 }) => {
   if (!user) {
     return (
       <section className="profile-app-card">
@@ -7,6 +9,9 @@ const UserProfile = ({ user, totalBookings }) => {
       </section>
     );
   }
+
+  // Generate an avatar initial letter safely
+  const initialLetter = user.full_name?.trim()?.charAt(0)?.toUpperCase() || "U";
 
   return (
     <>
@@ -18,9 +23,7 @@ const UserProfile = ({ user, totalBookings }) => {
 
       <section className="profile-app-card">
         <div className="profile-hero">
-          <div className="profile-avatar">
-            {user.full_name?.charAt(0)?.toUpperCase() || "U"}
-          </div>
+          <div className="profile-avatar">{initialLetter}</div>
 
           <div className="profile-main-info">
             <span>Verified Customer Account</span>
