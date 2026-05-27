@@ -13,10 +13,10 @@ const Footer = () => {
           </p>
 
           <div className="social-icons">
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/wwtravels.lk/" aria-label="Instagram">
               <FaInstagram />
             </a>
-            <a href="#" aria-label="Facebook">
+            <a href="https://www.facebook.com/wwtravels.lk" aria-label="Facebook">
               <FaFacebookF />
             </a>
             <a href="https://wa.me/94701097969" aria-label="WhatsApp">

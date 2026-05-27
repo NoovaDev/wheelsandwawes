@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa";
 import "./Navbar.css";
@@ -14,15 +14,31 @@ const navLinks = [
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      <header className="lpnav">
+      <header className={`lpnav ${scrolled ? "lpnav-scrolled" : ""}`}>
         <div className="lpnav-shell">
           <Link to="/" className="lpnav-brand" onClick={closeMenu}>
-            <img src="/logo.png" alt="W&W Travels" className="lpnav-logo-img" />
+            <img
+              src="/logo.png"
+              alt="W&W Travels"
+              className="lpnav-logo-img"
+            />
+
             <div className="lpnav-brand-text">
               <strong>W&amp;W Travels</strong>
               <span>Sri Lanka private travel</span>
@@ -31,7 +47,11 @@ const Navbar = () => {
 
           <nav className="lpnav-links" aria-label="Main navigation">
             {navLinks.map((link) => (
-              <a href={link.href} className="lpnav-link-item" key={link.label}>
+              <a
+                href={link.href}
+                className="lpnav-link-item"
+                key={link.label}
+              >
                 {link.label}
               </a>
             ))}
@@ -74,7 +94,12 @@ const Navbar = () => {
         >
           <div className="lpnav-mobile-top">
             <div className="lpnav-mobile-brand">
-              <img src="/logo.png" alt="W&W Travels" className="lpnav-mobile-logo" />
+              <img
+                src="/logo.png"
+                alt="W&W Travels"
+                className="lpnav-mobile-logo"
+              />
+
               <div>
                 <strong>W&amp;W Travels</strong>
                 <span>Vehicles, transfers and tours</span>
@@ -92,7 +117,8 @@ const Navbar = () => {
           </div>
 
           <div className="lpnav-mobile-note">
-            Book private vehicles, airport transfers, island tours, safaris and beach trips across Sri Lanka.
+            Book private vehicles, airport transfers, island tours,
+            safaris and beach trips across Sri Lanka.
           </div>
 
           <div className="lpnav-mobile-links">
@@ -118,7 +144,11 @@ const Navbar = () => {
             Chat on WhatsApp
           </a>
 
-          <Link to="/login" className="lpnav-mobile-login-btn" onClick={closeMenu}>
+          <Link
+            to="/login"
+            className="lpnav-mobile-login-btn"
+            onClick={closeMenu}
+          >
             Start Booking
           </Link>
         </aside>

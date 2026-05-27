@@ -191,4 +191,71 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/resend-verification", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
+      });
+    }
+
+    const userRecord = await admin.auth().getUserByEmail(email);
+
+    if (userRecord.emailVerified) {
+      return res.status(400).json({
+        message: "Email is already verified. Please login.",
+      });
+    }
+
+    const verificationLink =
+      await admin.auth().generateEmailVerificationLink(email, {
+        url: "https://wheelsandwawes.com/login?verified=true",
+        handleCodeInApp: false,
+      });
+
+    await sendEmail({
+      to: email,
+      subject: "Verify your Wheels & Waves account",
+      html: `
+        <div style="font-family: Arial, sans-serif; background:#f8fafc; padding:24px;">
+          <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:16px; padding:28px; border:1px solid #e2e8f0;">
+            <h2 style="color:#0f172a;">Verify Your Email</h2>
+
+            <p style="color:#475569; line-height:1.6;">
+              Please verify your Wheels & Waves Travels account to continue.
+            </p>
+
+            <p style="margin:28px 0;">
+              <a href="${verificationLink}" style="background:#2563eb; color:#ffffff; padding:13px 22px; border-radius:10px; text-decoration:none; font-weight:bold; display:inline-block;">
+                Verify Email
+              </a>
+            </p>
+
+            <p style="word-break:break-all; color:#2563eb; font-size:13px;">
+              ${verificationLink}
+            </p>
+
+            <p style="color:#0f172a;">
+              Thanks,<br/>
+              Wheels & Waves Travels Team
+            </p>
+          </div>
+        </div>
+      `,
+    });
+
+    res.json({
+      message: "Verification email sent again.",
+    });
+  } catch (error) {
+    console.log("RESEND VERIFICATION ERROR:", error);
+
+    res.status(500).json({
+      message: error.message || "Failed to resend verification email",
+    });
+  }
+});
+
 module.exports = router;
